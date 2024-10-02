@@ -64,7 +64,7 @@ function startMe() {
 			param: {
 				name: 'const_redirect',
 				type: 'trigger',
-				default: false
+				default: true
 			},
 			field: {
 				name: 'Постоянный редирект',
