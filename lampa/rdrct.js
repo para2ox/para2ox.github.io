@@ -38,7 +38,7 @@ function startMe() {
 				param: {
 					name: 'location_server',
 					type: 'input', 
-					values: '',
+					values: 'bylampa.online',
 					placeholder: 'Например: bylampa.online',
 					default: 'bylampa.online'
 				},
