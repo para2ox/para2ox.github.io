@@ -13433,9 +13433,8 @@
       Lampa.Params.select('online_mod_kinobase_mirror', '', '');
       Lampa.Params.select('online_mod_kinobase_cookie', '', '');
       Lampa.Params.select('online_mod_rezka2_mirror', '', '');
-      Lampa.Params.select('online_mod_rezka2_name', '', '');
-      Lampa.Params.select('online_mod_rezka2_password', '', '');
-      Lampa.Storage.set('online_mod_rezka2_status', 'true');
+      Lampa.Params.select('online_mod_rezka2_name', 'true', 'alexroozvelt@ya.ru');
+      Lampa.Params.select('online_mod_rezka2_password', 'true', '8524646r');
       Lampa.Params.select('online_mod_rezka2_cookie', 'true', 'dle_user_id=38372; dle_password=d8efa0170ea646402578694fe9ccf72e; dle_newpm=0; dle_user_token=cadfee4517c32230654c3c64a6002b0a; dle_user_taken=1');
       Lampa.Params.select('online_mod_rezka2_prx_ukr', {
         'prx.ukrtelcdn.net': 'prx.ukrtelcdn.net',
