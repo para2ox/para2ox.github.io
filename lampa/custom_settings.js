@@ -24,12 +24,12 @@
         Lampa.Storage.set('head_filter_show_blackfriday', false);
 
         // Скрываем пункты меню
-        Lampa.Storage.set('menu_hide', '["Лента","Фильмы","Мультфильмы","Сериалы","Персоны","Релизы","Аниме","Подписки","Расписание","Торренты","Спорт","Для детей","Информация","Консоль"]');
+        Lampa.Storage.set('menu_hide', '["Лента","Фильмы","Мультфильмы","Сериалы","Персоны","Релизы","Аниме","Подписки","Расписание","Торренты","Спорт","Для детей","Torrent Manager"]');
 
         // --- CSS ИНЪЕКЦИЯ ---
         
         // Добавлены скрытия: разделителей, настроек, консоли, редактирования
-        var css = '.open--premium, .open--feed, .notice--icon, .open--broadcast, .full--screen, .m-reload-screen, .black-friday__button, .menu .menu__split, .menu li.menu__item[data-action="settings"], .menu li.menu__item[data-action="about"], .menu li.menu__item[data-action="console"], .menu li.menu__item[data-action="edit"] {display: none !important;}';
+        var css = '.open--premium, .open--feed, .notice--icon, .open--broadcast, .full--screen, .m-reload-screen, .black-friday__button, .torrent-manager-icon, .menu .menu__split, .menu li.menu__item[data-action="settings"], .menu li.menu__item[data-action="about"], .menu li.menu__item[data-action="console"], .menu li.menu__item[data-action="edit"] {display: none !important;}';
 
         var style = document.createElement('style');
         style.type = 'text/css';
