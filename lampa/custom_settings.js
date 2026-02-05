@@ -12,7 +12,7 @@
         Lampa.Storage.set('online_mod_save_last_balanser', true);
         Lampa.Storage.set('online_mod_full_episode_title', true);
         Lampa.Storage.set('online_mod_rezka2_fix_stream', true);
-        Lampa.Storage.set('online_mod_proxy_rezka2', true);
+        Lampa.Storage.set('online_mod_proxy_rezka2', false);
 
         // Скрываем пункты шапки
         Lampa.Storage.set('head_filter_show_premium', false);
