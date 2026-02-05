@@ -13426,16 +13426,16 @@
       Lampa.Params.trigger('online_mod_prefer_mp4', true);
       Lampa.Params.trigger('online_mod_prefer_dash', false);
       Lampa.Params.trigger('online_mod_collaps_lampa_player', false);
-      Lampa.Params.trigger('online_mod_full_episode_title', false);
+      Lampa.Params.trigger('online_mod_full_episode_title', true);
       Lampa.Params.trigger('online_mod_av1_support', true);
-      Lampa.Params.trigger('online_mod_save_last_balanser', false);
-      Lampa.Params.trigger('online_mod_rezka2_fix_stream', false);
+      Lampa.Params.trigger('online_mod_save_last_balanser', true);
+      Lampa.Params.trigger('online_mod_rezka2_fix_stream', true);
       Lampa.Params.select('online_mod_kinobase_mirror', '', '');
       Lampa.Params.select('online_mod_kinobase_cookie', '', '');
       Lampa.Params.select('online_mod_rezka2_mirror', '', '');
       Lampa.Params.select('online_mod_rezka2_name', '', '');
       Lampa.Params.select('online_mod_rezka2_password', '', '');
-      Lampa.Params.select('online_mod_rezka2_cookie', '', '');
+      Lampa.Params.select('online_mod_rezka2_cookie', 'test', '');
       Lampa.Params.select('online_mod_rezka2_prx_ukr', {
         'prx.ukrtelcdn.net': 'prx.ukrtelcdn.net',
         'prx-cogent.ukrtelcdn.net': 'prx-cogent.ukrtelcdn.net',
