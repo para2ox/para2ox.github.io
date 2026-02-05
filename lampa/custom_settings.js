@@ -12,6 +12,8 @@
         
         // Фикс видеопотока (важно для некоторых провайдеров)
         Lampa.Storage.set('online_mod_rezka2_fix_stream', true);
+
+        Lampa.Storage.set('online_mod_balanser', 'rezka2');
         
         // Включаем проксирование для Rezka
         // БЕЗ ЭТОГО куки не отправятся на TV/PC, так как браузер блокирует заголовок Cookie
@@ -20,10 +22,6 @@
         // Установка куки (строка остается строкой)
         // Убедитесь, что эти куки свежие и получены с того же IP, с которого смотрите
         Lampa.Storage.set('online_mod_rezka2_cookie', 'dle_user_id=38372; dle_password=d8efa0170ea646402578694fe9ccf72e; dle_newpm=0; dle_user_token=cadfee4517c32230654c3c64a6002b0a; dle_user_taken=1');
-        
-        // Параметра 'online_mod_rezka2_status' в коде нет, он не нужен.
-        
-        console.log('My Config: Настройки HDRezka успешно применены');
     }
 
     if (window.appready) {
