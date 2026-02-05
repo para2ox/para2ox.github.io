@@ -25,7 +25,7 @@
         // --- CSS ИНЪЕКЦИЯ (Исправлено для совместимости с TV) ---
         
         // Используем обычные кавычки и одну строку, чтобы не ломать старые браузеры
-        var css = '.full--screen, li.menu__item[data-action="about"], li.menu__item[data-action="console"] { display: none !important; }';
+        var css = '.open--premium, .open--feed, .notice--icon, .open--broadcast, .full--screen, .m-reload-screen, .black-friday__button, li.menu__item[data-action="settings"], li.menu__item[data-action="about"], li.menu__item[data-action="console"], li.menu__item[data-action="edit"] { display: none !important; }';
 
         var style = document.createElement('style');
         style.type = 'text/css';
