@@ -3,10 +3,10 @@
 
     function applySettings() {
         // Преднастройки
+        Lampa.Storage.set('video_quality_default', '1080');
         Lampa.Storage.set('glass_style', true);
         Lampa.Storage.set('source', 'SURS');
-        Lampa.Storage.set('lme_showbutton', true);
-        
+
         // Настраиваем HDrezka в Online Mod
         Lampa.Storage.set('online_mod_rezka2_cookie', 'dle_user_id=38372; dle_password=d8efa0170ea646402578694fe9ccf72e; dle_newpm=0; dle_user_token=cadfee4517c32230654c3c64a6002b0a; dle_user_taken=1');
         Lampa.Storage.set('online_mod_balanser', 'rezka2');
@@ -14,6 +14,11 @@
         Lampa.Storage.set('online_mod_full_episode_title', true);
         Lampa.Storage.set('online_mod_rezka2_fix_stream', true);
         Lampa.Storage.set('online_mod_proxy_rezka2', false);
+
+        // Настраиваем кнопки плагина LME Movie Enhancer
+        Lampa.Storage.set('lme_showbutton', true);
+        Lampa.Storage.set('lme_buttonhide', '["view--trailer","button--reaction","button--subscribe","button--options"]');
+        Lampa.Storage.set('lme_buttonsort', '["view--online_mod","view--torrent","button--book","view--trailer","button--reaction","button--subscribe","button--options"]');
 
         // Скрываем пункты шапки
         Lampa.Storage.set('head_filter_show_premium', false);
