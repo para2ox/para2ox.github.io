@@ -34,8 +34,8 @@
 
         // --- CSS ИНЪЕКЦИЯ ---
         
-        // Добавлены скрытия: разделителей, настроек, консоли, редактирования
-        var css = '.open--premium, .open--feed, .notice--icon, .open--broadcast, .full--screen, .m-reload-screen, .black-friday__button, .torrent-manager-icon, .menu .menu__split, .menu li.menu__item[data-action="settings"], .menu li.menu__item[data-action="about"], .menu li.menu__item[data-action="console"], .menu li.menu__item[data-action="edit"] {display: none !important;}';
+        // Скрываем лишнее из шапки и меню
+        var css = '.head .full--screen, .head .torrent-manager-icon, .menu .menu__split, .menu li.menu__item[data-action="settings"], .menu li.menu__item[data-action="about"], .menu li.menu__item[data-action="console"], .menu li.menu__item[data-action="edit"] {display: none !important;}';
 
         var style = document.createElement('style');
         style.type = 'text/css';
