@@ -19,7 +19,7 @@
         // Настраиваем кнопки на странице фильма в плагине LME Movie Enhancer
         Lampa.Storage.set('lme_showbutton', true);
         Lampa.Storage.set('lme_buttonhide', '["view--trailer","view--online","button--reaction","button--subscribe","button--options"]');
-        Lampa.Storage.set('lme_buttonsort', '["view--online_mod","view--torrent","button--book","view--trailer","button--reaction","button--subscribe","button--options"]');
+        Lampa.Storage.set('lme_buttonsort', '["view--online_mod","view--torrent","button--book","view--trailer","view--online","button--reaction","button--subscribe","button--options"]');
 
         // Скрываем пункты меню
         Lampa.Storage.set('menu_hide', '["Лента","Фильмы","Мультфильмы","Сериалы","Персоны","Релизы","Аниме","Подписки","Расписание","Торренты","Спорт","Для детей","Shots","Torrent Manager"]');
