@@ -48,7 +48,7 @@
         css += '.head__title {visibility: hidden;} ';
 
         // Страница фильма
-        css += '.full-start__background {left: -55px !important; width: 100vw !important; max-width: 100vw !important;} ';
+        css += '.wrap .full-start__background {left: -55px !important; width: 100vw !important; max-width: 100vw !important;} ';
 
         
         var style = document.createElement('style');
