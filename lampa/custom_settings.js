@@ -4,7 +4,7 @@
     function applySettings() {
         // Преднастройки Lampa
         Lampa.Storage.set('start_page', 'main');
-        Lampa.Storage.set('source', 'SURS');
+        // Lampa.Storage.set('source', 'SURS');
         Lampa.Storage.set('glass_style', true);
         Lampa.Storage.set('video_quality_default', '720');
 
@@ -46,6 +46,9 @@
 
         // Блок 3: Заголовок шапки (видимость)
         css += '.head__title {visibility: hidden;} ';
+
+        // Страница фильма
+        css += '.full-start__background {left: -55px !important; width: 100vw !important; max-width: 100vw !important;} ';
 
         
         var style = document.createElement('style');
