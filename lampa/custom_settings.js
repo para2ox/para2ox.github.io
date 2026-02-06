@@ -20,6 +20,7 @@
         Lampa.Storage.set('applecation_show_ratings', true);
         Lampa.Storage.set('applecation_ratings_source', 'builtin'); // builtin для рейтингов из mdblist; external для рейтингов из плагинов
         Lampa.Storage.set('applecation_mdblist_api_key', 'wf3lktoy7sbbjrcnmf8g9omsw');
+        Lampa.Storage.set('applecation_enabled_ratings', '["tmdb","imdb","tomatoes","popcorn","metacritic","letterboxd","trakt"]');
         Lampa.Storage.set('applecation_show_episode_count', true);
         
         // Настраиваем кнопки на странице фильма в плагине LME Movie Enhancer
