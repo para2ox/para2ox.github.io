@@ -41,9 +41,10 @@
 
         // Блок 2: Элементы меню (скрытие)
         css += '.menu .menu__split, .menu li.menu__item[data-action="settings"], .menu li.menu__item[data-action="about"], .menu li.menu__item[data-action="console"], .menu li.menu__item[data-action="edit"] {display: none !important;} ';
+        css += '.wrap__left .scroll__content {display: flex; flex-direction: column; min-height: 100vh;} .wrap__left .scroll__body {margin-top: auto; margin-bottom: auto;} ';
 
         // Блок 3: Заголовок шапки (видимость)
-        css += '.head__title {visibility: hidden;}';
+        css += '.head__title {visibility: hidden;} ';
 
         
         var style = document.createElement('style');
