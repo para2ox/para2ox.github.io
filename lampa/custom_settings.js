@@ -4,7 +4,7 @@
     function applySettings() {
         // Преднастройки Lampa
         Lampa.Storage.set('start_page', 'main');
-        // Lampa.Storage.set('source', 'SURS');
+        Lampa.Storage.set('source', 'SURS');
         Lampa.Storage.set('glass_style', true);
         Lampa.Storage.set('video_quality_default', '720');
 
@@ -37,7 +37,7 @@
         var css = '';
 
         // Блок 1: Элементы шапки (скрытие)
-        css += '.head .open--search, .head .open--settings, .head .time--clock + div, .head .open--premium, .head .open--feed, .head .notice--icon, .head .open--broadcast, .head .full--screen, .head .m-reload-screen, .head .black-friday__button, .head .torrent-manager-icon {display: none !important;} ';
+        css += '.head .open--search, .head .open--settings, .head .open--profile, .head .time--clock + div, .head .open--premium, .head .open--feed, .head .notice--icon, .head .open--broadcast, .head .full--screen, .head .m-reload-screen, .head .black-friday__button, .head .torrent-manager-icon {display: none !important;} ';
 
         // Блок 2: Элементы меню (скрытие)
         css += '.menu li.menu__item[data-action="streaming"], .menu li.menu__item[data-action="catalog"], .menu li.menu__item[data-action="feed"], .menu li.menu__item[data-action="movie"], .menu li.menu__item[data-action="cartoon"], .menu li.menu__item[data-action="tv"], .menu li.menu__item[data-action="myperson"], .menu li.menu__item[data-action="relise"], .menu li.menu__item[data-action="anime"], .menu li.menu__item[data-action="subscribes"], .menu li.menu__item[data-action="timetable"], .menu li.menu__item[data-action="mytorrents"], .menu li.menu__item[data-action="kids"], .menu li.menu__item:not([data-action]) {display: none !important;} ';
@@ -48,7 +48,7 @@
         css += '.head__title {visibility: hidden;} ';
 
         // Страница фильма
-        css += '.wrap .full-start__background {left: -5em !important; width: 100vw !important; max-width: 100vw !important;} ';
+        // css += '.wrap .full-start__background {left: -5em !important; width: 100vw !important; max-width: 100vw !important;} ';
 
         
         var style = document.createElement('style');
