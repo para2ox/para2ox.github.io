@@ -18,7 +18,7 @@
 
         // Настраиваем плагин Applecation
         Lampa.Storage.set('applecation_show_ratings', true);
-        Lampa.Storage.set('applecation_ratings_source', 'builtin'); // builtin для рейтингов из mdblist; external для рейтингов из плагинов
+        Lampa.Storage.set('applecation_ratings_source', 'builtin');
         Lampa.Storage.set('applecation_mdblist_api_key', 'wf3lktoy7sbbjrcnmf8g9omsw');
         Lampa.Storage.set('applecation_enabled_ratings', '["tmdb","imdb","tomatoes","popcorn","metacritic","letterboxd","trakt"]');
         Lampa.Storage.set('applecation_show_episode_count', true);
@@ -32,9 +32,20 @@
         Lampa.Storage.set('menu_hide', '["Лента","Фильмы","Мультфильмы","Сериалы","Персоны","Релизы","Аниме","Подписки","Расписание","Торренты","Спорт","Для детей","Shots","Torrent Manager"]');
         Lampa.Storage.set('menu_sort', '["Главная","Избранное","История","Подборки","Каталог","Фильтр","Лента","Фильмы","Мультфильмы","Сериалы","Персоны","Релизы","Аниме","Подписки","Расписание","Торренты","Спорт","Для детей","Shots","Torrent Manager"]');
         
-        // Скрываем пункты шапки и нескрываемые пункты меню
-        var css = '.head .time--clock + div, .head .open--premium, .head .open--feed, .head .notice--icon, .head .open--broadcast, .head .full--screen, .head .m-reload-screen, .head .black-friday__button, .head .torrent-manager-icon, .menu .menu__split, .menu li.menu__item[data-action="settings"], .menu li.menu__item[data-action="about"], .menu li.menu__item[data-action="console"], .menu li.menu__item[data-action="edit"] {display: none !important;}';
+        // --- CSS ИНЪЕКЦИЯ ПО БЛОКАМ ---
+        
+        var css = '';
 
+        // Блок 1: Элементы шапки (скрытие)
+        css += '.head .time--clock + div, .head .open--premium, .head .open--feed, .head .notice--icon, .head .open--broadcast, .head .full--screen, .head .m-reload-screen, .head .black-friday__button, .head .torrent-manager-icon {display: none !important;} ';
+
+        // Блок 2: Элементы меню (скрытие)
+        css += '.menu .menu__split, .menu li.menu__item[data-action="settings"], .menu li.menu__item[data-action="about"], .menu li.menu__item[data-action="console"], .menu li.menu__item[data-action="edit"] {display: none !important;} ';
+
+        // Блок 3: Заголовок шапки (видимость)
+        css += '.head__title {visibility: hidden;}';
+
+        
         var style = document.createElement('style');
         style.type = 'text/css';
         
