@@ -39,16 +39,258 @@
         
         var css = '';
 
-        // Блок 1: Элементы шапки (скрытие)
+        // Блок 1: Старые стили (Скрытие элементов шапки и меню)
         css += '.head .head__logo-icon, .head .open--search, .head .open--settings, .head .time--clock + div, .head .open--premium, .head .open--feed, .head .notice--icon, .head .open--broadcast, .head .full--screen, .head .m-reload-screen, .head .black-friday__button, .head .torrent-manager-icon {display: none !important;} ';
-
-        // Блок 2: Элементы меню (скрытие)
+        
         css += '.menu li.menu__item[data-action="streaming"], .menu li.menu__item[data-action="catalog"], .menu li.menu__item[data-action="feed"], .menu li.menu__item[data-action="movie"], .menu li.menu__item[data-action="cartoon"], .menu li.menu__item[data-action="tv"], .menu li.menu__item[data-action="myperson"], .menu li.menu__item[data-action="relise"], .menu li.menu__item[data-action="anime"], .menu li.menu__item[data-action="subscribes"], .menu li.menu__item[data-action="timetable"], .menu li.menu__item[data-action="mytorrents"], .menu li.menu__item[data-action="kids"], .menu li.menu__item:not([data-action]) {display: none !important;} ';
         css += '.menu .menu__split, .menu li.menu__item[data-action="about"], .menu li.menu__item[data-action="console"], .menu li.menu__item[data-action="edit"] {display: none !important;} ';
+        
+        // Корректировка контейнера слева (из старого кода)
         css += '.wrap__left .scroll__content {display: flex; flex-direction: column; min-height: 100vh;} .wrap__left .scroll__body {margin-top: auto; margin-bottom: auto;} ';
-
-        // Блок 3: Заголовок шапки (видимость)
         css += '.head__title {visibility: hidden;} ';
+
+        // Блок 2: НОВЫЕ СТИЛИ (добавлены через шаблонную строку для удобства)
+        css += `
+            /* Скрытие элементов хэдера */
+            .head .head__backward, .head .head__menu-icon, .head .head__title, .head .head__markers, .head .head__time {
+                display: none !important;
+            }
+
+            .wrap__content {
+                padding: 0 !important;
+            }
+            .wrap__content .scroll--mask {
+                height: 100vh !important;
+            }
+
+            .full-start-new {
+                padding: 4em 3em 4em;
+            }
+
+            .activitys .scroll--mask .items-line {
+                padding: 2em 2em;
+                transition: padding 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            }
+            /*.menu--open .activitys .scroll--mask .items-line {
+                padding-left: 3em;
+            }*/
+
+            .activitys .scroll--mask {
+              --fade-size-horz: 40px;
+              --mask-horz: linear-gradient(to right, transparent 0px, black var(--fade-size-horz), black 100%);
+              --fade-size-vert: 40px;
+              --mask-vert: linear-gradient(to bottom, transparent 0px, black var(--fade-size-vert), black calc(100% - var(--fade-size-vert)), transparent 100%);
+              -webkit-mask-image: var(--mask-horz), var(--mask-vert);
+              -webkit-mask-composite: source-in;
+              mask-image: var(--mask-horz), var(--mask-vert);
+              mask-composite: intersect;
+            }
+
+            /*.activitys .items-line:first-child {
+                display: none;
+            }*/
+
+            /* Основные переменные для легкой настройки */
+            :root {
+                --menu-bg: rgba(20, 20, 23, 0.75); /* Полупрозрачный темный фон */
+                --menu-bg-hover: rgba(20, 20, 23, 0.95); /* Более плотный фон при открытии */
+                --menu-width-collapsed: 72px;
+                --menu-width-expanded: 200px;
+                --accent-color: #e50914; /* Красный акцент или белый */
+                --text-color: #e8e8e8;
+                --text-color-active: #ffffff;
+                --blur-strength: 10px;
+                --transition-speed: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            }
+
+            /* Сам контейнер меню */
+            .menu {
+                pointer-events: auto;
+                border-radius: 24px;
+                border-radius: 0 24px 24px 0;
+                transition: width var(--transition-speed), background var(--transition-speed);
+                display: flex;
+                flex-direction: column;
+                padding: 15px 0;
+            }
+
+            /* Элемент меню */
+            .menu__item {
+                position: relative;
+                display: flex;
+                align-items: center;
+                height: 50px;
+                padding: 0 24px;
+                color: var(--text-color);
+                cursor: pointer;
+                transition: all 0.2s ease;
+                text-decoration: none;
+                white-space: nowrap;
+                background: transparent;
+                border-radius: 1em;
+            }
+
+            /* Ховер эффект и активное состояние */
+            .menu__item:hover,
+            .menu__item.active,
+            .menu__item.focus {
+                color: var(--text-color-active);
+                background: rgba(255, 255, 255, 0.12);
+                zbox-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            }
+
+            /* Акцентная полоска слева при наведении (индикатор) */
+            .menu__item::before {
+                content: '';
+                position: absolute;
+                left: 0px;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 3px;
+                height: 0;
+                background-color: var(--accent-color);
+                border-radius: 0 4px 4px 0;
+                transition: height 0.2s ease;
+                box-shadow: 0 0 10px var(--accent-color);
+            }
+
+            .menu__item.active::before,
+            .menu__item.focus::before {
+                height: 60%;
+            }
+
+            /* Иконки */
+            .menu__ico {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-width: 24px;
+                height: 24px;
+                margin-right: 20px;
+            }
+
+            .menu__item.focus .menu__ico * {
+                width: 24px;
+                height: 24px;
+                stroke: currentColor !important;
+                fill: currentColor !important;
+                transition: transform 0.2s;
+            }
+
+            /* Анимация иконки при наведении */
+            .menu__item:hover .menu__ico svg {
+                transform: scale(1.1);
+            }
+
+            /* Текст меню */
+            .menu__text {
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+                font-size: 15px;
+                font-weight: 500;
+                transform: translateX(-10px);
+                transition: opacity 0.3s ease, transform 0.3s ease;
+            }
+
+            /* Разделитель секций */
+            .menu__split {
+                height: 1px;
+                background: rgba(255, 255, 255, 0.1);
+                margin: 10px 24px;
+                width: calc(100% - 48px);
+            }
+
+            .head__body {
+                padding: 0 !important;
+            }
+            .head .open--profile {
+                margin: 16px; !important;
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 40px;
+                height: 40px;
+                box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            }
+            .head .open--profile img {
+                height: 100% !important;
+                width: 100% !important;
+            }
+
+            .card .card__view::before,
+            .card .card__view::before,
+            .card-episode .full-episode::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                border: 0 !important;
+                border-radius: 1em;
+                pointer-events: none;
+                opacity: 0;
+                transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
+                will-change: opacity;
+                z-index: 2;
+                box-shadow: inset 2px 2px 1px rgba(255, 255, 255, 0.30), inset -2px -2px 2px rgba(255, 255, 255, 0.30);
+                background: radial-gradient(circle at center, transparent 58%, rgba(255, 255, 255, 0.22) 75%, rgba(255, 255, 255, 0.38) 90%), radial-gradient(120% 85% at 18% 10%, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.10) 38%, transparent 62%);
+                mix-blend-mode: screen;
+            }
+
+            .card .card__view::after,
+            .card .card__view::after,
+            .card-episode .full-episode::after {
+                display: none;
+            }
+
+            .card.focus .card__view::before,
+            .card.hover .card__view::before,
+            .card-episode.focus .full-episode::before {
+                opacity: 1;
+            }
+
+            .card.focus,
+            .card-episode.focus {
+                transform: scale(1.08) translateY(-6px) !important;
+                z-index: 10;
+            }
+
+            .card,
+            .card-episode {
+                transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
+                will-change: transform;
+                -webkit-animation: none !important;
+                animation: none !important;
+            }
+
+            .card.focus .card__view,
+            .card.hover .card__view,
+            .card-episode.focus .full-episode {
+                position: relative !important;
+                border-radius: 1em !important;
+                background: rgba(255, 255, 255, 0.05) !important;
+                flex-shrink: 0 !important;
+                transition: box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1), backdrop-filter 0.6s cubic-bezier(0.16, 1, 0.3, 1), -webkit-backdrop-filter 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), background 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
+                will-change: transform, box-shadow, backdrop-filter;
+                -webkit-animation: none !important;
+                animation: none !important;
+            }
+
+            .card .card__view,
+            .card-episode .full-episode {
+                animation: none !important;
+                margin-bottom: 1em;
+            }
+
+            .card__type {
+                z-index: 2;
+            }
+
+            .items-line__head {
+                margin-top: 2em;
+            }
+
+            .scroll--horizontal .scroll__content {
+                margin-top: 0.5em;
+            }
+        `;
 
         // Применение стилей
         var style = document.createElement('style');
@@ -91,8 +333,6 @@
         });
 
         // Добавляем кнопку в меню
-        // Используем prepend, чтобы попытаться поставить её выше, или append как в оригинале
-        // (Lampa сама отсортирует по menu_sort, так как там указан "Поиск")
         $('.menu .menu__list').eq(0).append(searchItem);
         
         console.log('My Config: Кнопка поиска добавлена');
