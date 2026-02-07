@@ -1,7 +1,9 @@
 (function () {
     'use strict';
 
-    function applySettings() {
+    function startPlugin() {
+        // --- ЧАСТЬ 1: НАСТРОЙКИ LAMPA (Storage) ---
+        
         // Преднастройки Lampa
         Lampa.Storage.set('start_page', 'main');
         Lampa.Storage.set('source', 'SURS');
@@ -22,7 +24,7 @@
         Lampa.Storage.set('applecation_mdblist_api_key', 'wf3lktoy7sbbjrcnmf8g9omsw');
         Lampa.Storage.set('applecation_enabled_ratings', '["tmdb","imdb","tomatoes","popcorn","metacritic","letterboxd","trakt"]');
         Lampa.Storage.set('applecation_show_episode_count', true);
-        
+
         // Настраиваем кнопки на странице фильма в плагине LME Movie Enhancer
         Lampa.Storage.set('lme_showbutton', true);
         Lampa.Storage.set('lme_buttonhide', '["view--trailer","view--online","button--reaction","button--subscribe","button--options"]');
@@ -31,8 +33,9 @@
         // Скрываем и сортируем пункты меню
         Lampa.Storage.set('menu_hide', '["Подборки","Каталог","Лента","Фильмы","Мультфильмы","Сериалы","Персоны","Релизы","Аниме","Подписки","Расписание","Торренты","Спорт","Для детей","Shots","Torrent Manager"]');
         Lampa.Storage.set('menu_sort', '["Поиск","Главная","Избранное","История","Фильтр"]');
-        
-        // --- CSS ИНЪЕКЦИЯ ПО БЛОКАМ ---
+
+
+        // --- ЧАСТЬ 2: CSS ИНЪЕКЦИЯ ---
         
         var css = '';
 
@@ -47,20 +50,15 @@
         // Блок 3: Заголовок шапки (видимость)
         css += '.head__title {visibility: hidden;} ';
 
-        // Страница фильма
-        // css += '.wrap .full-start__background {left: -5em !important; width: 100vw !important; max-width: 100vw !important;} ';
-
-        
+        // Применение стилей
         var style = document.createElement('style');
         style.type = 'text/css';
-        
         if (style.styleSheet) {
             style.styleSheet.cssText = css;
         } else {
             style.appendChild(document.createTextNode(css));
         }
         
-        // Пытаемся добавить в head, если нет - в body
         var target = document.head || document.getElementsByTagName('head')[0] || document.body;
         if (target) {
             target.appendChild(style);
@@ -68,13 +66,44 @@
         } else {
             console.log('My Config: Ошибка - некуда внедрить CSS');
         }
+
+
+        // --- ЧАСТЬ 3: КНОПКА ПОИСКА В МЕНЮ ---
+        
+        // SVG иконка лупы
+        var icon = '<svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>';
+        
+        // Создаем элемент меню
+        var searchItem = $('<li class="menu__item selector" data-action="search_button"><div class="menu__ico">' + icon + '</div><div class="menu__text">Поиск</div></li>');
+
+        // Навешиваем событие
+        searchItem.on('hover:enter', function () {
+            // Находим оригинальную кнопку поиска в шапке (она скрыта CSS, но существует)
+            var originalSearch = $('.head .open--search');
+            
+            if (originalSearch.length) {
+                // Эмулируем нажатие на оригинальную кнопку
+                originalSearch.trigger('hover:enter');
+            } else {
+                // Резервный метод
+                if (Lampa.Search) Lampa.Search.open();
+            }
+        });
+
+        // Добавляем кнопку в меню
+        // Используем prepend, чтобы попытаться поставить её выше, или append как в оригинале
+        // (Lampa сама отсортирует по menu_sort, так как там указан "Поиск")
+        $('.menu .menu__list').eq(0).append(searchItem);
+        
+        console.log('My Config: Кнопка поиска добавлена');
     }
 
+    // Запуск скрипта после готовности приложения
     if (window.appready) {
-        applySettings();
+        startPlugin();
     } else {
         Lampa.Listener.follow('app', function (e) {
-            if (e.type == 'ready') applySettings();
+            if (e.type == 'ready') startPlugin();
         });
     }
 
