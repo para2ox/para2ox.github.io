@@ -60,6 +60,10 @@
     width: 200px;
 }
 
+.scroll--mask {
+    height: 100vh !important;
+}
+
 body:not(:has(.activity--active.applecation)) .wrap__content {
     padding: 0 !important;
 }
