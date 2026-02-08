@@ -51,245 +51,279 @@
 
         // Блок 2: НОВЫЕ СТИЛИ (добавлены через шаблонную строку для удобства)
         css += `
-            /* Скрытие элементов хэдера */
-            .head .head__backward, .head .head__menu-icon, .head .head__title, .head .head__markers, .head .head__time {
-                display: none !important;
-            }
+.head, .head .open--profile, .head .head__backward, .head .head__menu-icon, .head .head__title, .head .head__markers, .head .head__time {
+    opacity: 0;
+}
 
-            .wrap__content {
-                padding: 0 !important;
-            }
-            .wrap__content .scroll--mask {
-                height: 100vh !important;
-            }
+.wrap__left {
+    padding: 0;
+    width: 200px;
+}
 
-            .full-start-new {
-                padding: 4em 3em 4em;
-            }
+body:not(:has(.activity--active.applecation)) .wrap__content {
+    padding: 0 !important;
+}
+body:not(:has(.activity--active.applecation)) .wrap__content .activity__body > div > div {
+    padding: 2em 3em !important;
+}
 
-            .activitys .scroll--mask .items-line {
-                padding: 2em 2em;
-                transition: padding 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            }
-            /*.menu--open .activitys .scroll--mask .items-line {
-                padding-left: 3em;
-            }*/
+/*.full-start-new {
+    padding-left: 3em;
+}*/
 
-            .activitys .scroll--mask {
-              --fade-size-horz: 40px;
-              --mask-horz: linear-gradient(to right, transparent 0px, black var(--fade-size-horz), black 100%);
-              --fade-size-vert: 40px;
-              --mask-vert: linear-gradient(to bottom, transparent 0px, black var(--fade-size-vert), black calc(100% - var(--fade-size-vert)), transparent 100%);
-              -webkit-mask-image: var(--mask-horz), var(--mask-vert);
-              -webkit-mask-composite: source-in;
-              mask-image: var(--mask-horz), var(--mask-vert);
-              mask-composite: intersect;
-            }
+/*.activitys .scroll--mask .items-line {
+    padding: 2em 2em;
+    transition: padding 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}*/
+/*.menu--open .activitys .scroll--mask .items-line {
+    padding-left: 3em;
+}*/
 
-            /*.activitys .items-line:first-child {
-                display: none;
-            }*/
+/*.activitys .scroll--mask {
+  --fade-size-horz: 40px;
+  --mask-horz: linear-gradient(to right, transparent 0px, black var(--fade-size-horz), black 100%);
+  --fade-size-vert: 40px;
+  --mask-vert: linear-gradient(to bottom, transparent 0px, black var(--fade-size-vert), black calc(100% - var(--fade-size-vert)), transparent 100%);
+  -webkit-mask-image: var(--mask-horz), var(--mask-vert);
+  -webkit-mask-composite: source-in;
+  mask-image: var(--mask-horz), var(--mask-vert);
+  mask-composite: intersect;
+}*/
 
-            /* Основные переменные для легкой настройки */
-            :root {
-                --menu-bg: rgba(20, 20, 23, 0.75); /* Полупрозрачный темный фон */
-                --menu-bg-hover: rgba(20, 20, 23, 0.95); /* Более плотный фон при открытии */
-                --menu-width-collapsed: 72px;
-                --menu-width-expanded: 200px;
-                --accent-color: #e50914; /* Красный акцент или белый */
-                --text-color: #e8e8e8;
-                --text-color-active: #ffffff;
-                --blur-strength: 10px;
-                --transition-speed: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            }
+.items-line__head {
+    margin-top: 3.5em;
+}
 
-            /* Сам контейнер меню */
-            .menu {
-                pointer-events: auto;
-                border-radius: 24px;
-                border-radius: 0 24px 24px 0;
-                transition: width var(--transition-speed), background var(--transition-speed);
-                display: flex;
-                flex-direction: column;
-                padding: 15px 0;
-            }
+.scroll--horizontal .scroll__content {
+    margin-top: 0.5em;
+}
 
-            /* Элемент меню */
-            .menu__item {
-                position: relative;
-                display: flex;
-                align-items: center;
-                height: 50px;
-                padding: 0 24px;
-                color: var(--text-color);
-                cursor: pointer;
-                transition: all 0.2s ease;
-                text-decoration: none;
-                white-space: nowrap;
-                background: transparent;
-                border-radius: 1em;
-            }
+/* Основные переменные для легкой настройки */
+:root {
+    --menu-bg: rgba(20, 20, 23, 0.75); /* Полупрозрачный темный фон */
+    --menu-bg-hover: rgba(20, 20, 23, 0.95); /* Более плотный фон при открытии */
+    --menu-width-collapsed: 72px;
+    --menu-width-expanded: 200px;
+    --accent-color: #e50914; /* Красный акцент (как на Netflix) или белый */
+    --text-color: #e8e8e8;
+    --text-color-active: #ffffff;
+    --blur-strength: 10px;
+    --transition-speed: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
 
-            /* Ховер эффект и активное состояние */
-            .menu__item:hover,
-            .menu__item.active,
-            .menu__item.focus {
-                color: var(--text-color-active);
-                background: rgba(255, 255, 255, 0.12);
-                zbox-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-            }
+/* Блок, отвечающий за позиционирование (плавающий) */
 
-            /* Акцентная полоска слева при наведении (индикатор) */
-            .menu__item::before {
-                content: '';
-                position: absolute;
-                left: 0px;
-                top: 50%;
-                transform: translateY(-50%);
-                width: 3px;
-                height: 0;
-                background-color: var(--accent-color);
-                border-radius: 0 4px 4px 0;
-                transition: height 0.2s ease;
-                box-shadow: 0 0 10px var(--accent-color);
-            }
+/*.wrap__left .scroll__body {
+    zwidth: auto !important;
+    zposition: absolute !important;
+    zleft: 20px;
+    zleft: 0;
+    ztop: 50%;
+    ztransform: translateY(-50%);
+    zz-index: 1000;
+    pointer-events: none;
+}*/
 
-            .menu__item.active::before,
-            .menu__item.focus::before {
-                height: 60%;
-            }
+/*.wrap__left .scroll--mask {
+    mask-image: unset;
+    overflow: visible;
+}*/
 
-            /* Иконки */
-            .menu__ico {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                min-width: 24px;
-                height: 24px;
-                margin-right: 20px;
-            }
+/* Сам контейнер меню */
+.menu {
+    pointer-events: auto; /* Возвращаем клики самому меню */
+    border-radius: 24px;
+    border-radius: 0 24px 24px 0;
+    transition: width var(--transition-speed), background var(--transition-speed);
+    display: flex;
+    flex-direction: column;
+    padding: 15px 0;
+}
 
-            .menu__item.focus .menu__ico * {
-                width: 24px;
-                height: 24px;
-                stroke: currentColor !important;
-                fill: currentColor !important;
-                transition: transform 0.2s;
-            }
+/* Списки внутри меню */
+/*.menu__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px; /* Отступ между элементами */
+}*/
 
-            /* Анимация иконки при наведении */
-            .menu__item:hover .menu__ico svg {
-                transform: scale(1.1);
-            }
+/* Элемент меню */
+.menu__item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 50px;
+    padding: 0 24px; /* Отступы по бокам */
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    white-space: nowrap; /* Текст не переносится */
+    background: transparent;
+    border-radius: 1em;
+}
 
-            /* Текст меню */
-            .menu__text {
-                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-                font-size: 15px;
-                font-weight: 500;
-                transform: translateX(-10px);
-                transition: opacity 0.3s ease, transform 0.3s ease;
-            }
+/* Ховер эффект и активное состояние */
+.menu__item:hover,
+.menu__item.active,
+.menu__item.focus {
+    color: var(--text-color-active);
+    background: rgba(255, 255, 255, 0.12); /* Легкая подсветка фона */
+    zbox-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+}
 
-            /* Разделитель секций */
-            .menu__split {
-                height: 1px;
-                background: rgba(255, 255, 255, 0.1);
-                margin: 10px 24px;
-                width: calc(100% - 48px);
-            }
+/* Акцентная полоска слева при наведении (индикатор) */
+.menu__item::before {
+    content: '';
+    position: absolute;
+    left: 0px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 0;
+    background-color: var(--accent-color);
+    border-radius: 0 4px 4px 0;
+    transition: height 0.2s ease;
+    box-shadow: 0 0 10px var(--accent-color);
+}
 
-            .head__body {
-                padding: 0 !important;
-            }
-            .head .open--profile {
-                margin: 16px; !important;
-                position: absolute;
-                top: 0;
-                right: 0;
-                width: 40px;
-                height: 40px;
-                box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-            }
-            .head .open--profile img {
-                height: 100% !important;
-                width: 100% !important;
-            }
+.menu__item.active::before,
+.menu__item.focus::before {
+    height: 60%; /* Полоска вырастает */
+}
 
-            .card .card__view::before,
-            .card .card__view::before,
-            .card-episode .full-episode::before {
-                content: '';
-                position: absolute;
-                inset: 0;
-                border: 0 !important;
-                border-radius: 1em;
-                pointer-events: none;
-                opacity: 0;
-                transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
-                will-change: opacity;
-                z-index: 2;
-                box-shadow: inset 2px 2px 1px rgba(255, 255, 255, 0.30), inset -2px -2px 2px rgba(255, 255, 255, 0.30);
-                background: radial-gradient(circle at center, transparent 58%, rgba(255, 255, 255, 0.22) 75%, rgba(255, 255, 255, 0.38) 90%), radial-gradient(120% 85% at 18% 10%, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.10) 38%, transparent 62%);
-                mix-blend-mode: screen;
-            }
+/* Иконки */
+.menu__ico {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 24px; /* Фиксированная ширина для выравнивания */
+    height: 24px;
+    margin-right: 20px; /* Расстояние до текста */
+}
 
-            .card .card__view::after,
-            .card .card__view::after,
-            .card-episode .full-episode::after {
-                display: none;
-            }
+.menu__item.focus .menu__ico * {
+    width: 24px;
+    height: 24px;
+    stroke: currentColor !important;
+    fill: currentColor !important;
+    transition: transform 0.2s;
+}
 
-            .card.focus .card__view::before,
-            .card.hover .card__view::before,
-            .card-episode.focus .full-episode::before {
-                opacity: 1;
-            }
+/* Анимация иконки при наведении */
+.menu__item:hover .menu__ico svg {
+    transform: scale(1.1);
+}
 
-            .card.focus,
-            .card-episode.focus {
-                transform: scale(1.08) translateY(-6px) !important;
-                z-index: 10;
-            }
+/* Текст меню */
+.menu__text {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    transform: translateX(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
 
-            .card,
-            .card-episode {
-                transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
-                will-change: transform;
-                -webkit-animation: none !important;
-                animation: none !important;
-            }
+/* Разделитель секций */
+.menu__split {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 10px 24px;
+    width: calc(100% - 48px);
+}
 
-            .card.focus .card__view,
-            .card.hover .card__view,
-            .card-episode.focus .full-episode {
-                position: relative !important;
-                border-radius: 1em !important;
-                background: rgba(255, 255, 255, 0.05) !important;
-                flex-shrink: 0 !important;
-                transition: box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1), backdrop-filter 0.6s cubic-bezier(0.16, 1, 0.3, 1), -webkit-backdrop-filter 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), background 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
-                will-change: transform, box-shadow, backdrop-filter;
-                -webkit-animation: none !important;
-                animation: none !important;
-            }
+.head__body {
+    padding: 0 !important;
+}
+/*.menu--open .head .open--profile {
+    margin: 29px; !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 40px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+}
+.head .open--profile img {
+    height: 100% !important;
+    width: 100% !important;
+}*/
 
-            .card .card__view,
-            .card-episode .full-episode {
-                animation: none !important;
-                margin-bottom: 1em;
-            }
+.card .card__view::before,
+.card .card__view::before,
+.card-episode .full-episode::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 0 !important;
+    border-radius: 1em;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    will-change: opacity;
+    z-index: 2;
+    box-shadow: inset 2px 2px 1px rgba(255, 255, 255, 0.30), inset -2px -2px 2px rgba(255, 255, 255, 0.30);
+    background: radial-gradient(circle at center, transparent 58%, rgba(255, 255, 255, 0.22) 75%, rgba(255, 255, 255, 0.38) 90%), radial-gradient(120% 85% at 18% 10%, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.10) 38%, transparent 62%);
+    mix-blend-mode: screen;
+}
 
-            .card__type {
-                z-index: 2;
-            }
+.card .card__view::after,
+.card .card__view::after,
+.card-episode .full-episode::after {
+    display: none;
+}
 
-            .items-line__head {
-                margin-top: 2em;
-            }
+.card.focus .card__view::before,
+.card.hover .card__view::before,
+.card-episode.focus .full-episode::before {
+    opacity: 1;
+}
 
-            .scroll--horizontal .scroll__content {
-                margin-top: 0.5em;
-            }
+/*.card .card__view, .card-episode .full-episode {
+    transition: all 0.1s linear;
+}*/
+
+.card.focus,
+.card-episode.focus {
+    transform: scale(1.08) translateY(-6px) !important;
+    z-index: 10;
+}
+
+.card,
+.card-episode {
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    will-change: transform;
+    -webkit-animation: none !important;
+    animation: none !important;
+}
+
+.card.focus .card__view,
+.card.hover .card__view,
+.card-episode.focus .full-episode {
+    position: relative !important;
+    border-radius: 1em !important;
+    Zoverflow: hidden !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    flex-shrink: 0 !important;
+    transition: box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1), backdrop-filter 0.6s cubic-bezier(0.16, 1, 0.3, 1), -webkit-backdrop-filter 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), background 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    will-change: transform, box-shadow, backdrop-filter;
+    -webkit-animation: none !important;
+    animation: none !important;
+}
+
+.card .card__view,
+.card-episode .full-episode {
+    animation: none !important;
+    margin-bottom: 1em;
+    zmargin-top: 1em;
+}
+
+.card__type, .card__quality {
+    z-index: 2;
+}
         `;
 
         // Применение стилей
