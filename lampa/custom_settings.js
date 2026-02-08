@@ -57,7 +57,6 @@
 
 .wrap__left {
     padding: 0;
-    width: 200px;
 }
 
 .scroll--mask {
