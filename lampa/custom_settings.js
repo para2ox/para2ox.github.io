@@ -51,7 +51,6 @@
 
         // Блок 2: НОВЫЕ СТИЛИ (добавлены через шаблонную строку для удобства)
         css += `
-@media screen and (min-width: 768px) {
 	.head, .head .open--profile, .head .head__backward, .head .head__menu-icon, .head .head__title, .head .head__markers, .head .head__time {
 	    opacity: 0;
 	}
@@ -74,7 +73,6 @@
 	.wrap__content, .wrap__content .activity__body > div > div, .scroll--mask {
 	    transition: all 0.2s ease;
 	}
-}
 
 /*.full-start-new {
     padding-left: 3em;
