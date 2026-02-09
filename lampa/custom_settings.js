@@ -51,27 +51,29 @@
 
         // Блок 2: НОВЫЕ СТИЛИ (добавлены через шаблонную строку для удобства)
         css += `
-.head, .head .open--profile, .head .head__backward, .head .head__menu-icon, .head .head__title, .head .head__markers, .head .head__time {
-    opacity: 0;
-}
-
-.wrap__left {
-    padding: 0;
-}
-
-.scroll--mask {
-    height: 100vh !important;
-}
-
-body:not(:has(.activity--active.applecation)) .wrap__content {
-    padding: 0 !important;
-}
-body:not(:has(.activity--active.applecation)) .wrap__content .activity__body > div > div {
-    padding: 1em 2em !important;
-}
-
-.wrap__content, .wrap__content .activity__body > div > div, .scroll--mask {
-    transition: all 0.2s ease;
+@media screen and (min-width: 768px) {
+	.head, .head .open--profile, .head .head__backward, .head .head__menu-icon, .head .head__title, .head .head__markers, .head .head__time {
+	    opacity: 0;
+	}
+	
+	.wrap__left {
+	    padding: 0;
+	}
+	
+	.scroll--mask {
+	    height: 100vh !important;
+	}
+	
+	body:not(:has(.activity--active.applecation)) .wrap__content {
+	    padding: 0 !important;
+	}
+	body:not(:has(.activity--active.applecation)) .wrap__content .activity__body > div > div {
+	    padding: 1em 2em !important;
+	}
+	
+	.wrap__content, .wrap__content .activity__body > div > div, .scroll--mask {
+	    transition: all 0.2s ease;
+	}
 }
 
 /*.full-start-new {
