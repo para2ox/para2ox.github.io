@@ -67,7 +67,11 @@ body:not(:has(.activity--active.applecation)) .wrap__content {
     padding: 0 !important;
 }
 body:not(:has(.activity--active.applecation)) .wrap__content .activity__body > div > div {
-    padding: 2em 3em !important;
+    padding: 1em 2em !important;
+}
+
+.wrap__content, .wrap__content .activity__body > div > div, .scroll--mask {
+    transition: all 0.2s ease;
 }
 
 /*.full-start-new {
@@ -208,12 +212,15 @@ body:not(:has(.activity--active.applecation)) .wrap__content .activity__body > d
     margin-right: 20px; /* Расстояние до текста */
 }
 
-.menu__item.focus .menu__ico * {
+.menu__item.focus .menu__ico svg > * {
     width: 24px;
     height: 24px;
     stroke: currentColor !important;
-    fill: currentColor !important;
     transition: transform 0.2s;
+}
+
+.menu__item.focus .menu__ico svg path {
+    fill: currentColor !important;
 }
 
 /* Анимация иконки при наведении */
