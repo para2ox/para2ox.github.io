@@ -4,7 +4,7 @@
     function startPlugin() {
         // --- ЧАСТЬ 1: НАСТРОЙКИ LAMPA (Storage) ---
         
-        /*// Преднастройки Lampa
+        // Преднастройки Lampa
         Lampa.Storage.set('start_page', 'main');
         Lampa.Storage.set('source', 'SURS');
         Lampa.Storage.set('glass_style', true);
@@ -40,7 +40,7 @@
 
         // Скрываем и сортируем пункты меню
         Lampa.Storage.set('menu_hide', '["Подборки","Каталог","Лента","Фильмы","Мультфильмы","Сериалы","Персоны","Релизы","Аниме","Подписки","Расписание","Торренты","Спорт","Для детей","Shots","Torrent Manager"]');
-        Lampa.Storage.set('menu_sort', '["Поиск","Главная","Избранное","История","Фильтр"]');*/
+        Lampa.Storage.set('menu_sort', '["Поиск","Главная","Избранное","История","Фильтр"]');
 
 
         // --- ЧАСТЬ 2: CSS ИНЪЕКЦИЯ ---
@@ -344,7 +344,7 @@
 }
         `;
 
-        // Применение стилей
+        /*// Применение стилей
         var style = document.createElement('style');
         style.type = 'text/css';
         if (style.styleSheet) {
@@ -387,7 +387,7 @@
         // Добавляем кнопку в меню
         $('.menu .menu__list').eq(0).append(searchItem);
         
-        console.log('My Config: Кнопка поиска добавлена');
+        console.log('My Config: Кнопка поиска добавлена');*/
     }
 
     // Запуск скрипта после готовности приложения
