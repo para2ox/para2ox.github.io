@@ -17,6 +17,7 @@
                 // ШАГ 2: Загружаем остальные плагины (параллельно друг с другом)
                 Lampa.Utils.putScriptAsync([
                     'https://ipavlin98.github.io/lmp-plugins/int.js',
+                    'https://darkestclouds.github.io/plugins/applecation/applecation.js',
                     'http://cub.red/plugin/tmdb-proxy',
                     'https://nb557.github.io/plugins/online_mod.js',
                     'https://lampame.github.io/main/lme.js'
@@ -40,7 +41,7 @@
                 Lampa.Storage.set('interface_size', 'small');
                 Lampa.Storage.set('keyboard_type', 'integrate');
                 Lampa.Storage.set('menu_always', false);
-                Lampa.Storage.set('screensaver', false);
+                Lampa.Storage.set('screensaver', 'false');
                 Lampa.Storage.set('advanced_animation', true);
                 // Lampa.Storage.set('background', true);
                 // Lampa.Storage.set('background_type', 'simple');
@@ -64,17 +65,17 @@
                 Lampa.Storage.set('applecation_show_episode_count', true);
 
                 // Настраиваем плагин New Interface
-                Lampa.Storage.set('logo_show', false);
-                Lampa.Storage.set('show_background', true);
-                Lampa.Storage.set('status', true);
-                Lampa.Storage.set('seas', true);
-                Lampa.Storage.set('eps', true);
-                Lampa.Storage.set('rat', false);
-                Lampa.Storage.set('si_colored_ratings', false);
-                Lampa.Storage.set('si_rating_border', false);
-                Lampa.Storage.set('async_load', true);
-                Lampa.Storage.set('hide_captions', true);
-                Lampa.Storage.set('wide_post', false);
+                Lampa.Storage.set('logo_show', 'false');
+                Lampa.Storage.set('show_background', 'true');
+                Lampa.Storage.set('status', 'true');
+                Lampa.Storage.set('seas', 'true');
+                Lampa.Storage.set('eps', 'true');
+                Lampa.Storage.set('rat', 'false');
+                Lampa.Storage.set('si_colored_ratings', 'false');
+                Lampa.Storage.set('si_rating_border', 'false');
+                Lampa.Storage.set('async_load', 'true');
+                Lampa.Storage.set('hide_captions', 'true');
+                Lampa.Storage.set('wide_post', 'false');
 
                 // Настраиваем кнопки на странице фильма в плагине LME Movie Enhancer
                 Lampa.Storage.set('lme_showbutton', true);
