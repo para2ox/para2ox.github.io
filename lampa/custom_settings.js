@@ -6,7 +6,7 @@
         
         // Преднастройки Lampa
         Lampa.Storage.set('start_page', 'main');
-        Lampa.Storage.set('source', 'SURS');
+        // Lampa.Storage.set('source', 'SURS');
         Lampa.Storage.set('glass_style', true);
 		Lampa.Storage.set('glass_opacity', 'easy');
         Lampa.Storage.set('video_quality_default', '1080');
