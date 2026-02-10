@@ -25,6 +25,8 @@
         // Lampa.Storage.set('online_mod_proxy_rezka2', false);
 
         // Настраиваем плагин Applecation
+		Lampa.Storage.set('applecation_text_scale', '120');
+		Lampa.Storage.set('applecation_spacing_scale', '90');
         Lampa.Storage.set('applecation_show_ratings', true);
         Lampa.Storage.set('applecation_ratings_source', 'builtin');
         Lampa.Storage.set('applecation_mdblist_api_key', 'wf3lktoy7sbbjrcnmf8g9omsw');
