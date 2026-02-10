@@ -71,7 +71,8 @@
 	}
 	
 	.wrap__content, .wrap__content .activity__body > div > div, .scroll--mask {
-	    transition: all 0.2s ease;
+	    -webkit-transition: all 0.2s ease;
+		transition: all 0.2s ease;
 	}
 
 /*.full-start-new {
