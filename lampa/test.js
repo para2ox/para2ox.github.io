@@ -3,14 +3,22 @@
 
     function startPlugin() {
         
-        
+        // --- НОВОЕ: ЗАГРУЗКА ВНЕШНИХ ПЛАГИНОВ ---
+        if (Lampa.Utils && Lampa.Utils.putScriptAsync) {
+            Lampa.Utils.putScriptAsync([
+                'https://aviamovie.github.io/surs.js',
+                'https://ipavlin98.github.io/lmp-plugins/int.js'
+            ], function () {
+                console.log('Внешние плагины (surs.js и int.js) успешно загружены');
+            });
+        }
 
         // --- ЧАСТЬ 1: НАСТРОЙКИ LAMPA (Storage) ---
         
         // Преднастройки Lampa
         Lampa.Storage.set('start_page', 'main');
         Lampa.Storage.set('source', 'SURS');
-        Lampa.Storage.set('surs_name', 'p2x');
+        Lampa.Storage.set('surs_name', 'P2X');
         // Lampa.Storage.set('surs_settings', '');
         Lampa.Storage.set('glass_style', true);
         Lampa.Storage.set('glass_opacity', 'easy');
@@ -43,17 +51,17 @@
         Lampa.Storage.set('applecation_show_episode_count', true);
 
         // Настраиваем плагин New Interface
-        Lampa.Storage.set('logo_show', false);
-        Lampa.Storage.set('show_background', true);
-        Lampa.Storage.set('status', true);
-        Lampa.Storage.set('seas', true);
-        Lampa.Storage.set('eps', true);
-        Lampa.Storage.set('rat', false);
+        Lampa.Storage.set('logo_show', 'false');
+        Lampa.Storage.set('show_background', 'true');
+        Lampa.Storage.set('status', 'true');
+        Lampa.Storage.set('seas', 'true');
+        Lampa.Storage.set('eps', 'true');
+        Lampa.Storage.set('rat', 'false');
         Lampa.Storage.set('si_colored_ratings', 'false');
-        Lampa.Storage.set('si_rating_border', false);
-        Lampa.Storage.set('async_load', true);
-        Lampa.Storage.set('hide_captions', true);
-        Lampa.Storage.set('wide_post', false);
+        Lampa.Storage.set('si_rating_border', 'false');
+        Lampa.Storage.set('async_load', 'true');
+        Lampa.Storage.set('hide_captions', 'true');
+        Lampa.Storage.set('wide_post', 'false');
 
         // Настраиваем кнопки на странице фильма в плагине LME Movie Enhancer
         Lampa.Storage.set('lme_showbutton', true);
@@ -64,15 +72,7 @@
         Lampa.Storage.set('menu_hide', '["Подборки","Каталог","Лента","Фильмы","Мультфильмы","Сериалы","Персоны","Релизы","Аниме","Подписки","Расписание","Торренты","Спорт","Для детей","Shots","Torrent Manager"]');
         Lampa.Storage.set('menu_sort', '["Поиск","Главная","Избранное","История","Фильтр"]');
 
-// --- НОВОЕ: ЗАГРУЗКА ВНЕШНИХ ПЛАГИНОВ ---
-        if (Lampa.Utils && Lampa.Utils.putScriptAsync) {
-            Lampa.Utils.putScriptAsync([
-                'https://aviamovie.github.io/surs.js',
-                'https://ipavlin98.github.io/lmp-plugins/int.js'
-            ], function () {
-                console.log('Внешние плагины (surs.js и int.js) успешно загружены');
-            });
-        }
+
         // --- ЧАСТЬ 2: CSS ИНЪЕКЦИЯ ---
         
         var css = '';
