@@ -39,8 +39,8 @@
         Lampa.Storage.set('interface_size', 'small');
         Lampa.Storage.set('keyboard_type', 'integrate');
         Lampa.Storage.set('menu_always', false);
-        Lampa.Storage.set('screensaver', false);
-        Lampa.Storage.set('advanced_animation', 'true');
+        Lampa.Storage.set('screensaver', 'false');
+        Lampa.Storage.set('advanced_animation', true);
         // Lampa.Storage.set('background', true);
         // Lampa.Storage.set('background_type', 'simple');
         // Lampa.Storage.set('black_style', true);
