@@ -3,15 +3,7 @@
 
     function startPlugin() {
         
-        // --- НОВОЕ: ЗАГРУЗКА ВНЕШНИХ ПЛАГИНОВ ---
-        if (Lampa.Utils && Lampa.Utils.putScriptAsync) {
-            Lampa.Utils.putScriptAsync([
-                'https://aviamovie.github.io/surs.js',
-                'https://ipavlin98.github.io/lmp-plugins/int.js'
-            ], function () {
-                console.log('Внешние плагины (surs.js и int.js) успешно загружены');
-            });
-        }
+        
 
         // --- ЧАСТЬ 1: НАСТРОЙКИ LAMPA (Storage) ---
         
@@ -27,7 +19,7 @@
         Lampa.Storage.set('interface_size', 'small');
         Lampa.Storage.set('keyboard_type', 'integrate');
         Lampa.Storage.set('menu_always', false);
-        Lampa.Storage.set('screensaver', false);
+        Lampa.Storage.set('screensaver', 'false');
         Lampa.Storage.set('advanced_animation', true);
         // Lampa.Storage.set('background', true);
         // Lampa.Storage.set('background_type', 'simple');
@@ -57,7 +49,7 @@
         Lampa.Storage.set('seas', true);
         Lampa.Storage.set('eps', true);
         Lampa.Storage.set('rat', false);
-        Lampa.Storage.set('si_colored_ratings', false);
+        Lampa.Storage.set('si_colored_ratings', 'false');
         Lampa.Storage.set('si_rating_border', false);
         Lampa.Storage.set('async_load', true);
         Lampa.Storage.set('hide_captions', true);
@@ -72,7 +64,15 @@
         Lampa.Storage.set('menu_hide', '["Подборки","Каталог","Лента","Фильмы","Мультфильмы","Сериалы","Персоны","Релизы","Аниме","Подписки","Расписание","Торренты","Спорт","Для детей","Shots","Torrent Manager"]');
         Lampa.Storage.set('menu_sort', '["Поиск","Главная","Избранное","История","Фильтр"]');
 
-
+// --- НОВОЕ: ЗАГРУЗКА ВНЕШНИХ ПЛАГИНОВ ---
+        if (Lampa.Utils && Lampa.Utils.putScriptAsync) {
+            Lampa.Utils.putScriptAsync([
+                'https://aviamovie.github.io/surs.js',
+                'https://ipavlin98.github.io/lmp-plugins/int.js'
+            ], function () {
+                console.log('Внешние плагины (surs.js и int.js) успешно загружены');
+            });
+        }
         // --- ЧАСТЬ 2: CSS ИНЪЕКЦИЯ ---
         
         var css = '';
