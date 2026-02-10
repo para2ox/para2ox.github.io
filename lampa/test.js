@@ -102,7 +102,7 @@
 }
 
 .full-start-new__buttons {
-    padding-top: 2em;
+    padding-top: 1em;
 }
 
 /*.full-start-new {
