@@ -11,7 +11,15 @@
                 'https://darkestclouds.github.io/plugins/applecation/applecation.js',
                 'http://cub.red/plugin/tmdb-proxy',
                 'https://nb557.github.io/plugins/online_mod.js',
-                'https://lampame.github.io/main/lme.js'
+                'https://lampame.github.io/main/lme.js',
+                'https://ipavlin98.github.io/lmp-plugins/series-progress-fix.js',
+                'https://nb557.github.io/plugins/free.js',
+                'https://ipavlin98.github.io/lmp-plugins/rt.js',
+                'https://ipavlin98.github.io/lmp-plugins/search-focus-no-mic.js',
+                'http://94.103.86.206/plugins/nots',
+                'https://darkestclouds.github.io/plugins/easytorrent/easytorrent.js',
+                'https://lampame.github.io/main/pubtorr.js',
+                'https://e.vg/IqhjvbiYo'
             ], function () {
                 console.log('Внешние плагины успешно загружены');
             });
