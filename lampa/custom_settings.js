@@ -2,19 +2,40 @@
     'use strict';
 
     function startPlugin() {
+        
+        // --- НОВОЕ: ЗАГРУЗКА ВНЕШНИХ ПЛАГИНОВ ---
+        if (Lampa.Utils && Lampa.Utils.putScriptAsync) {
+            Lampa.Utils.putScriptAsync([
+                'https://aviamovie.github.io/surs.js',
+                'https://ipavlin98.github.io/lmp-plugins/int.js',
+                'https://darkestclouds.github.io/plugins/applecation/applecation.js',
+                'http://cub.red/plugin/tmdb-proxy',
+                'https://nb557.github.io/plugins/online_mod.js',
+                'https://lampame.github.io/main/lme.js'
+            ], function () {
+                console.log('Внешние плагины успешно загружены');
+            });
+        }
+
         // --- ЧАСТЬ 1: НАСТРОЙКИ LAMPA (Storage) ---
         
         // Преднастройки Lampa
         Lampa.Storage.set('start_page', 'main');
-        Lampa.Storage.set('source', 'SURS');
+        Lampa.Storage.set('surs_name', 'P2X');
+        Lampa.Storage.set('source', 'P2X');
+        // Lampa.Storage.set('surs_settings', '');
         Lampa.Storage.set('glass_style', true);
-		Lampa.Storage.set('glass_opacity', 'easy');
+        Lampa.Storage.set('glass_opacity', 'easy');
+        Lampa.Storage.set('mask', true);
         Lampa.Storage.set('video_quality_default', '1080');
-		Lampa.Storage.set('interface_size', 'small');
-		Lampa.Storage.set('keyboard_type', 'integrate');
-		// Lampa.Storage.set('background', true);
-		// Lampa.Storage.set('background_type', 'simple');
-		// Lampa.Storage.set('black_style', true);
+        Lampa.Storage.set('interface_size', 'small');
+        Lampa.Storage.set('keyboard_type', 'integrate');
+        Lampa.Storage.set('menu_always', false);
+        Lampa.Storage.set('screensaver', false);
+        Lampa.Storage.set('advanced_animation', 'true');
+        // Lampa.Storage.set('background', true);
+        // Lampa.Storage.set('background_type', 'simple');
+        // Lampa.Storage.set('black_style', true);
 
         // Настраиваем плагин Online Mod
         Lampa.Storage.set('online_mod_rezka2_cookie', 'dle_user_id=38372; dle_password=d8efa0170ea646402578694fe9ccf72e; dle_newpm=0; dle_user_token=cadfee4517c32230654c3c64a6002b0a; dle_user_taken=1');
@@ -25,13 +46,26 @@
         // Lampa.Storage.set('online_mod_proxy_rezka2', false);
 
         // Настраиваем плагин Applecation
-		Lampa.Storage.set('applecation_text_scale', '120');
-		Lampa.Storage.set('applecation_spacing_scale', '90');
+        Lampa.Storage.set('applecation_text_scale', '120');
+        Lampa.Storage.set('applecation_spacing_scale', '90');
         Lampa.Storage.set('applecation_show_ratings', true);
         Lampa.Storage.set('applecation_ratings_source', 'builtin');
         Lampa.Storage.set('applecation_mdblist_api_key', 'wf3lktoy7sbbjrcnmf8g9omsw');
         Lampa.Storage.set('applecation_enabled_ratings', '["tmdb","imdb","tomatoes","popcorn","metacritic","letterboxd","trakt"]');
         Lampa.Storage.set('applecation_show_episode_count', true);
+
+        // Настраиваем плагин New Interface
+        Lampa.Storage.set('logo_show', 'false');
+        Lampa.Storage.set('show_background', 'true');
+        Lampa.Storage.set('status', 'true');
+        Lampa.Storage.set('seas', 'true');
+        Lampa.Storage.set('eps', 'true');
+        Lampa.Storage.set('rat', 'false');
+        Lampa.Storage.set('si_colored_ratings', 'false');
+        Lampa.Storage.set('si_rating_border', 'false');
+        Lampa.Storage.set('async_load', 'true');
+        Lampa.Storage.set('hide_captions', 'true');
+        Lampa.Storage.set('wide_post', 'false');
 
         // Настраиваем кнопки на странице фильма в плагине LME Movie Enhancer
         Lampa.Storage.set('lme_showbutton', true);
@@ -57,53 +91,34 @@
         css += '.wrap__left .scroll__content {display: flex; flex-direction: column; min-height: 100vh;} .wrap__left .scroll__body {margin-top: auto; margin-bottom: auto;} ';
         css += '.head__title {visibility: hidden;} ';
 
-        // Блок 2: НОВЫЕ СТИЛИ (добавлены через шаблонную строку для удобства)
+        // Блок 2: НОВЫЕ СТИЛИ
         css += `
 .head, .head .open--profile, .head .head__backward, .head .head__menu-icon, .head .head__title, .head .head__markers, .head .head__time {
-	display: none;
+    display: none;
 }
 
 .wrap__left {
-	padding: 0;
+    padding: 0;
 }
 
 .scroll--mask {
-	height: 100vh !important;
+    height: 100vh !important;
 }
 
 .wrap__content {
-	padding: 0 !important;
+    padding: 0 !important;
 }
 .wrap__content .applecation .activity__body {
-	margin-top: 4em !important;
+    margin-top: 4em !important;
 }
 
 .wrap__content .activity__body > div > div {
-	padding: 1em 2em !important;
+    padding: 1em 2em !important;
 }
 
-/*.full-start-new {
-    padding-left: 3em;
-}*/
-
-/*.activitys .scroll--mask .items-line {
-    padding: 2em 2em;
-    transition: padding 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-}*/
-/*.menu--open .activitys .scroll--mask .items-line {
-    padding-left: 3em;
-}*/
-
-/*.activitys .scroll--mask {
-  --fade-size-horz: 40px;
-  --mask-horz: linear-gradient(to right, transparent 0px, black var(--fade-size-horz), black 100%);
-  --fade-size-vert: 40px;
-  --mask-vert: linear-gradient(to bottom, transparent 0px, black var(--fade-size-vert), black calc(100% - var(--fade-size-vert)), transparent 100%);
-  -webkit-mask-image: var(--mask-horz), var(--mask-vert);
-  -webkit-mask-composite: source-in;
-  mask-image: var(--mask-horz), var(--mask-vert);
-  mask-composite: intersect;
-}*/
+.full-start-new__buttons {
+    padding-top: 1em;
+}
 
 .items-line__head {
     margin-top: 3.5em;
@@ -115,38 +130,20 @@
 
 /* Основные переменные для легкой настройки */
 :root {
-    --menu-bg: rgba(20, 20, 23, 0.75); /* Полупрозрачный темный фон */
-    --menu-bg-hover: rgba(20, 20, 23, 0.95); /* Более плотный фон при открытии */
+    --menu-bg: rgba(20, 20, 23, 0.75);
+    --menu-bg-hover: rgba(20, 20, 23, 0.95);
     --menu-width-collapsed: 72px;
     --menu-width-expanded: 200px;
-    --accent-color: #e50914; /* Красный акцент (как на Netflix) или белый */
+    --accent-color: #e50914; 
     --text-color: #e8e8e8;
     --text-color-active: #ffffff;
     --blur-strength: 10px;
     --transition-speed: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-/* Блок, отвечающий за позиционирование (плавающий) */
-
-/*.wrap__left .scroll__body {
-    zwidth: auto !important;
-    zposition: absolute !important;
-    zleft: 20px;
-    zleft: 0;
-    ztop: 50%;
-    ztransform: translateY(-50%);
-    zz-index: 1000;
-    pointer-events: none;
-}*/
-
-/*.wrap__left .scroll--mask {
-    mask-image: unset;
-    overflow: visible;
-}*/
-
 /* Сам контейнер меню */
 .menu {
-    pointer-events: auto; /* Возвращаем клики самому меню */
+    pointer-events: auto;
     border-radius: 24px;
     border-radius: 0 24px 24px 0;
     transition: width var(--transition-speed), background var(--transition-speed);
@@ -155,28 +152,18 @@
     padding: 15px 0;
 }
 
-/* Списки внутри меню */
-/*.menu__list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 4px; /* Отступ между элементами */
-}*/
-
 /* Элемент меню */
 .menu__item {
     position: relative;
     display: flex;
     align-items: center;
     height: 50px;
-    padding: 0 24px; /* Отступы по бокам */
+    padding: 0 24px;
     color: var(--text-color);
     cursor: pointer;
     transition: all 0.2s ease;
     text-decoration: none;
-    white-space: nowrap; /* Текст не переносится */
+    white-space: nowrap;
     background: transparent;
     border-radius: 1em;
 }
@@ -186,11 +173,11 @@
 .menu__item.active,
 .menu__item.focus {
     color: var(--text-color-active);
-    background: rgba(255, 255, 255, 0.12); /* Легкая подсветка фона */
+    background: rgba(255, 255, 255, 0.12);
     zbox-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
 }
 
-/* Акцентная полоска слева при наведении (индикатор) */
+/* Акцентная полоска слева при наведении */
 .menu__item::before {
     content: '';
     position: absolute;
@@ -207,7 +194,7 @@
 
 .menu__item.active::before,
 .menu__item.focus::before {
-    height: 60%; /* Полоска вырастает */
+    height: 60%;
 }
 
 /* Иконки */
@@ -215,9 +202,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 24px; /* Фиксированная ширина для выравнивания */
+    min-width: 24px;
     height: 24px;
-    margin-right: 20px; /* Расстояние до текста */
+    margin-right: 20px;
 }
 
 .menu__item.focus .menu__ico svg > * {
@@ -256,19 +243,6 @@
 .head__body {
     padding: 0 !important;
 }
-/*.menu--open .head .open--profile {
-    margin: 29px; !important;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 40px;
-    height: 40px;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-}
-.head .open--profile img {
-    height: 100% !important;
-    width: 100% !important;
-}*/
 
 .card .card__view::before,
 .card .card__view::before,
@@ -300,10 +274,6 @@
     opacity: 1;
 }
 
-/*.card .card__view, .card-episode .full-episode {
-    transition: all 0.1s linear;
-}*/
-
 .card.focus,
 .card-episode.focus {
     transform: scale(1.08) translateY(-6px) !important;
@@ -323,7 +293,6 @@
 .card-episode.focus .full-episode {
     position: relative !important;
     border-radius: 1em !important;
-    Zoverflow: hidden !important;
     background: rgba(255, 255, 255, 0.05) !important;
     flex-shrink: 0 !important;
     transition: box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1), backdrop-filter 0.6s cubic-bezier(0.16, 1, 0.3, 1), -webkit-backdrop-filter 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), background 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
@@ -336,7 +305,6 @@
 .card-episode .full-episode {
     animation: none !important;
     margin-bottom: 1em;
-    zmargin-top: 1em;
 }
 
 .card__type, .card__quality {
