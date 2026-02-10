@@ -5,7 +5,7 @@
         // --- ЧАСТЬ 1: НАСТРОЙКИ LAMPA (Storage) ---
         
         // Преднастройки Lampa
-        Lampa.Storage.set('start_page', 'main');
+        // Lampa.Storage.set('start_page', 'main');
         // Lampa.Storage.set('source', 'SURS');
         Lampa.Storage.set('glass_style', true);
 		Lampa.Storage.set('glass_opacity', 'easy');
