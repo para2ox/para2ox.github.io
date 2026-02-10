@@ -67,11 +67,11 @@
 	    padding: 0;
 	}
 	
-	/*.scroll--mask {
+	.scroll--mask {
 	    height: 100vh !important;
 	}
 	
-	body:not(:has(.activity--active.applecation)) .wrap__content {
+	/*body:not(:has(.activity--active.applecation)) .wrap__content {
 	    padding: 0 !important;
 	}
 	body:not(:has(.activity--active.applecation)) .wrap__content .activity__body > div > div {
