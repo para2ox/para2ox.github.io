@@ -31,9 +31,8 @@
                 
                 Lampa.Storage.set('start_page', 'main');
                 Lampa.Storage.set('source', 'SURS');
-                Lampa.Storage.set('surs_name', 'p2x');
+                Lampa.Storage.set('surs_name', 'P2X');
                 // Lampa.Storage.set('surs_settings', '');
-                
                 Lampa.Storage.set('glass_style', true);
                 Lampa.Storage.set('glass_opacity', 'easy');
                 Lampa.Storage.set('mask', true);
