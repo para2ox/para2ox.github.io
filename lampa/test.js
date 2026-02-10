@@ -24,23 +24,6 @@
         Lampa.Storage.set('online_mod_rezka2_fix_stream', true);
         // Lampa.Storage.set('online_mod_proxy_rezka2', false);
 
-        // Настраиваем плагин Applecation
-		Lampa.Storage.set('applecation_text_scale', '120');
-		Lampa.Storage.set('applecation_spacing_scale', '90');
-        Lampa.Storage.set('applecation_show_ratings', true);
-        Lampa.Storage.set('applecation_ratings_source', 'builtin');
-        Lampa.Storage.set('applecation_mdblist_api_key', 'wf3lktoy7sbbjrcnmf8g9omsw');
-        Lampa.Storage.set('applecation_enabled_ratings', '["tmdb","imdb","tomatoes","popcorn","metacritic","letterboxd","trakt"]');
-        Lampa.Storage.set('applecation_show_episode_count', true);
-
-        // Настраиваем кнопки на странице фильма в плагине LME Movie Enhancer
-        Lampa.Storage.set('lme_showbutton', true);
-        Lampa.Storage.set('lme_buttonhide', '["view--trailer","view--online","button--reaction","button--subscribe","button--options"]');
-        Lampa.Storage.set('lme_buttonsort', '["view--online_mod","view--torrent","view--rutube_trailer","button--book"]');
-
-        // Скрываем и сортируем пункты меню
-        Lampa.Storage.set('menu_hide', '["Подборки","Каталог","Лента","Фильмы","Мультфильмы","Сериалы","Персоны","Релизы","Аниме","Подписки","Расписание","Торренты","Спорт","Для детей","Shots","Torrent Manager"]');
-        Lampa.Storage.set('menu_sort', '["Поиск","Главная","Избранное","История","Фильтр"]');
     }
 
     // Запуск скрипта после готовности приложения
