@@ -11,9 +11,13 @@
 		// Lampa.Storage.set('surs_settings', '');
         Lampa.Storage.set('glass_style', true);
 		Lampa.Storage.set('glass_opacity', 'easy');
+		Lampa.Storage.set('mask', true);
         Lampa.Storage.set('video_quality_default', '1080');
 		Lampa.Storage.set('interface_size', 'small');
 		Lampa.Storage.set('keyboard_type', 'integrate');
+		Lampa.Storage.set('menu_always', false);
+		Lampa.Storage.set('screensaver', false);
+		Lampa.Storage.set('advanced_animation', true);
 		// Lampa.Storage.set('background', true);
 		// Lampa.Storage.set('background_type', 'simple');
 		// Lampa.Storage.set('black_style', true);
@@ -34,6 +38,19 @@
         Lampa.Storage.set('applecation_mdblist_api_key', 'wf3lktoy7sbbjrcnmf8g9omsw');
         Lampa.Storage.set('applecation_enabled_ratings', '["tmdb","imdb","tomatoes","popcorn","metacritic","letterboxd","trakt"]');
         Lampa.Storage.set('applecation_show_episode_count', true);
+
+		// Настраиваем плагин New Interface
+		Lampa.Storage.set('logo_show', false);
+		Lampa.Storage.set('show_background', true);
+		Lampa.Storage.set('status', true);
+		Lampa.Storage.set('seas', true);
+		Lampa.Storage.set('eps', true);
+		Lampa.Storage.set('rat', false);
+		Lampa.Storage.set('si_colored_ratings', false);
+		Lampa.Storage.set('si_rating_border', false);
+		Lampa.Storage.set('async_load', true);
+		Lampa.Storage.set('hide_captions', true);
+		Lampa.Storage.set('wide_post', false);
 
         // Настраиваем кнопки на странице фильма в плагине LME Movie Enhancer
         Lampa.Storage.set('lme_showbutton', true);
