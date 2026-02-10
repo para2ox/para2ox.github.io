@@ -59,29 +59,28 @@
 
         // Блок 2: НОВЫЕ СТИЛИ (добавлены через шаблонную строку для удобства)
         css += `
-	.head, .head .open--profile, .head .head__backward, .head .head__menu-icon, .head .head__title, .head .head__markers, .head .head__time {
-	    display: none;
-	}
-	
-	.wrap__left {
-	    padding: 0;
-	}
-	
-	.scroll--mask {
-	    height: 100vh !important;
-	}
-	
-	/*body:not(:has(.activity--active.applecation)) .wrap__content {
-	    padding: 0 !important;
-	}
-	body:not(:has(.activity--active.applecation)) .wrap__content .activity__body > div > div {
-	    padding: 1em 2em !important;
-	}
-	
-	.wrap__content, .wrap__content .activity__body > div > div, .scroll--mask {
-	    -webkit-transition: all 0.2s ease;
-		transition: all 0.2s ease;
-	}*/
+.head, .head .open--profile, .head .head__backward, .head .head__menu-icon, .head .head__title, .head .head__markers, .head .head__time {
+	display: none;
+}
+
+.wrap__left {
+	padding: 0;
+}
+
+.scroll--mask {
+	height: 100vh !important;
+}
+
+.wrap__content {
+	padding: 0 !important;
+}
+.wrap__content .applecation .activity__body {
+	margin-top: 4em !important;
+}
+
+.wrap__content .activity__body > div > div {
+	padding: 1em 2em !important;
+}
 
 /*.full-start-new {
     padding-left: 3em;
