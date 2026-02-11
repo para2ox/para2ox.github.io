@@ -136,6 +136,10 @@
     margin-top: 0.5em;
 }
 
+.new-interface-info__body:not(:has(.visible)) {
+    display: none;
+}
+
 /* Основные переменные для легкой настройки */
 :root {
     --menu-bg: rgba(20, 20, 23, 0.75);
