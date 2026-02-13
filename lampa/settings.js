@@ -263,7 +263,8 @@
 
 .card .card__view::before,
 .card .card__view::before,
-.card-episode .full-episode::before {
+.card-episode .full-episode::before,
+.register::before {
     content: '';
     position: absolute;
     inset: 0;
@@ -281,24 +282,28 @@
 
 .card .card__view::after,
 .card .card__view::after,
-.card-episode .full-episode::after {
+.card-episode .full-episode::after,
+.register::after {
     display: none;
 }
 
 .card.focus .card__view::before,
 .card.hover .card__view::before,
-.card-episode.focus .full-episode::before {
+.card-episode.focus .full-episode::before,
+.register.focus::before {
     opacity: 1;
 }
 
 .card.focus,
-.card-episode.focus {
+.card-episode.focus,
+.register.focus {
     transform: scale(1.08) translateY(-6px) !important;
     z-index: 10;
 }
 
 .card,
-.card-episode {
+.card-episode,
+.register {
     transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
     will-change: transform;
     -webkit-animation: none !important;
@@ -307,7 +312,8 @@
 
 .card.focus .card__view,
 .card.hover .card__view,
-.card-episode.focus .full-episode {
+.card-episode.focus .full-episode,
+.register.focus {
     position: relative !important;
     border-radius: 1em !important;
     background: rgba(255, 255, 255, 0.05) !important;
@@ -319,7 +325,8 @@
 }
 
 .card .card__view,
-.card-episode .full-episode {
+.card-episode .full-episode,
+.register {
     animation: none !important;
     margin-bottom: 1em;
 }
