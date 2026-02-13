@@ -2,27 +2,6 @@
     'use strict';
 
     function startPlugin() {
-        // --- ЧАСТЬ 0: ПРОВЕРКА ДОСТУПА (WHITELIST) ---
-        var account = Lampa.Storage.get('account', '{}');
-        var email = account.email || '';
-        
-        // Список разрешенных пользователей
-        var allowedEmails = [
-            'ap.tuzin@gmail.com',
-            'vlad7564433@yandex.ru',
-            'di.zve7@gmail.com',
-            'Khlyzov123@gmail.com',
-            'chistyakov.home@gmail.com'
-        ];
-
-        // Если email нет в списке, прекращаем выполнение скрипта
-        if (allowedEmails.indexOf(email) === -1) {
-            console.log('My Config: Доступ запрещен для ' + (email ? email : 'гостя'));
-            return;
-        } else {
-            console.log('My Config: Доступ разрешен для ' + email);
-        }
-
         
         // --- НОВОЕ: ЗАГРУЗКА ВНЕШНИХ ПЛАГИНОВ ---
         if (Lampa.Utils && Lampa.Utils.putScriptAsync) {
@@ -62,6 +41,9 @@
         Lampa.Storage.set('menu_always', false);
         Lampa.Storage.set('screensaver', 'false');
         Lampa.Storage.set('advanced_animation', true);
+        // Lampa.Storage.set('background', true);
+        // Lampa.Storage.set('background_type', 'simple');
+        // Lampa.Storage.set('black_style', true);
 
         // Настраиваем плагин Online Mod
         Lampa.Storage.set('online_mod_rezka2_cookie', 'dle_user_id=38372; dle_password=d8efa0170ea646402578694fe9ccf72e; dle_newpm=0; dle_user_token=cadfee4517c32230654c3c64a6002b0a; dle_user_taken=1');
@@ -69,6 +51,7 @@
         Lampa.Storage.set('online_mod_save_last_balanser', true);
         Lampa.Storage.set('online_mod_full_episode_title', true);
         Lampa.Storage.set('online_mod_rezka2_fix_stream', true);
+        // Lampa.Storage.set('online_mod_proxy_rezka2', false);
 
         // Настраиваем плагин Applecation
         Lampa.Storage.set('applecation_text_scale', '120');
@@ -359,65 +342,32 @@
         }
 
 
-        // --- ЧАСТЬ 3: КАСТОМНЫЕ ПУНКТЫ МЕНЮ (Поиск и Профиль) ---
+        // --- ЧАСТЬ 3: КНОПКА ПОИСКА В МЕНЮ ---
         
-        var menuList = $('.menu .menu__list').eq(0);
+        // SVG иконка лупы
+        var icon = '<svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>';
+        
+        // Создаем элемент меню
+        var searchItem = $('<li class="menu__item selector" data-action="search_button"><div class="menu__ico">' + icon + '</div><div class="menu__text">Поиск</div></li>');
 
-        // 3.1 КНОПКА ПОИСКА
-        var searchIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>';
-        var searchItem = $('<li class="menu__item selector" data-action="search_button"><div class="menu__ico">' + searchIcon + '</div><div class="menu__text">Поиск</div></li>');
-
+        // Навешиваем событие
         searchItem.on('hover:enter', function () {
+            // Находим оригинальную кнопку поиска в шапке (она скрыта CSS, но существует)
             var originalSearch = $('.head .open--search');
+            
             if (originalSearch.length) {
+                // Эмулируем нажатие на оригинальную кнопку
                 originalSearch.trigger('hover:enter');
             } else {
+                // Резервный метод
                 if (Lampa.Search) Lampa.Search.open();
             }
         });
-        menuList.append(searchItem);
+
+        // Добавляем кнопку в меню
+        $('.menu .menu__list').eq(0).append(searchItem);
         
-        // 3.2 КНОПКА ПРОФИЛЯ
-        // Получаем данные для профиля
-        var profileName = 'Профиль';
-        var profileIcon = ''; // Ссылка на картинку
-        
-        // Берем имя из Storage
-        if(account.profile && account.profile.name) {
-            profileName = account.profile.name;
-        }
-
-        // Берем аватар. Сначала пытаемся найти в DOM, как запрошено
-        var domAvatar = $('.head .open--profile img').attr('src');
-        if(domAvatar) {
-            profileIcon = domAvatar;
-        } else if (account.profile && account.profile.icon) {
-            // Если в DOM еще пусто (скрыто/не прогрузилось), строим ссылку сами по ID иконки
-            profileIcon = 'http://cub.rip/img/profiles/' + account.profile.icon + '.png';
-        } else {
-            // Фолбек на пустую
-            profileIcon = 'http://cub.rip/img/profiles/f_0.png';
-        }
-
-        // HTML для аватарки (круглый стиль)
-        var avatarHtml = '<img src="'+profileIcon+'" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover; display: block;">';
-        
-        var profileItem = $('<li class="menu__item selector" data-action="profile_button"><div class="menu__ico">' + avatarHtml + '</div><div class="menu__text">' + profileName + '</div></li>');
-
-        // Навешиваем действие клика на скрытый элемент .open--profile
-        profileItem.on('hover:enter', function () {
-            var originalProfile = $('.head .open--profile');
-            if (originalProfile.length) {
-                originalProfile.trigger('hover:enter');
-            } else {
-                console.log('Ошибка: Элемент .open--profile не найден');
-            }
-        });
-
-        // Добавляем в меню (после поиска)
-        menuList.append(profileItem);
-
-        console.log('My Config: Кнопки меню добавлены');
+        console.log('My Config: Кнопка поиска добавлена');
     }
 
     // Запуск скрипта после готовности приложения
