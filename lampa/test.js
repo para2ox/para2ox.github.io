@@ -372,7 +372,6 @@
             if (originalSearch.length) {
                 originalSearch.trigger('hover:enter');
             } else {
-                if (Lampa.Search) Lampa.Search.open();
             }
         });
         menuList.append(searchItem);
