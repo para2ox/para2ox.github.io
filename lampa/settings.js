@@ -112,7 +112,13 @@
 .wrap__content {
     padding: 0 !important;
 }
+/*.wrap__content .applecation .activity__body {
+    margin-top: 4em !important;
+}*/
 .wrap__content .applecation .activity__body {
+    margin-top: 0 !important;
+}
+.wrap__content .applecation .activity__body .full-start__background {
     margin-top: 4em !important;
 }
 
