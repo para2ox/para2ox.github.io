@@ -377,72 +377,45 @@
         });
         menuList.append(searchItem);
         
-        // 3.2 КНОПКА ПРОФИЛЯ (С логикой выбора)
+        // 3.2 КНОПКА ПРОФИЛЯ
+        // Получаем данные для профиля
         var profileName = 'Профиль';
-        var profileIcon = 'http://cub.rip/img/profiles/f_0.png'; 
+        var profileIcon = 'http://cub.rip/img/profiles/f_0.png'; // Фолбек по умолчанию
         
-        if(account.profile && account.profile.name) profileName = account.profile.name;
-        if (account.profile && account.profile.icon) {
-            profileIcon = 'http://cub.rip/img/profiles/' + account.profile.icon + '.png';
+        // Берем имя из Storage
+        if(account.profile && account.profile.name) {
+            profileName = account.profile.name;
         }
 
+        // Логика для иконки
+        if (account.profile && account.profile.icon) {
+            profileIcon = 'http://cub.rip/img/profiles/' + account.profile.icon + '.png';
+        } else {
+            var domAvatar = $('.head .open--profile img').attr('src');
+            if(domAvatar) profileIcon = domAvatar;
+        }
+
+        // HTML для аватарки
         var avatarHtml = '<img src="'+profileIcon+'" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover; display: block;">';
+        
         var profileItem = $('<li class="menu__item selector" data-action="profile_button"><div class="menu__ico">' + avatarHtml + '</div><div class="menu__text">' + profileName + '</div></li>');
 
+        // ГЛАВНОЕ ИЗМЕНЕНИЕ: Используем найденный метод Lampa.Account.profile.select()
         profileItem.on('hover:enter click', function () {
-            // Проверяем, залогинен ли пользователь
-            var currentAccount = Lampa.Storage.get('account', '{}');
-            // Если нет токена — просто открываем настройки для входа
-            if (!currentAccount.token && !Lampa.Storage.get('account_token')) {
-                 return Lampa.Settings.main();
-            }
-
-            // Вызываем проверку родительского контроля (пин-код)
-            Lampa.ParentalControl.personal('account_profiles', function(){
-                Lampa.Loading.start(function(){ Lampa.Loading.stop(); });
-                
-                // Загружаем список профилей через API
-                Lampa.Api.load('profiles/all').then(function(result){
-                    Lampa.Loading.stop();
-                    
-                    if(result.secuses){
-                        var profiles = result.profiles.reverse();
-                        var items = profiles.map(function(p){
-                            return {
-                                title: p.name,
-                                selected: currentAccount.profile && currentAccount.profile.id == p.id,
-                                icon: '<img src="' + Lampa.Utils.protocol() + Lampa.Manifest.cub_domain + '/img/profiles/' + p.icon + '.png" style="width:100%;height:100%;border-radius:50%">',
-                                profile: p // сохраняем объект профиля
-                            };
-                        });
-                        
-                        // Показываем меню выбора
-                        Lampa.Select.show({
-                            title: 'Выбор профиля',
-                            items: items,
-                            onSelect: function(item){
-                                // Сохраняем выбранный профиль
-                                currentAccount.profile = item.profile;
-                                Lampa.Storage.set('account', currentAccount);
-                                // Уведомляем приложение о смене аккаунта
-                                Lampa.Storage.listener.send('change', {name: 'account'});
-                                Lampa.Controller.toggle('head'); // Закрываем меню
-                                window.location.reload(); // Перезагружаем для применения
-                            },
-                            onBack: function(){
-                                Lampa.Controller.toggle('head');
-                            }
-                        });
-                    } else {
-                        Lampa.Noty.show('Не удалось загрузить профили');
-                    }
-                }).catch(function(){
-                    Lampa.Loading.stop();
-                    Lampa.Noty.show('Ошибка соединения');
+            if (Lampa.Account && Lampa.Account.profile && typeof Lampa.Account.profile.select === 'function') {
+                // Вызываем системное меню выбора профилей
+                Lampa.Account.profile.select(function() {
+                    // Код, который выполнится после закрытия окна (например, если нажали "Назад")
+                    // Обычно здесь ничего не нужно, Lampa сама вернет фокус
                 });
-            });
+            } else {
+                // На случай если метод недоступен - открываем общие настройки
+                console.log('My Config: Lampa.Account.profile.select не найден, открываю настройки');
+                Lampa.Settings.main();
+            }
         });
 
+        // Добавляем в меню (после поиска)
         menuList.append(profileItem);
         console.log('My Config: Кнопки меню добавлены');
     }
