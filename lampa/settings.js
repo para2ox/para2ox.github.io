@@ -109,10 +109,6 @@
     padding: 0;
 }
 
-.scroll--mask {
-    height: calc(100vh - 4em) !important;
-}
-
 .wrap__content {
     padding: 0 !important;
 }
