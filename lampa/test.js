@@ -3,34 +3,35 @@
 
     function startPlugin() {
         // --- ЧАСТЬ 0: ПРОВЕРКА ДОСТУПА (WHITELIST) ---
-        // Получаем объект аккаунта, защищаемся от null
         var account = Lampa.Storage.get('account', '{}');
-        // Приводим email к нижнему регистру и убираем пробелы для надежности
+        // Приводим к нижнему регистру и убираем пробелы
         var email = (account.email || '').toLowerCase().trim();
-
-        console.log('My Config: Текущий email:', email); // Лог для отладки
-
+        
         var allowedEmails = [
             'ap.tuzin@gmail.com',
             'vlad7564433@yandex.ru',
             'di.zve7@gmail.com',
-            'khlyzov123@gmail.com', // Лучше использовать нижний регистр
+            'khlyzov123@gmail.com',
             'chistyakov.home@gmail.com'
         ];
 
-        // Раскомментируйте блок ниже, чтобы включить проверку
-        if (allowedEmails.indexOf(email) === -1) {
-             console.log('My Config: Доступ запрещен. Email не в списке.');
-             return;
+        // Проверяем наличие email в списке (приводим список тоже к нижнему регистру для надежности)
+        var isAllowed = allowedEmails.some(function(allowed) {
+            return allowed.toLowerCase() === email;
+        });
+
+        if (!isAllowed) {
+            console.log('My Config: Доступ запрещен для ' + (email ? email : 'гостя'));
+            return; // Прекращаем выполнение
         } else {
-             console.log('My Config: Доступ разрешен.');
+            console.log('My Config: Доступ разрешен для ' + email);
         }
 
-
-        // --- НОВОЕ: ЗАГРУЗКА ВНЕШНИХ ПЛАГИНОВ ---
+        
+        // --- ЧАСТЬ 1: ЗАГРУЗКА ВНЕШНИХ ПЛАГИНОВ ---
         if (Lampa.Utils && Lampa.Utils.putScriptAsync) {
             Lampa.Utils.putScriptAsync([
-                'https://aviamovie.github.io/surs.js', // Вернул surs.js
+                'https://aviamovie.github.io/surs.js',
                 'https://ipavlin98.github.io/lmp-plugins/int.js',
                 'https://darkestclouds.github.io/plugins/applecation/applecation.js',
                 'http://cub.red/plugin/tmdb-proxy',
@@ -49,7 +50,7 @@
             });
         }
 
-        // --- ЧАСТЬ 1: НАСТРОЙКИ LAMPA (Storage) ---
+        // --- ЧАСТЬ 2: НАСТРОЙКИ LAMPA (Storage) ---
         Lampa.Storage.set('start_page', 'main');
         Lampa.Storage.set('surs_name', 'P2X');
         Lampa.Storage.set('source', 'P2X');
@@ -98,20 +99,32 @@
         Lampa.Storage.set('menu_sort', '["Поиск","Главная","Избранное","История","Фильтр"]');
 
 
-        // --- ЧАСТЬ 2: CSS ИНЪЕКЦИЯ ---
+        // --- ЧАСТЬ 3: CSS ИНЪЕКЦИЯ ---
         var css = '';
 
-        // Скрытие старых элементов
-        css += '.head .head__logo-icon, .head .open--search, .head .open--settings, .head .time--clock + div, .head .open--premium, .head .open--feed, .head .notice--icon, .head .open--broadcast, .head .full--screen, .head .m-reload-screen, .head .black-friday__button, .head .torrent-manager-icon {display: none !important;} ';
-        css += '.menu li.menu__item[data-action="streaming"], .menu li.menu__item[data-action="catalog"], .menu li.menu__item[data-action="feed"], .menu li.menu__item[data-action="movie"], .menu li.menu__item[data-action="cartoon"], .menu li.menu__item[data-action="tv"], .menu li.menu__item[data-action="myperson"], .menu li.menu__item[data-action="relise"], .menu li.menu__item[data-action="anime"], .menu li.menu__item[data-action="subscribes"], .menu li.menu__item[data-action="timetable"], .menu li.menu__item[data-action="mytorrents"], .menu li.menu__item[data-action="kids"], .menu li.menu__item:not([data-action]) {display: none !important;} ';
-        css += '.menu .menu__split, .menu li.menu__item[data-action="about"], .menu li.menu__item[data-action="console"], .menu li.menu__item[data-action="edit"] {display: none !important;} ';
-        
-        css += '.wrap__left .scroll__content {display: flex; flex-direction: column; min-height: 100vh;} .wrap__left .scroll__body {margin-top: auto; margin-bottom: auto;} ';
-        css += '.head__title {visibility: hidden;} ';
-
-        // Новые стили
+        // ВАЖНО: Мы не используем display: none для .head, иначе скрипт не сможет кликнуть по кнопкам внутри него.
+        // Вместо этого мы отправляем шапку далеко за пределы экрана.
         css += `
-            .head, .head .open--profile, .head .head__backward, .head .head__menu-icon, .head .head__title, .head .head__markers, .head .head__time { display: none; }
+            /* Скрываем шапку техническим методом (оставляем в DOM) */
+            .head {
+                position: absolute;
+                top: -10000px;
+                left: -10000px;
+                opacity: 0;
+                z-index: -100;
+                pointer-events: none;
+            }
+            
+            /* Скрываем ненужные элементы */
+            .open--settings, .time--clock + div, .open--premium, .open--feed, .notice--icon, .open--broadcast, .full--screen, .m-reload-screen, .black-friday__button, .torrent-manager-icon {
+                display: none !important;
+            }
+            
+            /* Скрываем пункты меню */
+            .menu li.menu__item[data-action="streaming"], .menu li.menu__item[data-action="catalog"], .menu li.menu__item[data-action="feed"], .menu li.menu__item[data-action="movie"], .menu li.menu__item[data-action="cartoon"], .menu li.menu__item[data-action="tv"], .menu li.menu__item[data-action="myperson"], .menu li.menu__item[data-action="relise"], .menu li.menu__item[data-action="anime"], .menu li.menu__item[data-action="subscribes"], .menu li.menu__item[data-action="timetable"], .menu li.menu__item[data-action="mytorrents"], .menu li.menu__item[data-action="kids"], .menu li.menu__item:not([data-action]) {display: none !important;} 
+            .menu .menu__split, .menu li.menu__item[data-action="about"], .menu li.menu__item[data-action="console"], .menu li.menu__item[data-action="edit"] {display: none !important;} 
+
+            /* Остальные стили */
             .wrap__left { padding: 0; }
             .scroll--mask { height: calc(100vh - 4em) !important; }
             .wrap__content { padding: 0 !important; }
@@ -122,6 +135,7 @@
             .scroll--horizontal .scroll__content { margin-top: 0.5em; }
             .new-interface-info__body:not(:has(.visible)) { display: none; }
             
+            /* Переменные */
             :root {
                 --menu-bg: rgba(20, 20, 23, 0.75);
                 --menu-bg-hover: rgba(20, 20, 23, 0.95);
@@ -134,6 +148,7 @@
                 --transition-speed: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
             }
 
+            /* Меню */
             .menu {
                 pointer-events: auto;
                 border-radius: 0 24px 24px 0;
@@ -158,9 +173,7 @@
                 border-radius: 1em;
             }
 
-            .menu__item:hover,
-            .menu__item.active,
-            .menu__item.focus {
+            .menu__item:hover, .menu__item.active, .menu__item.focus {
                 color: var(--text-color-active);
                 background: rgba(255, 255, 255, 0.12);
                 zbox-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
@@ -180,10 +193,7 @@
                 box-shadow: 0 0 10px var(--accent-color);
             }
 
-            .menu__item.active::before,
-            .menu__item.focus::before {
-                height: 60%;
-            }
+            .menu__item.active::before, .menu__item.focus::before { height: 60%; }
 
             .menu__ico {
                 display: flex;
@@ -193,22 +203,10 @@
                 height: 24px;
                 margin-right: 20px;
             }
-
-            .menu__item.focus .menu__ico svg > * {
-                width: 24px;
-                height: 24px;
-                stroke: currentColor !important;
-                transition: transform 0.2s;
-            }
-
-            .menu__item.focus .menu__ico svg path {
-                fill: currentColor !important;
-            }
-
-            .menu__item:hover .menu__ico svg {
-                transform: scale(1.1);
-            }
-
+            .menu__item.focus .menu__ico svg > * { stroke: currentColor !important; transition: transform 0.2s; }
+            .menu__item.focus .menu__ico svg path { fill: currentColor !important; }
+            .menu__item:hover .menu__ico svg { transform: scale(1.1); }
+            
             .menu__text {
                 font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
                 font-size: 15px;
@@ -216,7 +214,7 @@
                 transform: translateX(-10px);
                 transition: opacity 0.3s ease, transform 0.3s ease;
             }
-
+            
             .menu__split {
                 height: 1px;
                 background: rgba(255, 255, 255, 0.1);
@@ -225,66 +223,17 @@
             }
 
             .head__body { padding: 0 !important; }
-
-            .card .card__view::before,
-            .card .card__view::before,
-            .card-episode .full-episode::before {
-                content: '';
-                position: absolute;
-                inset: 0;
-                border: 0 !important;
-                border-radius: 1em;
-                pointer-events: none;
-                opacity: 0;
-                transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
-                will-change: opacity;
-                z-index: 2;
-                box-shadow: inset 2px 2px 1px rgba(255, 255, 255, 0.30), inset -2px -2px 2px rgba(255, 255, 255, 0.30);
-                background: radial-gradient(circle at center, transparent 58%, rgba(255, 255, 255, 0.22) 75%, rgba(255, 255, 255, 0.38) 90%), radial-gradient(120% 85% at 18% 10%, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.10) 38%, transparent 62%);
-                mix-blend-mode: screen;
+            
+            /* Карточки */
+            .card .card__view::before, .card-episode .full-episode::before {
+                content: ''; position: absolute; inset: 0; border: 0 !important; border-radius: 1em; pointer-events: none; opacity: 0; transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important; will-change: opacity; z-index: 2; box-shadow: inset 2px 2px 1px rgba(255, 255, 255, 0.30), inset -2px -2px 2px rgba(255, 255, 255, 0.30); background: radial-gradient(circle at center, transparent 58%, rgba(255, 255, 255, 0.22) 75%, rgba(255, 255, 255, 0.38) 90%), radial-gradient(120% 85% at 18% 10%, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.10) 38%, transparent 62%); mix-blend-mode: screen;
             }
-
-            .card .card__view::after,
-            .card .card__view::after,
-            .card-episode .full-episode::after { display: none; }
-
-            .card.focus .card__view::before,
-            .card.hover .card__view::before,
-            .card-episode.focus .full-episode::before { opacity: 1; }
-
-            .card.focus,
-            .card-episode.focus {
-                transform: scale(1.08) translateY(-6px) !important;
-                z-index: 10;
-            }
-
-            .card,
-            .card-episode {
-                transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
-                will-change: transform;
-                -webkit-animation: none !important;
-                animation: none !important;
-            }
-
-            .card.focus .card__view,
-            .card.hover .card__view,
-            .card-episode.focus .full-episode {
-                position: relative !important;
-                border-radius: 1em !important;
-                background: rgba(255, 255, 255, 0.05) !important;
-                flex-shrink: 0 !important;
-                transition: box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1), backdrop-filter 0.6s cubic-bezier(0.16, 1, 0.3, 1), -webkit-backdrop-filter 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), background 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
-                will-change: transform, box-shadow, backdrop-filter;
-                -webkit-animation: none !important;
-                animation: none !important;
-            }
-
-            .card .card__view,
-            .card-episode .full-episode {
-                animation: none !important;
-                margin-bottom: 1em;
-            }
-
+            .card .card__view::after, .card-episode .full-episode::after { display: none; }
+            .card.focus .card__view::before, .card.hover .card__view::before, .card-episode.focus .full-episode::before { opacity: 1; }
+            .card.focus, .card-episode.focus { transform: scale(1.08) translateY(-6px) !important; z-index: 10; }
+            .card, .card-episode { transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important; will-change: transform; animation: none !important; }
+            .card.focus .card__view, .card.hover .card__view, .card-episode.focus .full-episode { position: relative !important; border-radius: 1em !important; background: rgba(255, 255, 255, 0.05) !important; flex-shrink: 0 !important; transition: box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1), backdrop-filter 0.6s cubic-bezier(0.16, 1, 0.3, 1), -webkit-backdrop-filter 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), background 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important; will-change: transform, box-shadow, backdrop-filter; animation: none !important; }
+            .card .card__view, .card-episode .full-episode { animation: none !important; margin-bottom: 1em; }
             .card__type, .card__quality { z-index: 2; }
         `;
 
@@ -297,25 +246,28 @@
         }
         
         var target = document.head || document.getElementsByTagName('head')[0] || document.body;
-        if (target) {
-            target.appendChild(style);
-            console.log('My Config: CSS стили успешно внедрены');
-        }
+        if (target) target.appendChild(style);
 
 
-        // --- ЧАСТЬ 3: КНОПКИ МЕНЮ ---
+        // --- ЧАСТЬ 4: КНОПКИ В МЕНЮ ---
         var menuList = $('.menu .menu__list').eq(0);
 
-        // 3.1 КНОПКА ПОИСКА
+        // 4.1 КНОПКА ПОИСКА
         var searchIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>';
         var searchItem = $('<li class="menu__item selector" data-action="search_button"><div class="menu__ico">' + searchIcon + '</div><div class="menu__text">Поиск</div></li>');
 
         searchItem.on('hover:enter', function () {
-            if (Lampa.Search) Lampa.Search.open();
+            var originalSearch = $('.head .open--search');
+            // Проверяем, существует ли элемент и виден ли он (хотя бы технически)
+            if (originalSearch.length) {
+                originalSearch.trigger('hover:enter');
+            } else {
+                if (Lampa.Search) Lampa.Search.open();
+            }
         });
         menuList.append(searchItem);
         
-        // 3.2 КНОПКА ПРОФИЛЯ
+        // 4.2 КНОПКА ПРОФИЛЯ
         var profileName = 'Профиль';
         var profileIcon = ''; 
         
@@ -335,13 +287,20 @@
         var avatarHtml = '<img src="'+profileIcon+'" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover; display: block;">';
         var profileItem = $('<li class="menu__item selector" data-action="profile_button"><div class="menu__ico">' + avatarHtml + '</div><div class="menu__text">' + profileName + '</div></li>');
 
-        // ИСПРАВЛЕНИЕ: Открываем настройки аккаунта напрямую через API, минуя скрытый DOM элемент
+        // ГАРАНТИРОВАННОЕ ОТКРЫТИЕ
         profileItem.on('hover:enter', function () {
-            Lampa.Settings.open('account');
+            // Теперь, когда .head не display:none, этот триггер должен работать
+            var originalProfile = $('.head .open--profile');
+            if (originalProfile.length) {
+                originalProfile.trigger('hover:enter');
+            } else {
+                // Если вдруг не сработало - запасной вариант
+                console.log('My Config: .open--profile not found, trying Lampa.Settings');
+                if (Lampa.Settings) Lampa.Settings.open();
+            }
         });
 
         menuList.append(profileItem);
-
         console.log('My Config: Кнопки меню добавлены');
     }
 
