@@ -1,1 +1,432 @@
-function _0x4e69(_0x513ebf,_0x4ee64b){_0x513ebf=_0x513ebf-0xde;var _0x3ceccb=_0x2a7b();var _0x4f5d07=_0x3ceccb[_0x513ebf];return _0x4f5d07;}(function(_0x128541,_0x126f9a){var _0x217426=_0x4e69,_0x23faab=_0x128541();while(!![]){try{var _0x25c96e=parseInt(_0x217426(0x103))/0x1*(-parseInt(_0x217426(0xeb))/0x2)+parseInt(_0x217426(0xe8))/0x3*(parseInt(_0x217426(0x123))/0x4)+-parseInt(_0x217426(0xfa))/0x5*(parseInt(_0x217426(0x10c))/0x6)+-parseInt(_0x217426(0x11a))/0x7+parseInt(_0x217426(0xec))/0x8*(-parseInt(_0x217426(0x11c))/0x9)+-parseInt(_0x217426(0xf3))/0xa+parseInt(_0x217426(0xe3))/0xb*(parseInt(_0x217426(0x134))/0xc);if(_0x25c96e===_0x126f9a)break;else _0x23faab['push'](_0x23faab['shift']());}catch(_0x5ba8ce){_0x23faab['push'](_0x23faab['shift']());}}}(_0x2a7b,0xbe2e7),(function(){var _0x383408=_0x4e69,_0x5a1fcc=(function(){var _0x35df12=!![];return function(_0x8c19fd,_0x5774a9){var _0x59d75c=_0x35df12?function(){if(_0x5774a9){var _0x13928d=_0x5774a9['apply'](_0x8c19fd,arguments);return _0x5774a9=null,_0x13928d;}}:function(){};return _0x35df12=![],_0x59d75c;};}());'use strict';function _0x33db28(){var _0x8eb90=_0x4e69,_0x519c70=_0x5a1fcc(this,function(){var _0x596cd3=_0x4e69;return _0x519c70[_0x596cd3(0x100)]()[_0x596cd3(0x117)](_0x596cd3(0x101))[_0x596cd3(0x100)]()['constructor'](_0x519c70)[_0x596cd3(0x117)](_0x596cd3(0x101));});_0x519c70();Lampa[_0x8eb90(0x104)]&&Lampa[_0x8eb90(0x104)][_0x8eb90(0x135)]&&Lampa[_0x8eb90(0x104)]['putScriptAsync']([_0x8eb90(0xf7),'https://ipavlin98.github.io/lmp-plugins/int.js',_0x8eb90(0xe0),_0x8eb90(0x13f),'https://nb557.github.io/plugins/online_mod.js',_0x8eb90(0x130),'https://ipavlin98.github.io/lmp-plugins/series-progress-fix.js','https://nb557.github.io/plugins/free.js',_0x8eb90(0xf9),_0x8eb90(0x105),'http://94.103.86.206/plugins/nots',_0x8eb90(0xf1),_0x8eb90(0xf4),_0x8eb90(0x114)],function(){var _0x5008fe=_0x8eb90;console[_0x5008fe(0x12a)]('Внешние\x20плагины\x20успешно\x20загружены');});Lampa[_0x8eb90(0x132)][_0x8eb90(0xf6)](_0x8eb90(0x143),'main'),Lampa[_0x8eb90(0x132)]['set'](_0x8eb90(0x145),_0x8eb90(0x12f)),Lampa[_0x8eb90(0x132)][_0x8eb90(0xf6)](_0x8eb90(0x13e),_0x8eb90(0x12f)),Lampa['Storage'][_0x8eb90(0xf6)](_0x8eb90(0xe5),!![]),Lampa[_0x8eb90(0x132)][_0x8eb90(0xf6)]('glass_opacity',_0x8eb90(0x11b)),Lampa['Storage']['set'](_0x8eb90(0x139),!![]),Lampa[_0x8eb90(0x132)][_0x8eb90(0xf6)](_0x8eb90(0x106),_0x8eb90(0xfd)),Lampa[_0x8eb90(0x132)][_0x8eb90(0xf6)](_0x8eb90(0x115),_0x8eb90(0xde)),Lampa[_0x8eb90(0x132)][_0x8eb90(0xf6)](_0x8eb90(0x10e),_0x8eb90(0x136)),Lampa['Storage']['set'](_0x8eb90(0xea),![]),Lampa[_0x8eb90(0x132)][_0x8eb90(0xf6)](_0x8eb90(0x111),_0x8eb90(0x138)),Lampa[_0x8eb90(0x132)][_0x8eb90(0xf6)](_0x8eb90(0x126),!![]),Lampa[_0x8eb90(0x132)][_0x8eb90(0xf6)](_0x8eb90(0x119),_0x8eb90(0x140)),Lampa[_0x8eb90(0x132)][_0x8eb90(0xf6)]('online_mod_balanser','rezka2'),Lampa['Storage'][_0x8eb90(0xf6)]('online_mod_save_last_balanser',!![]),Lampa[_0x8eb90(0x132)][_0x8eb90(0xf6)](_0x8eb90(0xf5),!![]),Lampa[_0x8eb90(0x132)][_0x8eb90(0xf6)](_0x8eb90(0xf2),!![]),Lampa[_0x8eb90(0x132)]['set'](_0x8eb90(0xe2),_0x8eb90(0x110)),Lampa[_0x8eb90(0x132)]['set'](_0x8eb90(0x113),'90'),Lampa['Storage'][_0x8eb90(0xf6)](_0x8eb90(0x13c),!![]),Lampa[_0x8eb90(0x132)][_0x8eb90(0xf6)](_0x8eb90(0xe7),_0x8eb90(0x118)),Lampa[_0x8eb90(0x132)][_0x8eb90(0xf6)](_0x8eb90(0x10a),_0x8eb90(0xe6)),Lampa[_0x8eb90(0x132)][_0x8eb90(0xf6)](_0x8eb90(0x10f),_0x8eb90(0xed)),Lampa[_0x8eb90(0x132)][_0x8eb90(0xf6)](_0x8eb90(0xe9),!![]),Lampa[_0x8eb90(0x132)]['set'](_0x8eb90(0xf0),_0x8eb90(0x138)),Lampa['Storage'][_0x8eb90(0xf6)](_0x8eb90(0x12c),_0x8eb90(0x128)),Lampa['Storage'][_0x8eb90(0xf6)](_0x8eb90(0x10d),_0x8eb90(0x128)),Lampa[_0x8eb90(0x132)][_0x8eb90(0xf6)]('seas','true'),Lampa[_0x8eb90(0x132)]['set'](_0x8eb90(0x121),'true'),Lampa[_0x8eb90(0x132)][_0x8eb90(0xf6)]('rat','false'),Lampa[_0x8eb90(0x132)][_0x8eb90(0xf6)](_0x8eb90(0x137),'false'),Lampa['Storage'][_0x8eb90(0xf6)](_0x8eb90(0x12e),_0x8eb90(0x138)),Lampa[_0x8eb90(0x132)]['set'](_0x8eb90(0x144),'true'),Lampa['Storage']['set']('hide_captions',_0x8eb90(0x128)),Lampa[_0x8eb90(0x132)][_0x8eb90(0xf6)]('wide_post',_0x8eb90(0x138)),Lampa[_0x8eb90(0x132)][_0x8eb90(0xf6)](_0x8eb90(0x107),!![]),Lampa[_0x8eb90(0x132)]['set'](_0x8eb90(0xff),'[\x22view--trailer\x22,\x22view--online\x22,\x22button--reaction\x22,\x22button--subscribe\x22,\x22button--options\x22]'),Lampa[_0x8eb90(0x132)][_0x8eb90(0xf6)]('lme_buttonsort',_0x8eb90(0xfc)),Lampa[_0x8eb90(0x132)]['set'](_0x8eb90(0x108),_0x8eb90(0x102)),Lampa[_0x8eb90(0x132)][_0x8eb90(0xf6)](_0x8eb90(0x13a),_0x8eb90(0xf8));var _0x47b7f0='';_0x47b7f0+=_0x8eb90(0x10b),_0x47b7f0+=_0x8eb90(0x133),_0x47b7f0+=_0x8eb90(0xe1),_0x47b7f0+='.wrap__left\x20.scroll__content\x20{display:\x20flex;\x20flex-direction:\x20column;\x20min-height:\x20100vh;}\x20.wrap__left\x20.scroll__body\x20{margin-top:\x20auto;\x20margin-bottom:\x20auto;}\x20',_0x47b7f0+=_0x8eb90(0x12b),_0x47b7f0+=_0x8eb90(0x124);var _0x5d27fd=document[_0x8eb90(0x127)](_0x8eb90(0x131));_0x5d27fd[_0x8eb90(0x11d)]='text/css';_0x5d27fd[_0x8eb90(0x120)]?_0x5d27fd[_0x8eb90(0x120)][_0x8eb90(0xfe)]=_0x47b7f0:_0x5d27fd[_0x8eb90(0x11f)](document[_0x8eb90(0x141)](_0x47b7f0));var _0xce05dd=document[_0x8eb90(0x116)]||document[_0x8eb90(0xef)](_0x8eb90(0x116))[0x0]||document['body'];_0xce05dd?(_0xce05dd[_0x8eb90(0x11f)](_0x5d27fd),console[_0x8eb90(0x12a)]('My\x20Config:\x20CSS\x20стили\x20успешно\x20внедрены')):console['log'](_0x8eb90(0x125));var _0x142a78='<svg\x20xmlns=\x22http://www.w3.org/2000/svg\x22\x20width=\x221.2em\x22\x20height=\x221.2em\x22\x20viewBox=\x220\x200\x2024\x2024\x22\x20fill=\x22none\x22\x20stroke=\x22currentColor\x22\x20stroke-width=\x222\x22\x20stroke-linecap=\x22round\x22\x20stroke-linejoin=\x22round\x22><circle\x20cx=\x2211\x22\x20cy=\x2211\x22\x20r=\x228\x22></circle><line\x20x1=\x2221\x22\x20y1=\x2221\x22\x20x2=\x2216.65\x22\x20y2=\x2216.65\x22></line></svg>',_0x30c10e=$('<li\x20class=\x22menu__item\x20selector\x22\x20data-action=\x22search_button\x22><div\x20class=\x22menu__ico\x22>'+_0x142a78+_0x8eb90(0xdf));_0x30c10e['on'](_0x8eb90(0x109),function(){var _0xe03ef=_0x8eb90,_0x1f877c=$(_0xe03ef(0xee));if(_0x1f877c[_0xe03ef(0x129)])_0x1f877c[_0xe03ef(0x12d)](_0xe03ef(0x109));else{if(Lampa[_0xe03ef(0x13d)])Lampa[_0xe03ef(0x13d)]['open']();}}),$(_0x8eb90(0x122))['eq'](0x0)['append'](_0x30c10e),console['log'](_0x8eb90(0x112));}window[_0x383408(0x11e)]?_0x33db28():Lampa[_0x383408(0xfb)][_0x383408(0x13b)](_0x383408(0x142),function(_0x27622c){var _0x272bdb=_0x383408;if(_0x27622c[_0x272bdb(0x11d)]==_0x272bdb(0xe4))_0x33db28();});}()));function _0x2a7b(){var _0xea3ec0=['show_background','trigger','si_rating_border','P2X','https://lampame.github.io/main/lme.js','style','Storage','.menu\x20li.menu__item[data-action=\x22streaming\x22],\x20.menu\x20li.menu__item[data-action=\x22catalog\x22],\x20.menu\x20li.menu__item[data-action=\x22feed\x22],\x20.menu\x20li.menu__item[data-action=\x22movie\x22],\x20.menu\x20li.menu__item[data-action=\x22cartoon\x22],\x20.menu\x20li.menu__item[data-action=\x22tv\x22],\x20.menu\x20li.menu__item[data-action=\x22myperson\x22],\x20.menu\x20li.menu__item[data-action=\x22relise\x22],\x20.menu\x20li.menu__item[data-action=\x22anime\x22],\x20.menu\x20li.menu__item[data-action=\x22subscribes\x22],\x20.menu\x20li.menu__item[data-action=\x22timetable\x22],\x20.menu\x20li.menu__item[data-action=\x22mytorrents\x22],\x20.menu\x20li.menu__item[data-action=\x22kids\x22],\x20.menu\x20li.menu__item:not([data-action])\x20{display:\x20none\x20!important;}\x20','12paMtYy','putScriptAsync','integrate','si_colored_ratings','false','mask','menu_sort','follow','applecation_show_ratings','Search','source','http://cub.red/plugin/tmdb-proxy','dle_user_id=38372;\x20dle_password=d8efa0170ea646402578694fe9ccf72e;\x20dle_newpm=0;\x20dle_user_token=cadfee4517c32230654c3c64a6002b0a;\x20dle_user_taken=1','createTextNode','app','start_page','async_load','surs_name','small','</div><div\x20class=\x22menu__text\x22>Поиск</div></li>','https://darkestclouds.github.io/plugins/applecation/applecation.js','.menu\x20.menu__split,\x20.menu\x20li.menu__item[data-action=\x22about\x22],\x20.menu\x20li.menu__item[data-action=\x22console\x22],\x20.menu\x20li.menu__item[data-action=\x22edit\x22]\x20{display:\x20none\x20!important;}\x20','applecation_text_scale','54482791vflPqF','ready','glass_style','wf3lktoy7sbbjrcnmf8g9omsw','applecation_ratings_source','38607uTbkYX','applecation_show_episode_count','menu_always','2rkizas','8HoHjvG','[\x22tmdb\x22,\x22imdb\x22,\x22tomatoes\x22,\x22popcorn\x22,\x22metacritic\x22,\x22letterboxd\x22,\x22trakt\x22]','.head\x20.open--search','getElementsByTagName','logo_show','https://darkestclouds.github.io/plugins/easytorrent/easytorrent.js','online_mod_rezka2_fix_stream','14060470grQNUU','https://lampame.github.io/main/pubtorr.js','online_mod_full_episode_title','set','https://aviamovie.github.io/surs.js','[\x22Поиск\x22,\x22Главная\x22,\x22Избранное\x22,\x22История\x22,\x22Фильтр\x22]','https://ipavlin98.github.io/lmp-plugins/rt.js','5590lRcBqj','Listener','[\x22view--online_mod\x22,\x22view--torrent\x22,\x22view--rutube_trailer\x22,\x22button--book\x22]','1080','cssText','lme_buttonhide','toString','(((.+)+)+)+$','[\x22Подборки\x22,\x22Каталог\x22,\x22Лента\x22,\x22Фильмы\x22,\x22Мультфильмы\x22,\x22Сериалы\x22,\x22Персоны\x22,\x22Релизы\x22,\x22Аниме\x22,\x22Подписки\x22,\x22Расписание\x22,\x22Торренты\x22,\x22Спорт\x22,\x22Для\x20детей\x22,\x22Shots\x22,\x22Torrent\x20Manager\x22]','1486369UoDlLT','Utils','https://ipavlin98.github.io/lmp-plugins/search-focus-no-mic.js','video_quality_default','lme_showbutton','menu_hide','hover:enter','applecation_mdblist_api_key','.head\x20.head__logo-icon,\x20.head\x20.open--search,\x20.head\x20.open--settings,\x20.head\x20.time--clock\x20+\x20div,\x20.head\x20.open--premium,\x20.head\x20.open--feed,\x20.head\x20.notice--icon,\x20.head\x20.open--broadcast,\x20.head\x20.full--screen,\x20.head\x20.m-reload-screen,\x20.head\x20.black-friday__button,\x20.head\x20.torrent-manager-icon\x20{display:\x20none\x20!important;}\x20','3408eWQLSP','status','keyboard_type','applecation_enabled_ratings','120','screensaver','My\x20Config:\x20Кнопка\x20поиска\x20добавлена','applecation_spacing_scale','https://e.vg/IqhjvbiYo','interface_size','head','search','builtin','online_mod_rezka2_cookie','6955053CjycwR','easy','10196226oOdhzp','type','appready','appendChild','styleSheet','eps','.menu\x20.menu__list','460OkNiHN','\x0a.head,\x20.head\x20.open--profile,\x20.head\x20.head__backward,\x20.head\x20.head__menu-icon,\x20.head\x20.head__title,\x20.head\x20.head__markers,\x20.head\x20.head__time\x20{\x0a\x20\x20\x20\x20display:\x20none;\x0a}\x0a\x0a.wrap__left\x20{\x0a\x20\x20\x20\x20padding:\x200;\x0a}\x0a\x0a.scroll--mask\x20{\x0a\x20\x20\x20\x20height:\x20calc(100vh\x20-\x204em)\x20!important;\x0a}\x0a\x0a.wrap__content\x20{\x0a\x20\x20\x20\x20padding:\x200\x20!important;\x0a}\x0a.wrap__content\x20.applecation\x20.activity__body\x20{\x0a\x20\x20\x20\x20margin-top:\x204em\x20!important;\x0a}\x0a\x0a.wrap__content\x20.activity__body\x20>\x20div\x20>\x20div\x20{\x0a\x20\x20\x20\x20padding:\x201em\x202em\x20!important;\x0a}\x0a\x0a.full-start-new__buttons\x20{\x0a\x20\x20\x20\x20padding-top:\x201em;\x0a}\x0a\x0a.items-line__head\x20{\x0a\x20\x20\x20\x20margin-top:\x203.5em;\x0a}\x0a\x0a.scroll--horizontal\x20.scroll__content\x20{\x0a\x20\x20\x20\x20margin-top:\x200.5em;\x0a}\x0a\x0a.new-interface-info__body:not(:has(.visible))\x20{\x0a\x20\x20\x20\x20display:\x20none;\x0a}\x0a\x0a/*\x20Основные\x20переменные\x20для\x20легкой\x20настройки\x20*/\x0a:root\x20{\x0a\x20\x20\x20\x20--menu-bg:\x20rgba(20,\x2020,\x2023,\x200.75);\x0a\x20\x20\x20\x20--menu-bg-hover:\x20rgba(20,\x2020,\x2023,\x200.95);\x0a\x20\x20\x20\x20--menu-width-collapsed:\x2072px;\x0a\x20\x20\x20\x20--menu-width-expanded:\x20200px;\x0a\x20\x20\x20\x20--accent-color:\x20#e50914;\x20\x0a\x20\x20\x20\x20--text-color:\x20#e8e8e8;\x0a\x20\x20\x20\x20--text-color-active:\x20#ffffff;\x0a\x20\x20\x20\x20--blur-strength:\x2010px;\x0a\x20\x20\x20\x20--transition-speed:\x200.4s\x20cubic-bezier(0.25,\x200.8,\x200.25,\x201);\x0a}\x0a\x0a/*\x20Сам\x20контейнер\x20меню\x20*/\x0a.menu\x20{\x0a\x20\x20\x20\x20pointer-events:\x20auto;\x0a\x20\x20\x20\x20border-radius:\x2024px;\x0a\x20\x20\x20\x20border-radius:\x200\x2024px\x2024px\x200;\x0a\x20\x20\x20\x20transition:\x20width\x20var(--transition-speed),\x20background\x20var(--transition-speed);\x0a\x20\x20\x20\x20display:\x20flex;\x0a\x20\x20\x20\x20flex-direction:\x20column;\x0a\x20\x20\x20\x20padding:\x2015px\x200;\x0a}\x0a\x0a/*\x20Элемент\x20меню\x20*/\x0a.menu__item\x20{\x0a\x20\x20\x20\x20position:\x20relative;\x0a\x20\x20\x20\x20display:\x20flex;\x0a\x20\x20\x20\x20align-items:\x20center;\x0a\x20\x20\x20\x20height:\x2050px;\x0a\x20\x20\x20\x20padding:\x200\x2024px;\x0a\x20\x20\x20\x20color:\x20var(--text-color);\x0a\x20\x20\x20\x20cursor:\x20pointer;\x0a\x20\x20\x20\x20transition:\x20all\x200.2s\x20ease;\x0a\x20\x20\x20\x20text-decoration:\x20none;\x0a\x20\x20\x20\x20white-space:\x20nowrap;\x0a\x20\x20\x20\x20background:\x20transparent;\x0a\x20\x20\x20\x20border-radius:\x201em;\x0a}\x0a\x0a/*\x20Ховер\x20эффект\x20и\x20активное\x20состояние\x20*/\x0a.menu__item:hover,\x0a.menu__item.active,\x0a.menu__item.focus\x20{\x0a\x20\x20\x20\x20color:\x20var(--text-color-active);\x0a\x20\x20\x20\x20background:\x20rgba(255,\x20255,\x20255,\x200.12);\x0a\x20\x20\x20\x20zbox-shadow:\x200\x2015px\x2040px\x20rgba(0,\x200,\x200,\x200.4);\x0a}\x0a\x0a/*\x20Акцентная\x20полоска\x20слева\x20при\x20наведении\x20*/\x0a.menu__item::before\x20{\x0a\x20\x20\x20\x20content:\x20\x27\x27;\x0a\x20\x20\x20\x20position:\x20absolute;\x0a\x20\x20\x20\x20left:\x200px;\x0a\x20\x20\x20\x20top:\x2050%;\x0a\x20\x20\x20\x20transform:\x20translateY(-50%);\x0a\x20\x20\x20\x20width:\x203px;\x0a\x20\x20\x20\x20height:\x200;\x0a\x20\x20\x20\x20background-color:\x20var(--accent-color);\x0a\x20\x20\x20\x20border-radius:\x200\x204px\x204px\x200;\x0a\x20\x20\x20\x20transition:\x20height\x200.2s\x20ease;\x0a\x20\x20\x20\x20box-shadow:\x200\x200\x2010px\x20var(--accent-color);\x0a}\x0a\x0a.menu__item.active::before,\x0a.menu__item.focus::before\x20{\x0a\x20\x20\x20\x20height:\x2060%;\x0a}\x0a\x0a/*\x20Иконки\x20*/\x0a.menu__ico\x20{\x0a\x20\x20\x20\x20display:\x20flex;\x0a\x20\x20\x20\x20align-items:\x20center;\x0a\x20\x20\x20\x20justify-content:\x20center;\x0a\x20\x20\x20\x20min-width:\x2024px;\x0a\x20\x20\x20\x20height:\x2024px;\x0a\x20\x20\x20\x20margin-right:\x2020px;\x0a}\x0a\x0a.menu__item.focus\x20.menu__ico\x20svg\x20>\x20*\x20{\x0a\x20\x20\x20\x20width:\x2024px;\x0a\x20\x20\x20\x20height:\x2024px;\x0a\x20\x20\x20\x20stroke:\x20currentColor\x20!important;\x0a\x20\x20\x20\x20transition:\x20transform\x200.2s;\x0a}\x0a\x0a.menu__item.focus\x20.menu__ico\x20svg\x20path\x20{\x0a\x20\x20\x20\x20fill:\x20currentColor\x20!important;\x0a}\x0a\x0a/*\x20Анимация\x20иконки\x20при\x20наведении\x20*/\x0a.menu__item:hover\x20.menu__ico\x20svg\x20{\x0a\x20\x20\x20\x20transform:\x20scale(1.1);\x0a}\x0a\x0a/*\x20Текст\x20меню\x20*/\x0a.menu__text\x20{\x0a\x20\x20\x20\x20font-family:\x20-apple-system,\x20BlinkMacSystemFont,\x20\x22Segoe\x20UI\x22,\x20Roboto,\x20Helvetica,\x20Arial,\x20sans-serif;\x0a\x20\x20\x20\x20font-size:\x2015px;\x0a\x20\x20\x20\x20font-weight:\x20500;\x0a\x20\x20\x20\x20transform:\x20translateX(-10px);\x0a\x20\x20\x20\x20transition:\x20opacity\x200.3s\x20ease,\x20transform\x200.3s\x20ease;\x0a}\x0a\x0a/*\x20Разделитель\x20секций\x20*/\x0a.menu__split\x20{\x0a\x20\x20\x20\x20height:\x201px;\x0a\x20\x20\x20\x20background:\x20rgba(255,\x20255,\x20255,\x200.1);\x0a\x20\x20\x20\x20margin:\x2010px\x2024px;\x0a\x20\x20\x20\x20width:\x20calc(100%\x20-\x2048px);\x0a}\x0a\x0a.head__body\x20{\x0a\x20\x20\x20\x20padding:\x200\x20!important;\x0a}\x0a\x0a.card\x20.card__view::before,\x0a.card\x20.card__view::before,\x0a.card-episode\x20.full-episode::before\x20{\x0a\x20\x20\x20\x20content:\x20\x27\x27;\x0a\x20\x20\x20\x20position:\x20absolute;\x0a\x20\x20\x20\x20inset:\x200;\x0a\x20\x20\x20\x20border:\x200\x20!important;\x0a\x20\x20\x20\x20border-radius:\x201em;\x0a\x20\x20\x20\x20pointer-events:\x20none;\x0a\x20\x20\x20\x20opacity:\x200;\x0a\x20\x20\x20\x20transition:\x20opacity\x200.6s\x20cubic-bezier(0.16,\x201,\x200.3,\x201)\x20!important;\x0a\x20\x20\x20\x20will-change:\x20opacity;\x0a\x20\x20\x20\x20z-index:\x202;\x0a\x20\x20\x20\x20box-shadow:\x20inset\x202px\x202px\x201px\x20rgba(255,\x20255,\x20255,\x200.30),\x20inset\x20-2px\x20-2px\x202px\x20rgba(255,\x20255,\x20255,\x200.30);\x0a\x20\x20\x20\x20background:\x20radial-gradient(circle\x20at\x20center,\x20transparent\x2058%,\x20rgba(255,\x20255,\x20255,\x200.22)\x2075%,\x20rgba(255,\x20255,\x20255,\x200.38)\x2090%),\x20radial-gradient(120%\x2085%\x20at\x2018%\x2010%,\x20rgba(255,\x20255,\x20255,\x200.35),\x20rgba(255,\x20255,\x20255,\x200.10)\x2038%,\x20transparent\x2062%);\x0a\x20\x20\x20\x20mix-blend-mode:\x20screen;\x0a}\x0a\x0a.card\x20.card__view::after,\x0a.card\x20.card__view::after,\x0a.card-episode\x20.full-episode::after\x20{\x0a\x20\x20\x20\x20display:\x20none;\x0a}\x0a\x0a.card.focus\x20.card__view::before,\x0a.card.hover\x20.card__view::before,\x0a.card-episode.focus\x20.full-episode::before\x20{\x0a\x20\x20\x20\x20opacity:\x201;\x0a}\x0a\x0a.card.focus,\x0a.card-episode.focus\x20{\x0a\x20\x20\x20\x20transform:\x20scale(1.08)\x20translateY(-6px)\x20!important;\x0a\x20\x20\x20\x20z-index:\x2010;\x0a}\x0a\x0a.card,\x0a.card-episode\x20{\x0a\x20\x20\x20\x20transition:\x20transform\x200.6s\x20cubic-bezier(0.16,\x201,\x200.3,\x201)\x20!important;\x0a\x20\x20\x20\x20will-change:\x20transform;\x0a\x20\x20\x20\x20-webkit-animation:\x20none\x20!important;\x0a\x20\x20\x20\x20animation:\x20none\x20!important;\x0a}\x0a\x0a.card.focus\x20.card__view,\x0a.card.hover\x20.card__view,\x0a.card-episode.focus\x20.full-episode\x20{\x0a\x20\x20\x20\x20position:\x20relative\x20!important;\x0a\x20\x20\x20\x20border-radius:\x201em\x20!important;\x0a\x20\x20\x20\x20background:\x20rgba(255,\x20255,\x20255,\x200.05)\x20!important;\x0a\x20\x20\x20\x20flex-shrink:\x200\x20!important;\x0a\x20\x20\x20\x20transition:\x20box-shadow\x200.6s\x20cubic-bezier(0.16,\x201,\x200.3,\x201),\x20backdrop-filter\x200.6s\x20cubic-bezier(0.16,\x201,\x200.3,\x201),\x20-webkit-backdrop-filter\x200.6s\x20cubic-bezier(0.16,\x201,\x200.3,\x201),\x20transform\x200.6s\x20cubic-bezier(0.16,\x201,\x200.3,\x201),\x20background\x200.6s\x20cubic-bezier(0.16,\x201,\x200.3,\x201)\x20!important;\x0a\x20\x20\x20\x20will-change:\x20transform,\x20box-shadow,\x20backdrop-filter;\x0a\x20\x20\x20\x20-webkit-animation:\x20none\x20!important;\x0a\x20\x20\x20\x20animation:\x20none\x20!important;\x0a}\x0a\x0a.card\x20.card__view,\x0a.card-episode\x20.full-episode\x20{\x0a\x20\x20\x20\x20animation:\x20none\x20!important;\x0a\x20\x20\x20\x20margin-bottom:\x201em;\x0a}\x0a\x0a.card__type,\x20.card__quality\x20{\x0a\x20\x20\x20\x20z-index:\x202;\x0a}\x0a\x20\x20\x20\x20\x20\x20\x20\x20','My\x20Config:\x20Ошибка\x20-\x20некуда\x20внедрить\x20CSS','advanced_animation','createElement','true','length','log','.head__title\x20{visibility:\x20hidden;}\x20'];_0x2a7b=function(){return _0xea3ec0;};return _0x2a7b();}
+(function () {
+    'use strict';
+
+    function startPlugin() {
+        // --- ЧАСТЬ 0: ПРОВЕРКА ДОСТУПА (WHITELIST) ---
+        var account = Lampa.Storage.get('account', '{}');
+        var email = account.email || '';
+        
+        // Список разрешенных пользователей
+        var allowedEmails = [
+            'ap.tuzin@gmail.com',
+            'vlad7564433@yandex.ru',
+            'di.zve7@gmail.com',
+            'Khlyzov123@gmail.com',
+            'chistyakov.home@gmail.com'
+        ];
+
+        // Если email нет в списке, прекращаем выполнение скрипта
+        if (allowedEmails.indexOf(email) === -1) {
+            console.log('My Config: Доступ запрещен для ' + (email ? email : 'гостя'));
+            return;
+        } else {
+            console.log('My Config: Доступ разрешен для ' + email);
+        }
+
+        
+        // --- НОВОЕ: ЗАГРУЗКА ВНЕШНИХ ПЛАГИНОВ ---
+        if (Lampa.Utils && Lampa.Utils.putScriptAsync) {
+            Lampa.Utils.putScriptAsync([
+                'https://aviamovie.github.io/surs.js',
+                'https://ipavlin98.github.io/lmp-plugins/int.js',
+                'https://darkestclouds.github.io/plugins/applecation/applecation.js',
+                'http://cub.red/plugin/tmdb-proxy',
+                'https://nb557.github.io/plugins/online_mod.js',
+                'https://lampame.github.io/main/lme.js',
+                'https://ipavlin98.github.io/lmp-plugins/series-progress-fix.js',
+                'https://nb557.github.io/plugins/free.js',
+                'https://ipavlin98.github.io/lmp-plugins/rt.js',
+                'https://ipavlin98.github.io/lmp-plugins/search-focus-no-mic.js',
+                'http://94.103.86.206/plugins/nots',
+                'https://darkestclouds.github.io/plugins/easytorrent/easytorrent.js',
+                'https://lampame.github.io/main/pubtorr.js',
+                'https://e.vg/IqhjvbiYo'
+            ], function () {
+                console.log('Внешние плагины успешно загружены');
+            });
+        }
+
+        // --- ЧАСТЬ 1: НАСТРОЙКИ LAMPA (Storage) ---
+        
+        // Преднастройки Lampa
+        Lampa.Storage.set('start_page', 'main');
+        Lampa.Storage.set('surs_name', 'P2X');
+        Lampa.Storage.set('source', 'P2X');
+        // Lampa.Storage.set('surs_settings', '');
+        Lampa.Storage.set('glass_style', true);
+        Lampa.Storage.set('glass_opacity', 'easy');
+        Lampa.Storage.set('mask', true);
+        Lampa.Storage.set('video_quality_default', '1080');
+        Lampa.Storage.set('interface_size', 'small');
+        Lampa.Storage.set('keyboard_type', 'integrate');
+        Lampa.Storage.set('menu_always', false);
+        Lampa.Storage.set('screensaver', 'false');
+        Lampa.Storage.set('advanced_animation', true);
+
+        // Настраиваем плагин Online Mod
+        Lampa.Storage.set('online_mod_rezka2_cookie', 'dle_user_id=38372; dle_password=d8efa0170ea646402578694fe9ccf72e; dle_newpm=0; dle_user_token=cadfee4517c32230654c3c64a6002b0a; dle_user_taken=1');
+        Lampa.Storage.set('online_mod_balanser', 'rezka2');
+        Lampa.Storage.set('online_mod_save_last_balanser', true);
+        Lampa.Storage.set('online_mod_full_episode_title', true);
+        Lampa.Storage.set('online_mod_rezka2_fix_stream', true);
+
+        // Настраиваем плагин Applecation
+        Lampa.Storage.set('applecation_text_scale', '120');
+        Lampa.Storage.set('applecation_spacing_scale', '90');
+        Lampa.Storage.set('applecation_show_ratings', true);
+        Lampa.Storage.set('applecation_ratings_source', 'builtin');
+        Lampa.Storage.set('applecation_mdblist_api_key', 'wf3lktoy7sbbjrcnmf8g9omsw');
+        Lampa.Storage.set('applecation_enabled_ratings', '["tmdb","imdb","tomatoes","popcorn","metacritic","letterboxd","trakt"]');
+        Lampa.Storage.set('applecation_show_episode_count', true);
+
+        // Настраиваем плагин New Interface
+        Lampa.Storage.set('logo_show', 'false');
+        Lampa.Storage.set('show_background', 'true');
+        Lampa.Storage.set('status', 'true');
+        Lampa.Storage.set('seas', 'true');
+        Lampa.Storage.set('eps', 'true');
+        Lampa.Storage.set('rat', 'false');
+        Lampa.Storage.set('si_colored_ratings', 'false');
+        Lampa.Storage.set('si_rating_border', 'false');
+        Lampa.Storage.set('async_load', 'true');
+        Lampa.Storage.set('hide_captions', 'true');
+        Lampa.Storage.set('wide_post', 'false');
+
+        // Настраиваем кнопки на странице фильма в плагине LME Movie Enhancer
+        Lampa.Storage.set('lme_showbutton', true);
+        Lampa.Storage.set('lme_buttonhide', '["view--trailer","view--online","button--reaction","button--subscribe","button--options"]');
+        Lampa.Storage.set('lme_buttonsort', '["view--online_mod","view--torrent","view--rutube_trailer","button--book"]');
+
+        // Скрываем и сортируем пункты меню
+        Lampa.Storage.set('menu_hide', '["Подборки","Каталог","Лента","Фильмы","Мультфильмы","Сериалы","Персоны","Релизы","Аниме","Подписки","Расписание","Торренты","Спорт","Для детей","Shots","Torrent Manager"]');
+        Lampa.Storage.set('menu_sort', '["Поиск","Главная","Избранное","История","Фильтр"]');
+
+
+        // --- ЧАСТЬ 2: CSS ИНЪЕКЦИЯ ---
+        
+        var css = '';
+
+        // Блок 1: Старые стили (Скрытие элементов шапки и меню)
+        css += '.head .head__logo-icon, .head .open--search, .head .open--settings, .head .time--clock + div, .head .open--premium, .head .open--feed, .head .notice--icon, .head .open--broadcast, .head .full--screen, .head .m-reload-screen, .head .black-friday__button, .head .torrent-manager-icon {display: none !important;} ';
+        
+        css += '.menu li.menu__item[data-action="streaming"], .menu li.menu__item[data-action="catalog"], .menu li.menu__item[data-action="feed"], .menu li.menu__item[data-action="movie"], .menu li.menu__item[data-action="cartoon"], .menu li.menu__item[data-action="tv"], .menu li.menu__item[data-action="myperson"], .menu li.menu__item[data-action="relise"], .menu li.menu__item[data-action="anime"], .menu li.menu__item[data-action="subscribes"], .menu li.menu__item[data-action="timetable"], .menu li.menu__item[data-action="mytorrents"], .menu li.menu__item[data-action="kids"], .menu li.menu__item:not([data-action]) {display: none !important;} ';
+        css += '.menu .menu__split, .menu li.menu__item[data-action="about"], .menu li.menu__item[data-action="console"], .menu li.menu__item[data-action="edit"] {display: none !important;} ';
+        
+        // Корректировка контейнера слева (из старого кода)
+        css += '.wrap__left .scroll__content {display: flex; flex-direction: column; min-height: 100vh;} .wrap__left .scroll__body {margin-top: auto; margin-bottom: auto;} ';
+        css += '.head__title {visibility: hidden;} ';
+
+        // Блок 2: НОВЫЕ СТИЛИ
+        css += `
+.head, .head .open--profile, .head .head__backward, .head .head__menu-icon, .head .head__title, .head .head__markers, .head .head__time {
+    display: none;
+}
+
+.wrap__left {
+    padding: 0;
+}
+
+.scroll--mask {
+    height: calc(100vh - 4em) !important;
+}
+
+.wrap__content {
+    padding: 0 !important;
+}
+.wrap__content .applecation .activity__body {
+    margin-top: 4em !important;
+}
+
+.wrap__content .activity__body > div > div {
+    padding: 1em 2em !important;
+}
+
+.full-start-new__buttons {
+    padding-top: 1em;
+}
+
+.items-line__head {
+    margin-top: 3.5em;
+}
+
+.scroll--horizontal .scroll__content {
+    margin-top: 0.5em;
+}
+
+.new-interface-info__body:not(:has(.visible)) {
+    display: none;
+}
+
+/* Основные переменные для легкой настройки */
+:root {
+    --menu-bg: rgba(20, 20, 23, 0.75);
+    --menu-bg-hover: rgba(20, 20, 23, 0.95);
+    --menu-width-collapsed: 72px;
+    --menu-width-expanded: 200px;
+    --accent-color: #e50914; 
+    --text-color: #e8e8e8;
+    --text-color-active: #ffffff;
+    --blur-strength: 10px;
+    --transition-speed: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Сам контейнер меню */
+.menu {
+    pointer-events: auto;
+    border-radius: 24px;
+    border-radius: 0 24px 24px 0;
+    transition: width var(--transition-speed), background var(--transition-speed);
+    display: flex;
+    flex-direction: column;
+    padding: 15px 0;
+}
+
+/* Элемент меню */
+.menu__item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 50px;
+    padding: 0 24px;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    white-space: nowrap;
+    background: transparent;
+    border-radius: 1em;
+}
+
+/* Ховер эффект и активное состояние */
+.menu__item:hover,
+.menu__item.active,
+.menu__item.focus {
+    color: var(--text-color-active);
+    background: rgba(255, 255, 255, 0.12);
+    zbox-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Акцентная полоска слева при наведении */
+.menu__item::before {
+    content: '';
+    position: absolute;
+    left: 0px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 0;
+    background-color: var(--accent-color);
+    border-radius: 0 4px 4px 0;
+    transition: height 0.2s ease;
+    box-shadow: 0 0 10px var(--accent-color);
+}
+
+.menu__item.active::before,
+.menu__item.focus::before {
+    height: 60%;
+}
+
+/* Иконки */
+.menu__ico {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 24px;
+    height: 24px;
+    margin-right: 20px;
+}
+
+.menu__item.focus .menu__ico svg > * {
+    width: 24px;
+    height: 24px;
+    stroke: currentColor !important;
+    transition: transform 0.2s;
+}
+
+.menu__item.focus .menu__ico svg path {
+    fill: currentColor !important;
+}
+
+/* Анимация иконки при наведении */
+.menu__item:hover .menu__ico svg {
+    transform: scale(1.1);
+}
+
+/* Текст меню */
+.menu__text {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    transform: translateX(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Разделитель секций */
+.menu__split {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 10px 24px;
+    width: calc(100% - 48px);
+}
+
+.head__body {
+    padding: 0 !important;
+}
+
+.card .card__view::before,
+.card .card__view::before,
+.card-episode .full-episode::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 0 !important;
+    border-radius: 1em;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    will-change: opacity;
+    z-index: 2;
+    box-shadow: inset 2px 2px 1px rgba(255, 255, 255, 0.30), inset -2px -2px 2px rgba(255, 255, 255, 0.30);
+    background: radial-gradient(circle at center, transparent 58%, rgba(255, 255, 255, 0.22) 75%, rgba(255, 255, 255, 0.38) 90%), radial-gradient(120% 85% at 18% 10%, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.10) 38%, transparent 62%);
+    mix-blend-mode: screen;
+}
+
+.card .card__view::after,
+.card .card__view::after,
+.card-episode .full-episode::after {
+    display: none;
+}
+
+.card.focus .card__view::before,
+.card.hover .card__view::before,
+.card-episode.focus .full-episode::before {
+    opacity: 1;
+}
+
+.card.focus,
+.card-episode.focus {
+    transform: scale(1.08) translateY(-6px) !important;
+    z-index: 10;
+}
+
+.card,
+.card-episode {
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    will-change: transform;
+    -webkit-animation: none !important;
+    animation: none !important;
+}
+
+.card.focus .card__view,
+.card.hover .card__view,
+.card-episode.focus .full-episode {
+    position: relative !important;
+    border-radius: 1em !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    flex-shrink: 0 !important;
+    transition: box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1), backdrop-filter 0.6s cubic-bezier(0.16, 1, 0.3, 1), -webkit-backdrop-filter 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), background 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    will-change: transform, box-shadow, backdrop-filter;
+    -webkit-animation: none !important;
+    animation: none !important;
+}
+
+.card .card__view,
+.card-episode .full-episode {
+    animation: none !important;
+    margin-bottom: 1em;
+}
+
+.card__type, .card__quality {
+    z-index: 2;
+}
+        `;
+
+        // Применение стилей
+        var style = document.createElement('style');
+        style.type = 'text/css';
+        if (style.styleSheet) {
+            style.styleSheet.cssText = css;
+        } else {
+            style.appendChild(document.createTextNode(css));
+        }
+        
+        var target = document.head || document.getElementsByTagName('head')[0] || document.body;
+        if (target) {
+            target.appendChild(style);
+            console.log('My Config: CSS стили успешно внедрены');
+        } else {
+            console.log('My Config: Ошибка - некуда внедрить CSS');
+        }
+
+
+        // --- ЧАСТЬ 3: КАСТОМНЫЕ ПУНКТЫ МЕНЮ (Поиск и Профиль) ---
+        
+        var menuList = $('.menu .menu__list').eq(0);
+
+        // 3.1 КНОПКА ПОИСКА
+        var searchIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>';
+        var searchItem = $('<li class="menu__item selector" data-action="search_button"><div class="menu__ico">' + searchIcon + '</div><div class="menu__text">Поиск</div></li>');
+
+        searchItem.on('hover:enter', function () {
+            var originalSearch = $('.head .open--search');
+            if (originalSearch.length) {
+                originalSearch.trigger('hover:enter');
+            } else {
+                if (Lampa.Search) Lampa.Search.open();
+            }
+        });
+        menuList.append(searchItem);
+        
+        // 3.2 КНОПКА ПРОФИЛЯ
+        // Получаем данные для профиля
+        var profileName = 'Профиль';
+        var profileIcon = ''; // Ссылка на картинку
+        
+        // Берем имя из Storage
+        if(account.profile && account.profile.name) {
+            profileName = account.profile.name;
+        }
+
+        // Берем аватар. Сначала пытаемся найти в DOM, как запрошено
+        var domAvatar = $('.head .open--profile img').attr('src');
+        if(domAvatar) {
+            profileIcon = domAvatar;
+        } else if (account.profile && account.profile.icon) {
+            // Если в DOM еще пусто (скрыто/не прогрузилось), строим ссылку сами по ID иконки
+            profileIcon = 'http://cub.rip/img/profiles/' + account.profile.icon + '.png';
+        } else {
+            // Фолбек на пустую
+            profileIcon = 'http://cub.rip/img/profiles/f_0.png';
+        }
+
+        // HTML для аватарки (круглый стиль)
+        var avatarHtml = '<img src="'+profileIcon+'" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover; display: block;">';
+        
+        var profileItem = $('<li class="menu__item selector" data-action="profile_button"><div class="menu__ico">' + avatarHtml + '</div><div class="menu__text">' + profileName + '</div></li>');
+
+        // Навешиваем действие клика на скрытый элемент .open--profile
+        profileItem.on('hover:enter', function () {
+            var originalProfile = $('.head .open--profile');
+            if (originalProfile.length) {
+                originalProfile.trigger('hover:enter');
+            } else {
+                console.log('Ошибка: Элемент .open--profile не найден');
+            }
+        });
+
+        // Добавляем в меню (после поиска)
+        menuList.append(profileItem);
+
+        console.log('My Config: Кнопки меню добавлены');
+    }
+
+    // Запуск скрипта после готовности приложения
+    if (window.appready) {
+        startPlugin();
+    } else {
+        Lampa.Listener.follow('app', function (e) {
+            if (e.type == 'ready') startPlugin();
+        });
+    }
+
+})();
