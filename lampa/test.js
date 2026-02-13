@@ -380,43 +380,38 @@
         // 3.2 КНОПКА ПРОФИЛЯ
         // Получаем данные для профиля
         var profileName = 'Профиль';
-        var profileIcon = ''; // Ссылка на картинку
+        var profileIcon = 'http://cub.rip/img/profiles/f_0.png'; // Фолбек по умолчанию
         
         // Берем имя из Storage
         if(account.profile && account.profile.name) {
             profileName = account.profile.name;
         }
 
-        // Берем аватар. Сначала пытаемся найти в DOM, как запрошено
-        var domAvatar = $('.head .open--profile img').attr('src');
-        if(domAvatar) {
-            profileIcon = domAvatar;
-        } else if (account.profile && account.profile.icon) {
-            // Если в DOM еще пусто (скрыто/не прогрузилось), строим ссылку сами по ID иконки
+        // Берем аватар. 
+        // Логика улучшена: сначала проверяем Storage, так как DOM скрыт и может не содержать src
+        if (account.profile && account.profile.icon) {
             profileIcon = 'http://cub.rip/img/profiles/' + account.profile.icon + '.png';
         } else {
-            // Фолбек на пустую
-            profileIcon = 'http://cub.rip/img/profiles/f_0.png';
+            // Пытаемся найти в DOM только если в Storage пусто (хотя при скрытом DOM это вряд ли сработает)
+            var domAvatar = $('.head .open--profile img').attr('src');
+            if(domAvatar) profileIcon = domAvatar;
         }
 
-        // HTML для аватарки (круглый стиль)
+        // HTML для аватарки
         var avatarHtml = '<img src="'+profileIcon+'" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover; display: block;">';
         
         var profileItem = $('<li class="menu__item selector" data-action="profile_button"><div class="menu__ico">' + avatarHtml + '</div><div class="menu__text">' + profileName + '</div></li>');
 
-        // Навешиваем действие клика на скрытый элемент .open--profile
-        profileItem.on('hover:enter', function () {
-            var originalProfile = $('.head .open--profile.focus');
-            if (originalProfile.length) {
-                originalProfile.trigger('hover:enter');
-            } else {
-                console.log('Ошибка: Элемент .open--profile не найден');
-            }
+        // ИСПРАВЛЕНИЕ ЗДЕСЬ:
+        // 1. Добавили 'click' для работы мыши/тача.
+        // 2. Убрали поиск скрытого элемента. Вызываем API напрямую.
+        profileItem.on('hover:enter click', function () {
+            // Открываем настройки (в Lampa клик по профилю = открытие настроек)
+            Lampa.Settings.open();
         });
 
         // Добавляем в меню (после поиска)
         menuList.append(profileItem);
-
         console.log('My Config: Кнопки меню добавлены');
     }
 
