@@ -290,7 +290,7 @@
         // ГАРАНТИРОВАННОЕ ОТКРЫТИЕ
         profileItem.on('hover:enter', function () {
             // Теперь, когда .head не display:none, этот триггер должен работать
-            var originalProfile = $('.head .open--profile');
+            var originalProfile = $('.head .open--profile img');
             if (originalProfile.length) {
                 originalProfile.trigger('hover:enter');
             } else {
