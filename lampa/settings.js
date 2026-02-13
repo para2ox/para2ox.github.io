@@ -261,10 +261,15 @@
     padding: 0 !important;
 }
 
+.online.selector {
+    border-radius: 1em;
+}
+
 .card .card__view::before,
 .card .card__view::before,
 .card-episode .full-episode::before,
-.register::before {
+.register::before,
+.online.selector::before {
     content: '';
     position: absolute;
     inset: 0;
@@ -283,14 +288,16 @@
 .card .card__view::after,
 .card .card__view::after,
 .card-episode .full-episode::after,
-.register::after {
+.register::after,
+.online.selector::after {
     display: none;
 }
 
 .card.focus .card__view::before,
 .card.hover .card__view::before,
 .card-episode.focus .full-episode::before,
-.register.focus::before {
+.register.focus::before,
+.online.selector.focus::before {
     opacity: 1;
 }
 
@@ -300,10 +307,16 @@
     transform: scale(1.08) translateY(-6px) !important;
     z-index: 10;
 }
+.online.selector.focus {
+    transform: scale(1.01) !important;
+    z-index: 10;
+    box-shadow: none !important;
+}
 
 .card,
 .card-episode,
-.register {
+.register,
+.online.selector {
     transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
     will-change: transform;
     -webkit-animation: none !important;
@@ -313,7 +326,8 @@
 .card.focus .card__view,
 .card.hover .card__view,
 .card-episode.focus .full-episode,
-.register.focus {
+.register.focus,
+.online.selector.focus {
     position: relative !important;
     border-radius: 1em !important;
     background: rgba(255, 255, 255, 0.05) !important;
@@ -326,7 +340,8 @@
 
 .card .card__view,
 .card-episode .full-episode,
-.register {
+.register,
+.online.selector {
     animation: none !important;
     margin-bottom: 1em;
 }
