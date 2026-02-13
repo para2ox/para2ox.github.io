@@ -84,6 +84,18 @@
         Lampa.Storage.set('menu_hide', '["Подборки","Каталог","Лента","Фильмы","Мультфильмы","Сериалы","Персоны","Релизы","Аниме","Подписки","Расписание","Торренты","Спорт","Для детей","Shots","Torrent Manager"]');
         Lampa.Storage.set('menu_sort', '["Поиск","Главная","Избранное","История","Фильтр"]');
 
+        // --- ЛОГИРОВАНИЕ АККАУНТА ---
+        var accountData = Lampa.Storage.get('account', '{}'); // Получаем данные или пустой объект
+        console.group('Lampa Account Info'); // Создаем группу в консоли для порядка
+        if (accountData && accountData.email) {
+            console.log('Статус: Авторизован');
+            console.log('Email:', accountData.email);
+            console.log('Все данные:', accountData);
+        } else {
+            console.log('Статус: Не авторизован (или данные аккаунта пусты)');
+            console.log('Данные:', accountData);
+        }
+        console.groupEnd();
 
         // --- ЧАСТЬ 2: CSS ИНЪЕКЦИЯ ---
         
