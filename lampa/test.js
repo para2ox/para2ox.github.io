@@ -3,7 +3,7 @@
 
     function startPlugin() {
         // --- ЧАСТЬ 0: ПРОВЕРКА ДОСТУПА (WHITELIST) ---
-        /*var account = Lampa.Storage.get('account', '{}');
+        var account = Lampa.Storage.get('account', '{}');
         var email = account.email || '';
         
         // Список разрешенных пользователей
@@ -16,7 +16,7 @@
         ];
 
         // Если email нет в списке, прекращаем выполнение скрипта
-        if (allowedEmails.indexOf(email) === -1) {
+        /*if (allowedEmails.indexOf(email) === -1) {
             console.log('My Config: Доступ запрещен для ' + (email ? email : 'гостя'));
             return;
         } else {
