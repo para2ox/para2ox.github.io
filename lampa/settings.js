@@ -115,11 +115,14 @@
 /*.wrap__content .applecation .activity__body {
     margin-top: 4em !important;
 }*/
-.wrap__content .applecation .activity__body {
-    margin-top: 0 !important;
-}
 .wrap__content .applecation .activity__body .full-start__background {
     margin-top: 4em !important;
+}
+.wrap__content .applecation.full-start-new {
+    margin-bottom: 8em;
+}
+.wrap__content .applecation.full-start-new .full-start-new__right {
+    margin-bottom: -4em;
 }
 
 .wrap__content .activity__body > div > div {
