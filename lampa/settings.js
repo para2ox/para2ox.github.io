@@ -110,7 +110,7 @@
 }
 
 .scroll--mask {
-    height: 100vh !important;
+    height: calc(100vh - 4em) !important;
 }
 
 .wrap__content {
