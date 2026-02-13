@@ -387,12 +387,10 @@
             profileName = account.profile.name;
         }
 
-        // Берем аватар. 
-        // Логика улучшена: сначала проверяем Storage, так как DOM скрыт и может не содержать src
+        // Логика для иконки
         if (account.profile && account.profile.icon) {
             profileIcon = 'http://cub.rip/img/profiles/' + account.profile.icon + '.png';
         } else {
-            // Пытаемся найти в DOM только если в Storage пусто (хотя при скрытом DOM это вряд ли сработает)
             var domAvatar = $('.head .open--profile img').attr('src');
             if(domAvatar) profileIcon = domAvatar;
         }
@@ -402,12 +400,17 @@
         
         var profileItem = $('<li class="menu__item selector" data-action="profile_button"><div class="menu__ico">' + avatarHtml + '</div><div class="menu__text">' + profileName + '</div></li>');
 
-        // ИСПРАВЛЕНИЕ ЗДЕСЬ:
-        // 1. Добавили 'click' для работы мыши/тача.
-        // 2. Убрали поиск скрытого элемента. Вызываем API напрямую.
+        // ГЛАВНОЕ ИЗМЕНЕНИЕ:
         profileItem.on('hover:enter click', function () {
-            // Открываем настройки (в Lampa клик по профилю = открытие настроек)
-            Lampa.Settings.open();
+            // Проверяем, доступен ли модуль Profile
+            if (Lampa.Profile && typeof Lampa.Profile.select === 'function') {
+                // Вызываем функцию select() из того кода, что вы прислали.
+                // Она сама проверит пин-код (ParentalControl), загрузит список профилей (Api) и покажет выбор.
+                Lampa.Profile.select(); 
+            } else {
+                // Если вдруг модуль Profile недоступен, открываем настройки аккаунта как запасной вариант
+                Lampa.Settings.open('account');
+            }
         });
 
         // Добавляем в меню (после поиска)
