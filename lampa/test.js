@@ -400,16 +400,13 @@
         
         var profileItem = $('<li class="menu__item selector" data-action="profile_button"><div class="menu__ico">' + avatarHtml + '</div><div class="menu__text">' + profileName + '</div></li>');
 
-        // ГЛАВНОЕ ИЗМЕНЕНИЕ:
         profileItem.on('hover:enter click', function () {
-            // Проверяем, доступен ли модуль Profile
-            if (Lampa.Profile && typeof Lampa.Profile.select === 'function') {
-                // Вызываем функцию select() из того кода, что вы прислали.
-                // Она сама проверит пин-код (ParentalControl), загрузит список профилей (Api) и покажет выбор.
-                Lampa.Profile.select(); 
+            // ИСПРАВЛЕНИЕ: Используем Lampa.Settings.main() - это официальный метод открытия настроек
+            if (Lampa.Settings && Lampa.Settings.main) {
+                Lampa.Settings.main();
             } else {
-                // Если вдруг модуль Profile недоступен, открываем настройки аккаунта как запасной вариант
-                Lampa.Settings.open('account');
+                // На случай совсем старых версий или конфликтов
+                Lampa.Controller.toggle('settings');
             }
         });
 
