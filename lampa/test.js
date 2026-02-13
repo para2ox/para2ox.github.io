@@ -368,11 +368,8 @@
         var searchItem = $('<li class="menu__item selector" data-action="search_button"><div class="menu__ico">' + searchIcon + '</div><div class="menu__text">Поиск</div></li>');
 
         searchItem.on('hover:enter', function () {
-            var originalSearch = $('.head .open--search');
-            if (originalSearch.length) {
-                originalSearch.trigger('hover:enter');
-            } else {
-            }
+            var originalSearch = $('.head .open--profile');
+            originalSearch.trigger('hover:enter');
         });
         menuList.append(searchItem);
         
