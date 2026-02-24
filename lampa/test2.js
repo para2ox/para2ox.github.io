@@ -8,11 +8,11 @@
             Lampa.Utils.putScriptAsync([
                 /*'https://aviamovie.github.io/surs.js',
                 'https://ipavlin98.github.io/lmp-plugins/int.js',
-                'https://darkestclouds.github.io/plugins/applecation/applecation.js',
+                'https://darkestclouds.github.io/plugins/applecation/applecation.js',*/
                 'http://cub.red/plugin/tmdb-proxy',
                 'https://nb557.github.io/plugins/online_mod.js',
                 'https://lampame.github.io/main/lme.js',
-                'https://ipavlin98.github.io/lmp-plugins/series-progress-fix.js',*/
+                'https://ipavlin98.github.io/lmp-plugins/series-progress-fix.js',
                 'https://nb557.github.io/plugins/free.js',
                 'https://ipavlin98.github.io/lmp-plugins/rt.js',
                 'https://ipavlin98.github.io/lmp-plugins/search-focus-no-mic.js',
