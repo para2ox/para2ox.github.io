@@ -2,17 +2,11 @@
     'use strict';
 
     function startPlugin() {
-        // Проверка на наличие глобального объекта Lampa
-        if (typeof Lampa === 'undefined') {
-            console.log('My Config: Lampa not found');
-            return;
-        }
-
+        
         // --- НОВОЕ: ЗАГРУЗКА ВНЕШНИХ ПЛАГИНОВ ---
         if (Lampa.Utils && Lampa.Utils.putScriptAsync) {
-            // Убраны лишние пробелы в концах строк URL (это реально вызывает 404)
             Lampa.Utils.putScriptAsync([
-                'https://aviamovie.github.io/surs.js',
+                /*'https://aviamovie.github.io/surs.js',*/
                 'https://ipavlin98.github.io/lmp-plugins/int.js',
                 'https://darkestclouds.github.io/plugins/applecation/applecation.js',
                 'http://cub.red/plugin/tmdb-proxy',
@@ -37,6 +31,7 @@
         Lampa.Storage.set('start_page', 'main');
         Lampa.Storage.set('surs_name', 'P2X');
         Lampa.Storage.set('source', 'P2X');
+        // Lampa.Storage.set('surs_settings', '');
         Lampa.Storage.set('glass_style', true);
         Lampa.Storage.set('glass_opacity', 'easy');
         Lampa.Storage.set('mask', true);
@@ -46,6 +41,9 @@
         Lampa.Storage.set('menu_always', false);
         Lampa.Storage.set('screensaver', 'false');
         Lampa.Storage.set('advanced_animation', true);
+        // Lampa.Storage.set('background', true);
+        // Lampa.Storage.set('background_type', 'simple');
+        // Lampa.Storage.set('black_style', true);
 
         // Настраиваем плагин Online Mod
         Lampa.Storage.set('online_mod_rezka2_cookie', 'dle_user_id=38372; dle_password=d8efa0170ea646402578694fe9ccf72e; dle_newpm=0; dle_user_token=cadfee4517c32230654c3c64a6002b0a; dle_user_taken=1');
@@ -53,6 +51,7 @@
         Lampa.Storage.set('online_mod_save_last_balanser', true);
         Lampa.Storage.set('online_mod_full_episode_title', true);
         Lampa.Storage.set('online_mod_rezka2_fix_stream', true);
+        // Lampa.Storage.set('online_mod_proxy_rezka2', false);
 
         // Настраиваем плагин Applecation
         Lampa.Storage.set('applecation_text_scale', '120');
@@ -88,93 +87,277 @@
 
         // --- ЧАСТЬ 2: CSS ИНЪЕКЦИЯ ---
         
-        // Используем массив и join для совместимости со старыми браузерами (ES5 вместо template literals)
-        var css = [];
+        var css = '';
 
         // Блок 1: Старые стили (Скрытие элементов шапки и меню)
-        css.push('.head .head__logo-icon, .head .open--search, .head .open--settings, .head .time--clock + div, .head .open--premium, .head .open--feed, .head .notice--icon, .head .open--broadcast, .head .full--screen, .head .m-reload-screen, .head .black-friday__button, .head .torrent-manager-icon {display: none !important;}');
+        css += '.head .head__logo-icon, .head .open--search, .head .open--settings, .head .time--clock + div, .head .open--premium, .head .open--feed, .head .notice--icon, .head .open--broadcast, .head .full--screen, .head .m-reload-screen, .head .black-friday__button, .head .torrent-manager-icon {display: none !important;} ';
         
-        css.push('.menu li.menu__item[data-action="streaming"], .menu li.menu__item[data-action="catalog"], .menu li.menu__item[data-action="feed"], .menu li.menu__item[data-action="movie"], .menu li.menu__item[data-action="cartoon"], .menu li.menu__item[data-action="tv"], .menu li.menu__item[data-action="myperson"], .menu li.menu__item[data-action="relise"], .menu li.menu__item[data-action="anime"], .menu li.menu__item[data-action="subscribes"], .menu li.menu__item[data-action="timetable"], .menu li.menu__item[data-action="mytorrents"], .menu li.menu__item[data-action="kids"], .menu li.menu__item:not([data-action]) {display: none !important;}');
-        css.push('.menu .menu__split, .menu li.menu__item[data-action="about"], .menu li.menu__item[data-action="console"], .menu li.menu__item[data-action="edit"] {display: none !important;}');
+        css += '.menu li.menu__item[data-action="streaming"], .menu li.menu__item[data-action="catalog"], .menu li.menu__item[data-action="feed"], .menu li.menu__item[data-action="movie"], .menu li.menu__item[data-action="cartoon"], .menu li.menu__item[data-action="tv"], .menu li.menu__item[data-action="myperson"], .menu li.menu__item[data-action="relise"], .menu li.menu__item[data-action="anime"], .menu li.menu__item[data-action="subscribes"], .menu li.menu__item[data-action="timetable"], .menu li.menu__item[data-action="mytorrents"], .menu li.menu__item[data-action="kids"], .menu li.menu__item:not([data-action]) {display: none !important;} ';
+        css += '.menu .menu__split, .menu li.menu__item[data-action="about"], .menu li.menu__item[data-action="console"], .menu li.menu__item[data-action="edit"] {display: none !important;} ';
         
-        // Корректировка контейнера слева
-        css.push('.wrap__left .scroll__content {display: flex; flex-direction: column; min-height: 100vh;} .wrap__left .scroll__body {margin-top: auto; margin-bottom: auto;}');
-        css.push('.head__title {visibility: hidden;}');
+        // Корректировка контейнера слева (из старого кода)
+        css += '.wrap__left .scroll__content {display: flex; flex-direction: column; min-height: 100vh;} .wrap__left .scroll__body {margin-top: auto; margin-bottom: auto;} ';
+        css += '.head__title {visibility: hidden;} ';
 
         // Блок 2: НОВЫЕ СТИЛИ
-        css.push('.head, .head .open--profile, .head .head__backward, .head .head__menu-icon, .head .head__title, .head .head__markers, .head .head__time { display: none; }');
-        css.push('.wrap__left { padding: 0; }');
-        css.push('.wrap__content { padding: 0 !important; }');
-        css.push('.wrap__content .applecation .activity__body .full-start__background { margin-top: 4em !important; }');
-        css.push('.wrap__content .applecation.full-start-new { margin-bottom: 8em; }');
-        css.push('.wrap__content .applecation.full-start-new .full-start-new__right { margin-bottom: -4em; }');
-        css.push('.wrap__content .activity__body > div > div { padding: 1em 2em !important; }');
-        css.push('.full-start-new__buttons { padding-top: 1em; }');
-        css.push('.items-line__head { margin-top: 3.5em; }');
-        css.push('.scroll--horizontal .scroll__content { margin-top: 0.5em; }');
-        
-        // Удалено правило с :has() так как оно не поддерживается в старых браузерах ТВ и вызывает ошибки парсинга
-        // css.push('.new-interface-info__body:not(:has(.visible)) { display: none; }'); 
+        css += `
+.head, .head .open--profile, .head .head__backward, .head .head__menu-icon, .head .head__title, .head .head__markers, .head .head__time {
+    display: none;
+}
 
-        // Основные переменные для легкой настройки
-        css.push(':root { --menu-bg: rgba(20, 20, 23, 0.75); --menu-bg-hover: rgba(20, 20, 23, 0.95); --menu-width-collapsed: 72px; --menu-width-expanded: 200px; --accent-color: #e50914; --text-color: #e8e8e8; --text-color-active: #ffffff; --blur-strength: 10px; --transition-speed: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); }');
+.wrap__left {
+    padding: 0;
+}
 
-        // Сам контейнер меню
-        css.push('.menu { pointer-events: auto; border-radius: 24px; border-radius: 0 24px 24px 0; transition: width var(--transition-speed), background var(--transition-speed); display: flex; flex-direction: column; padding: 15px 0; }');
+.wrap__content {
+    padding: 0 !important;
+}
+/*.wrap__content .applecation .activity__body {
+    margin-top: 4em !important;
+}*/
+.wrap__content .applecation .activity__body .full-start__background {
+    margin-top: 4em !important;
+}
+.wrap__content .applecation.full-start-new {
+    margin-bottom: 8em;
+}
+.wrap__content .applecation.full-start-new .full-start-new__right {
+    margin-bottom: -4em;
+}
 
-        // Элемент меню
-        css.push('.menu__item { position: relative; display: flex; align-items: center; height: 50px; padding: 0 24px; color: var(--text-color); cursor: pointer; transition: all 0.2s ease; text-decoration: none; white-space: nowrap; background: transparent; border-radius: 1em; }');
+.wrap__content .activity__body > div > div {
+    padding: 1em 2em !important;
+}
 
-        // Ховер эффект и активное состояние
-        // Сохранено zbox-shadow как задумано (для временного отключения)
-        css.push('.menu__item:hover, .menu__item.active, .menu__item.focus { color: var(--text-color-active); background: rgba(255, 255, 255, 0.12); zbox-shadow: 0 15px 40px rgba(0, 0, 0, 0.4); }');
+.full-start-new__buttons {
+    padding-top: 1em;
+}
 
-        // Акцентная полоска слева при наведении
-        css.push('.menu__item::before { content: ""; position: absolute; left: 0px; top: 50%; transform: translateY(-50%); width: 3px; height: 0; background-color: var(--accent-color); border-radius: 0 4px 4px 0; transition: height 0.2s ease; box-shadow: 0 0 10px var(--accent-color); }');
-        css.push('.menu__item.active::before, .menu__item.focus::before { height: 60%; }');
+.items-line__head {
+    margin-top: 3.5em;
+}
 
-        // Иконки
-        css.push('.menu__ico { display: flex; align-items: center; justify-content: center; min-width: 24px; height: 24px; margin-right: 20px; }');
-        css.push('.menu__item.focus .menu__ico svg > * { width: 24px; height: 24px; stroke: currentColor !important; transition: transform 0.2s; }');
-        css.push('.menu__item.focus .menu__ico svg path { fill: currentColor !important; }');
-        css.push('.menu__item:hover .menu__ico svg { transform: scale(1.1); }');
+.scroll--horizontal .scroll__content {
+    margin-top: 0.5em;
+}
 
-        // Текст меню
-        css.push('.menu__text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 15px; font-weight: 500; transform: translateX(-10px); transition: opacity 0.3s ease, transform 0.3s ease; }');
+.new-interface-info__body:not(:has(.visible)) {
+    display: none;
+}
 
-        // Разделитель секций
-        css.push('.menu__split { height: 1px; background: rgba(255, 255, 255, 0.1); margin: 10px 24px; width: calc(100% - 48px); }');
-        css.push('.head__body { padding: 0 !important; }');
-        css.push('.online.selector { border-radius: 1em; }');
+/* Основные переменные для легкой настройки */
+:root {
+    --menu-bg: rgba(20, 20, 23, 0.75);
+    --menu-bg-hover: rgba(20, 20, 23, 0.95);
+    --menu-width-collapsed: 72px;
+    --menu-width-expanded: 200px;
+    --accent-color: #e50914; 
+    --text-color: #e8e8e8;
+    --text-color-active: #ffffff;
+    --blur-strength: 10px;
+    --transition-speed: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
 
-        // Стили карточек (inset заменён на top/right/bottom/left для совместимости, но zbox-shadow сохранён как задумано)
-        css.push('.card .card__view::before, .card-episode .full-episode::before, .register::before, .online.selector::before { content: ""; position: absolute; top: 0; right: 0; bottom: 0; left: 0; border: 0 !important; border-radius: 1em; pointer-events: none; opacity: 0; transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important; will-change: opacity; z-index: 2; box-shadow: inset 2px 2px 1px rgba(255, 255, 255, 0.30), inset -2px -2px 2px rgba(255, 255, 255, 0.30); background: radial-gradient(circle at center, transparent 58%, rgba(255, 255, 255, 0.22) 75%, rgba(255, 255, 255, 0.38) 90%), radial-gradient(120% 85% at 18% 10%, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.10) 38%, transparent 62%); mix-blend-mode: screen; }');
-        
-        css.push('.card .card__view::after, .card-episode .full-episode::after, .register::after, .online.selector::after { display: none; }');
-        
-        css.push('.card.focus .card__view::before, .card.hover .card__view::before, .card-episode.focus .full-episode::before, .register.focus::before, .online.selector.focus::before { opacity: 1; }');
-        
-        css.push('.card.focus, .card-episode.focus, .register.focus { transform: scale(1.08) translateY(-6px) !important; z-index: 10; }');
-        css.push('.online.selector.focus { transform: scale(1.01) !important; z-index: 10; box-shadow: none !important; }');
-        
-        css.push('.card, .card-episode, .register, .online.selector { transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important; will-change: transform; -webkit-animation: none !important; animation: none !important; }');
-        
-        // Добавлен -webkit-backdrop-filter для старых браузеров
-        css.push('.card.focus .card__view, .card.hover .card__view, .card-episode.focus .full-episode, .register.focus, .online.selector.focus { position: relative !important; border-radius: 1em !important; background: rgba(255, 255, 255, 0.05) !important; flex-shrink: 0 !important; transition: box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1), -webkit-backdrop-filter 0.6s cubic-bezier(0.16, 1, 0.3, 1), backdrop-filter 0.6s cubic-bezier(0.16, 1, 0.3, 1), -webkit-transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), background 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important; will-change: transform, box-shadow, backdrop-filter; -webkit-animation: none !important; animation: none !important; }');
-        
-        css.push('.card .card__view, .card-episode .full-episode, .register, .online.selector { animation: none !important; margin-bottom: 1em; }');
-        css.push('.card__type, .card__quality { z-index: 2; }');
+/* Сам контейнер меню */
+.menu {
+    pointer-events: auto;
+    border-radius: 24px;
+    border-radius: 0 24px 24px 0;
+    transition: width var(--transition-speed), background var(--transition-speed);
+    display: flex;
+    flex-direction: column;
+    padding: 15px 0;
+}
+
+/* Элемент меню */
+.menu__item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 50px;
+    padding: 0 24px;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    white-space: nowrap;
+    background: transparent;
+    border-radius: 1em;
+}
+
+/* Ховер эффект и активное состояние */
+.menu__item:hover,
+.menu__item.active,
+.menu__item.focus {
+    color: var(--text-color-active);
+    background: rgba(255, 255, 255, 0.12);
+    zbox-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Акцентная полоска слева при наведении */
+.menu__item::before {
+    content: '';
+    position: absolute;
+    left: 0px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 0;
+    background-color: var(--accent-color);
+    border-radius: 0 4px 4px 0;
+    transition: height 0.2s ease;
+    box-shadow: 0 0 10px var(--accent-color);
+}
+
+.menu__item.active::before,
+.menu__item.focus::before {
+    height: 60%;
+}
+
+/* Иконки */
+.menu__ico {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 24px;
+    height: 24px;
+    margin-right: 20px;
+}
+
+.menu__item.focus .menu__ico svg > * {
+    width: 24px;
+    height: 24px;
+    stroke: currentColor !important;
+    transition: transform 0.2s;
+}
+
+.menu__item.focus .menu__ico svg path {
+    fill: currentColor !important;
+}
+
+/* Анимация иконки при наведении */
+.menu__item:hover .menu__ico svg {
+    transform: scale(1.1);
+}
+
+/* Текст меню */
+.menu__text {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    transform: translateX(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Разделитель секций */
+.menu__split {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 10px 24px;
+    width: calc(100% - 48px);
+}
+
+.head__body {
+    padding: 0 !important;
+}
+
+.online.selector {
+    border-radius: 1em;
+}
+
+.card .card__view::before,
+.card .card__view::before,
+.card-episode .full-episode::before,
+.register::before,
+.online.selector::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 0 !important;
+    border-radius: 1em;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    will-change: opacity;
+    z-index: 2;
+    box-shadow: inset 2px 2px 1px rgba(255, 255, 255, 0.30), inset -2px -2px 2px rgba(255, 255, 255, 0.30);
+    background: radial-gradient(circle at center, transparent 58%, rgba(255, 255, 255, 0.22) 75%, rgba(255, 255, 255, 0.38) 90%), radial-gradient(120% 85% at 18% 10%, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.10) 38%, transparent 62%);
+    mix-blend-mode: screen;
+}
+
+.card .card__view::after,
+.card .card__view::after,
+.card-episode .full-episode::after,
+.register::after,
+.online.selector::after {
+    display: none;
+}
+
+.card.focus .card__view::before,
+.card.hover .card__view::before,
+.card-episode.focus .full-episode::before,
+.register.focus::before,
+.online.selector.focus::before {
+    opacity: 1;
+}
+
+.card.focus,
+.card-episode.focus,
+.register.focus {
+    transform: scale(1.08) translateY(-6px) !important;
+    z-index: 10;
+}
+.online.selector.focus {
+    transform: scale(1.01) !important;
+    z-index: 10;
+    box-shadow: none !important;
+}
+
+.card,
+.card-episode,
+.register,
+.online.selector {
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    will-change: transform;
+    -webkit-animation: none !important;
+    animation: none !important;
+}
+
+.card.focus .card__view,
+.card.hover .card__view,
+.card-episode.focus .full-episode,
+.register.focus,
+.online.selector.focus {
+    position: relative !important;
+    border-radius: 1em !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    flex-shrink: 0 !important;
+    transition: box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1), backdrop-filter 0.6s cubic-bezier(0.16, 1, 0.3, 1), -webkit-backdrop-filter 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), background 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    will-change: transform, box-shadow, backdrop-filter;
+    -webkit-animation: none !important;
+    animation: none !important;
+}
+
+.card .card__view,
+.card-episode .full-episode,
+.register,
+.online.selector {
+    animation: none !important;
+    margin-bottom: 1em;
+}
+
+.card__type, .card__quality {
+    z-index: 2;
+}
+        `;
 
         // Применение стилей
         var style = document.createElement('style');
         style.type = 'text/css';
-        // Объединяем массив в одну строку
-        var cssText = css.join(' ');
-        
         if (style.styleSheet) {
-            style.styleSheet.cssText = cssText;
+            style.styleSheet.cssText = css;
         } else {
-            style.appendChild(document.createTextNode(cssText));
+            style.appendChild(document.createTextNode(css));
         }
         
         var target = document.head || document.getElementsByTagName('head')[0] || document.body;
@@ -188,12 +371,6 @@
 
         // --- ЧАСТЬ 3: КНОПКА ПОИСКА В МЕНЮ ---
         
-        // Проверка наличия jQuery (используется $)
-        if (typeof $ === 'undefined') {
-            console.log('My Config: jQuery not found, skipping search button');
-            return;
-        }
-
         // SVG иконка лупы
         var icon = '<svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>';
         
@@ -224,12 +401,9 @@
     if (window.appready) {
         startPlugin();
     } else {
-        // Проверка на наличие Lampa.Listener перед вызовом
-        if (Lampa && Lampa.Listener) {
-            Lampa.Listener.follow('app', function (e) {
-                if (e.type == 'ready') startPlugin();
-            });
-        }
+        Lampa.Listener.follow('app', function (e) {
+            if (e.type == 'ready') startPlugin();
+        });
     }
 
 })();
