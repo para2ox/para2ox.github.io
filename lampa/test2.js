@@ -6,7 +6,7 @@
         // --- НОВОЕ: ЗАГРУЗКА ВНЕШНИХ ПЛАГИНОВ ---
         if (Lampa.Utils && Lampa.Utils.putScriptAsync) {
             Lampa.Utils.putScriptAsync([
-                /*'https://aviamovie.github.io/surs.js',*/
+                /*'https://aviamovie.github.io/surs.js',
                 'https://ipavlin98.github.io/lmp-plugins/int.js',
                 'https://darkestclouds.github.io/plugins/applecation/applecation.js',
                 'http://cub.red/plugin/tmdb-proxy',
@@ -19,7 +19,7 @@
                 'http://94.103.86.206/plugins/nots',
                 'https://darkestclouds.github.io/plugins/easytorrent/easytorrent.js',
                 'https://lampame.github.io/main/pubtorr.js',
-                'https://e.vg/IqhjvbiYo'
+                'https://e.vg/IqhjvbiYo'*/
             ], function () {
                 console.log('Внешние плагины успешно загружены');
             });
