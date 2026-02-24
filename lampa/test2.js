@@ -6,7 +6,7 @@
         // --- НОВОЕ: ЗАГРУЗКА ВНЕШНИХ ПЛАГИНОВ ---
         if (Lampa.Utils && Lampa.Utils.putScriptAsync) {
             Lampa.Utils.putScriptAsync([
-                'https://aviamovie.github.io/surs.js',
+                /*'https://aviamovie.github.io/surs.js',*/
                 'https://ipavlin98.github.io/lmp-plugins/int.js',
                 /*'https://darkestclouds.github.io/plugins/applecation/applecation.js',*/
                 'http://cub.red/plugin/tmdb-proxy',
