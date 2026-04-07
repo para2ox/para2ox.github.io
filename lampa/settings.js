@@ -45,8 +45,8 @@
         // Lampa.Storage.set('background_type', 'simple');
         // Lampa.Storage.set('black_style', true);
 
-        Lampa.Storage.set('agree_installation', true);
-        Lampa.Storage.set('bwaesgcmkey', 'HY/xhpfJSjK2IX42ku11d/DO4qjW+W58nvEF0vqU5Wg=');
+        //Lampa.Storage.set('agree_installation', true);
+        Lampa.Storage.set('bwaesgcmkey', 'NkL56zBHtwCjcOuE4RQmXMcVr2HhIh4cDEdLqknju7w=');
 
         // Настраиваем плагин Online Mod
         Lampa.Storage.set('online_mod_rezka2_cookie', 'dle_user_id=38372; dle_password=d8efa0170ea646402578694fe9ccf72e; dle_newpm=0; dle_user_token=cadfee4517c32230654c3c64a6002b0a; dle_user_taken=1');
