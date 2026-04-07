@@ -45,6 +45,9 @@
         // Lampa.Storage.set('background_type', 'simple');
         // Lampa.Storage.set('black_style', true);
 
+        Lampa.Storage.set('agree_installation', true);
+        Lampa.Storage.set('bwaesgcmkey', 'HY/xhpfJSjK2IX42ku11d/DO4qjW+W58nvEF0vqU5Wg=');
+
         // Настраиваем плагин Online Mod
         Lampa.Storage.set('online_mod_rezka2_cookie', 'dle_user_id=38372; dle_password=d8efa0170ea646402578694fe9ccf72e; dle_newpm=0; dle_user_token=cadfee4517c32230654c3c64a6002b0a; dle_user_taken=1');
         Lampa.Storage.set('online_mod_balanser', 'rezka2');
@@ -77,8 +80,8 @@
 
         // Настраиваем кнопки на странице фильма в плагине LME Movie Enhancer
         Lampa.Storage.set('lme_showbutton', true);
-        Lampa.Storage.set('lme_buttonhide', '["view--trailer","view--online","button--reaction","button--subscribe","button--options"]');
-        Lampa.Storage.set('lme_buttonsort', '["view--online_mod","view--torrent","view--rutube_trailer","button--book"]');
+        Lampa.Storage.set('lme_buttonhide', '["view--trailer","view--online_mod","button--reaction","button--subscribe","button--options"]');
+        Lampa.Storage.set('lme_buttonsort', '["view--online","view--torrent","view--rutube_trailer","button--book"]');
 
         // Скрываем и сортируем пункты меню
         Lampa.Storage.set('menu_hide', '["Подборки","Каталог","Лента","Фильмы","Мультфильмы","Сериалы","Персоны","Релизы","Аниме","Подписки","Расписание","Торренты","Спорт","Для детей","Shots","Torrent Manager"]');
