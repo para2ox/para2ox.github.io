@@ -131,6 +131,9 @@
 .wrap__content .activity__body > div > div {
     padding: 1em 2em !important;
 }
+.new-interface-info__body {
+    padding: 0.2em 1.5em 0 !important;
+}
 
 .full-start-new__buttons {
     padding-top: 1em;
