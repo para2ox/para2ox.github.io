@@ -85,6 +85,12 @@
         Lampa.Storage.set('lme_buttonhide', '["view--trailer","button--reaction","button--subscribe","button--options"]');
         Lampa.Storage.set('lme_buttonsort', '["view--online:443719427","view--online","view--online_mod","view--torrent","view--rutube_trailer","button--book"]');
 
+        // Настраиваем TorrServer
+        Lampa.Storage.set('torrserver_url', 'localhost:8090');
+        
+        // Настраиваем плагин для скачивания торрентов
+        Lampa.Storage.set('lmetorrentSelect', 'universalClient');
+        
         // Скрываем и сортируем пункты меню
         Lampa.Storage.set('menu_hide', '["Подборки","Каталог","Лента","Фильмы","Мультфильмы","Сериалы","Персоны","Релизы","Аниме","Подписки","Расписание","Торренты","Спорт","Для детей","Shots","Torrent Manager"]');
         Lampa.Storage.set('menu_sort', '["Поиск","Главная","Избранное","История","Фильтр"]');
