@@ -88,7 +88,7 @@
 
         // Настраиваем TorrServer
         Lampa.Storage.set('torrserver_use_link', 'one');
-        Lampa.Storage.set('torrserver_url', 'localhost:8090');
+        //Lampa.Storage.set('torrserver_url', 'localhost:8090');
         Lampa.Storage.set('torrserver_savedb', true);
         Lampa.Storage.set('torrserver_preload', 'false');
         
