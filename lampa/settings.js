@@ -86,10 +86,10 @@
         Lampa.Storage.set('lme_buttonsort', '["view--online:443719427","view--online","view--online_mod","view--torrent","view--rutube_trailer","button--book"]');
 
         // Настраиваем TorrServer
-        Lampa.Storage.set('torrserver_use_link', 'one');
+        /*Lampa.Storage.set('torrserver_use_link', 'one');
         Lampa.Storage.set('torrserver_url', 'localhost:8090');
         Lampa.Storage.set('torrserver_savedb', true);
-        Lampa.Storage.set('torrserver_preload', 'false');
+        Lampa.Storage.set('torrserver_preload', 'false');*/
         
         // Настраиваем плагин для скачивания торрентов
         Lampa.Storage.set('lmetorrentSelect', 'universalClient');
