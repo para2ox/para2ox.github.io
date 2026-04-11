@@ -44,8 +44,8 @@
         // Lampa.Storage.set('background', true);
         // Lampa.Storage.set('background_type', 'simple');
         // Lampa.Storage.set('black_style', true);
-        Lampa.Storage.set('shots_in_card', false);
-        Lampa.Storage.set('shots_in_player', false);
+        Lampa.Storage.set('shots_in_card', 'false');
+        Lampa.Storage.set('shots_in_player', 'false');
 
         // Настраиваем BWA (http://bwa.ad/rc)
         Lampa.Storage.set('bwaesgcmkey', 'NkL56zBHtwCjcOuE4RQmXMcVr2HhIh4cDEdLqknju7w=');
