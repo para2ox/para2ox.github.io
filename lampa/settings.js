@@ -80,7 +80,7 @@
 
         // Настраиваем кнопки на странице фильма в плагине LME Movie Enhancer
         Lampa.Storage.set('lme_showbutton', true);
-        Lampa.Storage.set('lme_buttonhide', '["view--trailer","view--online","button--reaction","button--subscribe","button--options"]');
+        Lampa.Storage.set('lme_buttonhide', '["view--trailer","button--reaction","button--subscribe","button--options"]');
         Lampa.Storage.set('lme_buttonsort', '["view--online:443719427","view--online_mod","view--torrent","view--rutube_trailer","button--book"]');
 
         // Скрываем и сортируем пункты меню
