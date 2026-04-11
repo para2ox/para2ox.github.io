@@ -89,7 +89,7 @@
         Lampa.Storage.set('torrserver_use_link', 'one');
         Lampa.Storage.set('torrserver_url', 'localhost:8090');
         Lampa.Storage.set('torrserver_savedb', true);
-        Lampa.Storage.set('torrserver_preload', false);
+        Lampa.Storage.set('torrserver_preload', 'false');
         
         // Настраиваем плагин для скачивания торрентов
         Lampa.Storage.set('lmetorrentSelect', 'universalClient');
