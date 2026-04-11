@@ -48,7 +48,6 @@
         Lampa.Storage.set('shots_in_card', 'false');
         Lampa.Storage.set('shots_in_player', 'false');
 
-window.lampa_settings.disable_features.lgbt=true;
 
         // Настраиваем BWA (http://bwa.ad/rc)
         Lampa.Storage.set('bwaesgcmkey', 'NkL56zBHtwCjcOuE4RQmXMcVr2HhIh4cDEdLqknju7w=');
