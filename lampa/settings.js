@@ -6,20 +6,21 @@
         // --- НОВОЕ: ЗАГРУЗКА ВНЕШНИХ ПЛАГИНОВ ---
         if (Lampa.Utils && Lampa.Utils.putScriptAsync) {
             Lampa.Utils.putScriptAsync([
-                'https://aviamovie.github.io/surs.js',
-                'https://ipavlin98.github.io/lmp-plugins/int.js',
-                'https://darkestclouds.github.io/plugins/applecation/applecation.js',
-                'http://cub.red/plugin/tmdb-proxy',
-                'http://bwa.ad/rc',
-                'https://lampame.github.io/main/lme.js',
+                'https://aviamovie.github.io/surs.js', // Функциональная главная страница с годными рекомендациями
+                'https://ipavlin98.github.io/lmp-plugins/int.js', // Красивый интерфейс главной страницы
+                'https://darkestclouds.github.io/plugins/applecation/applecation.js', // Красивый интерфейс страницы фильма
+                'http://cub.red/plugin/tmdb-proxy', // TMDB прокси для беспробелмного отображения обложек
+                'http://bwa.ad/rc', // Фильмы и сериалы
+                'https://lampame.github.io/main/lme.js', // Твики для интерфейса (использую только для удобного отображения кнопок на странице фильма)
                 'https://ipavlin98.github.io/lmp-plugins/series-progress-fix.js',
-                'https://nb557.github.io/plugins/free.js',
-                'https://ipavlin98.github.io/lmp-plugins/rt.js',
-                'https://ipavlin98.github.io/lmp-plugins/search-focus-no-mic.js',
-                'http://94.103.86.206/plugins/nots',
-                'https://darkestclouds.github.io/plugins/easytorrent/easytorrent.js',
-                'https://lampame.github.io/main/pubtorr.js',
-                'https://e.vg/IqhjvbiYo'
+                'https://nb557.github.io/plugins/free.js', // Обход блокировок контента от Lampa (полезно для стримингов вроде START)
+                'https://ipavlin98.github.io/lmp-plugins/rt.js', // RuTube трейлеры
+                'https://ipavlin98.github.io/lmp-plugins/search-focus-no-mic.js', // Фокус на поле ввода при открытии поиска
+                'http://94.103.86.206/plugins/nots', // Скрытие карточек с TS
+                'https://darkestclouds.github.io/plugins/easytorrent/easytorrent.js', // Умная сортировка файлов торрентов
+                'https://lampame.github.io/main/pubtorr.js', // Сборник публичных парсеров  с отображением статуса доступности
+                'https://lampame.github.io/main/torrentmanager.js', // Скачивание торрентов
+                'https://e.vg/IqhjvbiYo' // AdBlock
             ], function () {
                 console.log('Внешние плагины успешно загружены');
             });
@@ -86,10 +87,10 @@
         Lampa.Storage.set('lme_buttonsort', '["view--online:443719427","view--online","view--online_mod","view--torrent","view--rutube_trailer","button--book"]');
 
         // Настраиваем TorrServer
-        /*Lampa.Storage.set('torrserver_use_link', 'one');
+        Lampa.Storage.set('torrserver_use_link', 'one');
         Lampa.Storage.set('torrserver_url', 'localhost:8090');
         Lampa.Storage.set('torrserver_savedb', true);
-        Lampa.Storage.set('torrserver_preload', 'false');*/
+        Lampa.Storage.set('torrserver_preload', 'false');
         
         // Настраиваем плагин для скачивания торрентов
         Lampa.Storage.set('lmetorrentSelect', 'universalClient');
