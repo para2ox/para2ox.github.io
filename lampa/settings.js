@@ -20,6 +20,8 @@
                 'https://darkestclouds.github.io/plugins/easytorrent/easytorrent.js', // Умная сортировка файлов торрентов
                 'https://lampame.github.io/main/pubtorr.js', // Сборник публичных парсеров  с отображением статуса доступности
                 'https://lampame.github.io/main/torrentmanager.js', // Скачивание торрентов
+
+'http://cub.rip/plugin/lgbt',
                 'https://e.vg/IqhjvbiYo' // AdBlock
             ], function () {
                 console.log('Внешние плагины успешно загружены');
