@@ -20,7 +20,6 @@
                 'https://darkestclouds.github.io/plugins/easytorrent/easytorrent.js', // Умная сортировка файлов торрентов
                 'https://lampame.github.io/main/pubtorr.js', // Сборник публичных парсеров  с отображением статуса доступности
                 'https://lampame.github.io/main/torrentmanager.js', // Скачивание торрентов
-'http://cub.red/plugin/lgbt',
                 'https://e.vg/IqhjvbiYo' // AdBlock
             ], function () {
                 console.log('Внешние плагины успешно загружены');
@@ -48,6 +47,8 @@
         // Lampa.Storage.set('black_style', true);
         Lampa.Storage.set('shots_in_card', 'false');
         Lampa.Storage.set('shots_in_player', 'false');
+
+window.lampa_settings.disable_features.lgbt=true;
 
         // Настраиваем BWA (http://bwa.ad/rc)
         Lampa.Storage.set('bwaesgcmkey', 'NkL56zBHtwCjcOuE4RQmXMcVr2HhIh4cDEdLqknju7w=');
