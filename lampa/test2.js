@@ -8,32 +8,21 @@
 
     try {
         // =======================================================
-        // 1. МГНОВЕННАЯ ЗАГРУЗКА И СТИЛИ (Убиваем мигание)
+        // 1. БЕЗОПАСНАЯ ИНЪЕКЦИЯ СТИЛЕЙ СРАЗУ ПРИ СТАРТЕ
         // =======================================================
-        
-        // Сразу грузим главную страницу
-        var sursScript = document.createElement('script');
-        sursScript.src = 'https://aviamovie.github.io/surs.js';
-        sursScript.async = true;
-        (document.head || document.documentElement).appendChild(sursScript);
-
-        // Аккуратный, читаемый и на 100% безопасный формат стилей
         var cssLines = [
-            '/* --- Базовый фон --- */',
-            'body, #app { background-color: #141417 !important; }',
-            
-            '/* --- Скрытие элементов шапки и меню (Старые стили) --- */',
-            '.head .head__logo-icon, .head .open--search, .head .open--settings, .head .time--clock + div, .head .open--premium, .head .open--feed, .head .notice--icon, .head .open--broadcast, .head .full--screen, .head .m-reload-screen, .head .black-friday__button, .head .torrent-manager-icon { display: none !important; }',
-            '.menu li.menu__item[data-action="streaming"], .menu li.menu__item[data-action="catalog"], .menu li.menu__item[data-action="feed"], .menu li.menu__item[data-action="movie"], .menu li.menu__item[data-action="cartoon"], .menu li.menu__item[data-action="tv"], .menu li.menu__item[data-action="myperson"], .menu li.menu__item[data-action="relise"], .menu li.menu__item[data-action="anime"], .menu li.menu__item[data-action="subscribes"], .menu li.menu__item[data-action="timetable"], .menu li.menu__item[data-action="mytorrents"], .menu li.menu__item[data-action="kids"], .menu li.menu__item:not([data-action]) { display: none !important; }',
-            '.menu .menu__split, .menu li.menu__item[data-action="about"], .menu li.menu__item[data-action="console"], .menu li.menu__item[data-action="edit"] { display: none !important; }',
-            '.wrap__left .scroll__content { display: flex; flex-direction: column; min-height: 100vh; }',
-            '.wrap__left .scroll__body { margin-top: auto; margin-bottom: auto; }',
-            '.head__title { visibility: hidden; }',
+            '.head .head__logo-icon, .head .open--search, .head .open--settings, .head .time--clock + div, .head .open--premium, .head .open--feed, .head .notice--icon, .head .open--broadcast, .head .full--screen, .head .m-reload-screen, .head .black-friday__button, .head .torrent-manager-icon {display: none !important;}',
+            '.menu li.menu__item[data-action="streaming"], .menu li.menu__item[data-action="catalog"], .menu li.menu__item[data-action="feed"], .menu li.menu__item[data-action="movie"], .menu li.menu__item[data-action="cartoon"], .menu li.menu__item[data-action="tv"], .menu li.menu__item[data-action="myperson"], .menu li.menu__item[data-action="relise"], .menu li.menu__item[data-action="anime"], .menu li.menu__item[data-action="subscribes"], .menu li.menu__item[data-action="timetable"], .menu li.menu__item[data-action="mytorrents"], .menu li.menu__item[data-action="kids"], .menu li.menu__item:not([data-action]) {display: none !important;}',
+            '.menu .menu__split, .menu li.menu__item[data-action="about"], .menu li.menu__item[data-action="console"], .menu li.menu__item[data-action="edit"] {display: none !important;}',
+            '.wrap__left .scroll__content {display: flex; flex-direction: column; min-height: 100vh;} .wrap__left .scroll__body {margin-top: auto; margin-bottom: auto;}',
+            '.head__title {visibility: hidden;}',
 
-            '/* --- Новые стили интерфейса --- */',
             '.head, .head .open--profile, .head .head__backward, .head .head__menu-icon, .head .head__title, .head .head__markers, .head .head__time { display: none; }',
             '.wrap__left { padding: 0; }',
             '.wrap__content { padding: 0 !important; }',
+            
+            '/*.wrap__content .applecation .activity__body { margin-top: 4em !important; }*/',
+            
             '.wrap__content .applecation .activity__body .full-start__background { margin-top: 4em !important; }',
             '.wrap__content .applecation.full-start-new { margin-bottom: 8em; }',
             '.wrap__content .applecation.full-start-new .full-start-new__right { margin-bottom: -4em; }',
@@ -43,23 +32,10 @@
             '.items-line__head { margin-top: 3.5em; }',
             '.scroll--horizontal .scroll__content { margin-top: 0.5em; }',
             
-            '/* ВАЖНО: Селектор :has закомментирован, так как вызывает ошибку на ТВ */',
             '/* .new-interface-info__body:not(:has(.visible)) { display: none; } */',
 
-            '/* --- Основные переменные --- */',
-            ':root {',
-            '    --menu-bg: rgba(20, 20, 23, 0.75);',
-            '    --menu-bg-hover: rgba(20, 20, 23, 0.95);',
-            '    --menu-width-collapsed: 72px;',
-            '    --menu-width-expanded: 200px;',
-            '    --accent-color: #e50914;',
-            '    --text-color: #e8e8e8;',
-            '    --text-color-active: #ffffff;',
-            '    --blur-strength: 10px;',
-            '    --transition-speed: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);',
-            '}',
+            ':root { --menu-bg: rgba(20, 20, 23, 0.75); --menu-bg-hover: rgba(20, 20, 23, 0.95); --menu-width-collapsed: 72px; --menu-width-expanded: 200px; --accent-color: #e50914; --text-color: #e8e8e8; --text-color-active: #ffffff; --blur-strength: 10px; --transition-speed: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); }',
 
-            '/* --- Меню --- */',
             '.menu { pointer-events: auto; border-radius: 24px; border-radius: 0 24px 24px 0; transition: width var(--transition-speed), background var(--transition-speed); display: flex; flex-direction: column; padding: 15px 0; }',
             '.menu__item { position: relative; display: flex; align-items: center; height: 50px; padding: 0 24px; color: var(--text-color); cursor: pointer; transition: all 0.2s ease; text-decoration: none; white-space: nowrap; background: transparent; border-radius: 1em; }',
             '.menu__item:hover, .menu__item.active, .menu__item.focus { color: var(--text-color-active); background: rgba(255, 255, 255, 0.12); zbox-shadow: 0 15px 40px rgba(0, 0, 0, 0.4); }',
@@ -74,144 +50,11 @@
             '.head__body { padding: 0 !important; }',
             '.online.selector { border-radius: 1em; }',
 
-            '/* --- Карточки --- */',
-            '.card .card__view::before, .card-episode .full-episode::before, .register::before, .online.selector::before { content: ""; position: absolute; inset: 0; border: 0 !important; border-radius: 1em; pointer-events: none; opacity: 0; transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important; will-change: opacity; z-index: 2; box-shadow: inset 2px 2px 1px rgba(255, 255, 255, 0.30), inset -2px -2px 2px rgba(255, 255, 255, 0.30); background: radial-gradient(circle at center, transparent 58%, rgba(255, 255, 255, 0.22) 75%, rgba(255, 255, 255, 0.38) 90%), radial-gradient(120% 85% at 18% 10%, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.10) 38%, transparent 62%); mix-blend-mode: screen; }',
-            '.card .card__view::after, .card-episode .full-episode::after, .register::after, .online.selector::after { display: none; }',
+            '.card .card__view::before, .card .card__view::before, .card-episode .full-episode::before, .register::before, .online.selector::before { content: ""; position: absolute; inset: 0; border: 0 !important; border-radius: 1em; pointer-events: none; opacity: 0; transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important; will-change: opacity; z-index: 2; box-shadow: inset 2px 2px 1px rgba(255, 255, 255, 0.30), inset -2px -2px 2px rgba(255, 255, 255, 0.30); background: radial-gradient(circle at center, transparent 58%, rgba(255, 255, 255, 0.22) 75%, rgba(255, 255, 255, 0.38) 90%), radial-gradient(120% 85% at 18% 10%, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.10) 38%, transparent 62%); mix-blend-mode: screen; }',
+            '.card .card__view::after, .card .card__view::after, .card-episode .full-episode::after, .register::after, .online.selector::after { display: none; }',
             '.card.focus .card__view::before, .card.hover .card__view::before, .card-episode.focus .full-episode::before, .register.focus::before, .online.selector.focus::before { opacity: 1; }',
             '.card.focus, .card-episode.focus, .register.focus { transform: scale(1.08) translateY(-6px) !important; z-index: 10; }',
             '.online.selector.focus { transform: scale(1.01) !important; z-index: 10; box-shadow: none !important; }',
             '.card, .card-episode, .register, .online.selector { transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important; will-change: transform; -webkit-animation: none !important; animation: none !important; }',
             '.card.focus .card__view, .card.hover .card__view, .card-episode.focus .full-episode, .register.focus, .online.selector.focus { position: relative !important; border-radius: 1em !important; background: rgba(255, 255, 255, 0.05) !important; flex-shrink: 0 !important; transition: box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1), backdrop-filter 0.6s cubic-bezier(0.16, 1, 0.3, 1), -webkit-backdrop-filter 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), background 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important; will-change: transform, box-shadow, backdrop-filter; -webkit-animation: none !important; animation: none !important; }',
-            '.card .card__view, .card-episode .full-episode, .register, .online.selector { animation: none !important; margin-bottom: 1em; }',
-            '.card__type, .card__quality { z-index: 2; }'
-        ];
-
-        var style = document.createElement('style');
-        style.type = 'text/css';
-        var cssString = cssLines.join('\n');
-        if (style.styleSheet) style.styleSheet.cssText = cssString;
-        else style.appendChild(document.createTextNode(cssString));
-        
-        var target = document.head || document.getElementsByTagName('head')[0] || document.documentElement;
-        target.appendChild(style);
-
-        // =======================================================
-        // 2. ЗАЩИТА ANDROID TV (Route Guard)
-        // =======================================================
-        var bootTime = Date.now();
-        var routeGuardActive = true;
-        var guardInterval = setInterval(function() {
-            if (window.Lampa && window.Lampa.Activity) {
-                clearInterval(guardInterval);
-                var originalPush = Lampa.Activity.push;
-                Lampa.Activity.push = function (params) {
-                    if (routeGuardActive) {
-                        if (Date.now() - bootTime < 4000) {
-                            var active = Lampa.Activity.active();
-                            if (active && active.component === 'full' && (params.component === 'main' || params.component === 'surs')) {
-                                return false; 
-                            }
-                        } else {
-                            routeGuardActive = false;
-                        }
-                    }
-                    return originalPush.apply(this, arguments);
-                };
-            }
-        }, 50);
-
-        // =======================================================
-        // 3. ОРИГИНАЛЬНАЯ ЛОГИКА НАСТРОЕК
-        // =======================================================
-        function startPlugin() {
-            if (Lampa.Utils && Lampa.Utils.putScriptAsync) {
-                Lampa.Utils.putScriptAsync([
-                    'https://ipavlin98.github.io/lmp-plugins/int.js', 
-                    'https://darkestclouds.github.io/plugins/applecation/applecation.js',
-                    'http://cub.red/plugin/tmdb-proxy',
-                    'http://bwa.ad/rc',
-                    'https://lampame.github.io/main/lme.js',
-                    'https://ipavlin98.github.io/lmp-plugins/series-progress-fix.js',
-                    'https://nb557.github.io/plugins/free.js',
-                    'https://ipavlin98.github.io/lmp-plugins/rt.js',
-                    'https://ipavlin98.github.io/lmp-plugins/search-focus-no-mic.js',
-                    'http://94.103.86.206/plugins/nots',
-                    'https://darkestclouds.github.io/plugins/easytorrent/easytorrent.js',
-                    'https://lampame.github.io/main/pubtorr.js',
-                    'https://lampame.github.io/main/torrentmanager.js',
-                    'https://e.vg/IqhjvbiYo'
-                ], function () {});
-            }
-
-            // Преднастройки Lampa
-            Lampa.Storage.set('start_page', 'main');
-            Lampa.Storage.set('surs_name', 'P2X');
-            Lampa.Storage.set('source', 'P2X');
-            Lampa.Storage.set('glass_style', true);
-            Lampa.Storage.set('glass_opacity', 'easy');
-            Lampa.Storage.set('mask', true);
-            Lampa.Storage.set('video_quality_default', '1080');
-            Lampa.Storage.set('interface_size', 'small');
-            Lampa.Storage.set('keyboard_type', 'integrate');
-            Lampa.Storage.set('menu_always', false);
-            Lampa.Storage.set('screensaver', 'false');
-            Lampa.Storage.set('advanced_animation', true);
-            Lampa.Storage.set('shots_in_card', 'false');
-            Lampa.Storage.set('shots_in_player', 'false');
-            
-            Lampa.Storage.set('bwaesgcmkey', 'NkL56zBHtwCjcOuE4RQmXMcVr2HhIh4cDEdLqknju7w=');
-            
-            Lampa.Storage.set('applecation_text_scale', '120');
-            Lampa.Storage.set('applecation_spacing_scale', '90');
-            Lampa.Storage.set('applecation_show_ratings', true);
-            Lampa.Storage.set('applecation_ratings_source', 'builtin');
-            Lampa.Storage.set('applecation_mdblist_api_key', 'wf3lktoy7sbbjrcnmf8g9omsw');
-            Lampa.Storage.set('applecation_enabled_ratings', '["tmdb","imdb","tomatoes","popcorn","metacritic","letterboxd","trakt"]');
-            Lampa.Storage.set('applecation_show_episode_count', true);
-            
-            Lampa.Storage.set('logo_show', 'false');
-            Lampa.Storage.set('show_background', 'true');
-            Lampa.Storage.set('status', 'true');
-            Lampa.Storage.set('seas', 'true');
-            Lampa.Storage.set('eps', 'true');
-            Lampa.Storage.set('rat', 'false');
-            Lampa.Storage.set('si_colored_ratings', 'false');
-            Lampa.Storage.set('si_rating_border', 'false');
-            Lampa.Storage.set('async_load', 'true');
-            Lampa.Storage.set('hide_captions', 'true');
-            Lampa.Storage.set('wide_post', 'false');
-            
-            Lampa.Storage.set('lme_showbutton', true);
-            Lampa.Storage.set('lme_buttonhide', '["view--trailer","button--reaction","button--subscribe","button--options"]');
-            Lampa.Storage.set('lme_buttonsort', '["view--online:443719427","view--online","view--online_mod","view--torrent","view--rutube_trailer","button--book"]');
-            
-            Lampa.Storage.set('torrserver_savedb', true);
-            Lampa.Storage.set('torrserver_preload', 'false');
-            
-            Lampa.Storage.set('lmetorrentSelect', 'universalClient');
-            
-            Lampa.Storage.set('menu_hide', '["Подборки","Каталог","Лента","Фильмы","Мультфильмы","Сериалы","Персоны","Релизы","Аниме","Подписки","Расписание","Торренты","Спорт","Для детей","Shots","Torrent Manager"]');
-            Lampa.Storage.set('menu_sort', '["Поиск","Главная","Избранное","История","Фильтр"]');
-
-            // Кнопка поиска
-            var icon = '<svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>';
-            var searchItem = $('<li class="menu__item selector" data-action="search_button"><div class="menu__ico">' + icon + '</div><div class="menu__text">Поиск</div></li>');
-            searchItem.on('hover:enter', function () {
-                var originalSearch = $('.head .open--search');
-                if (originalSearch.length) originalSearch.trigger('hover:enter');
-                else if (Lampa.Search) Lampa.Search.open();
-            });
-            $('.menu .menu__list').eq(0).append(searchItem);
-        }
-
-        var checkReady = setInterval(function() {
-            if (window.appready) {
-                clearInterval(checkReady);
-                startPlugin();
-            }
-        }, 100);
-
-    } catch (e) {
-        console.log('Plugin Error:', e);
-    }
-})();
+            '.card .card__view, .card-episode .full
