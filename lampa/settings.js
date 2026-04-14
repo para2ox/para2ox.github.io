@@ -51,6 +51,9 @@
             css += '.scroll--horizontal .scroll__content { margin-top: 0.5em; } ';
             css += '.new-interface-info__body:not(:has(.visible)) { display: none; } ';
             
+            // ДОБАВЛЕНО: Скрытие .background__fade при отсутствии .visible в .new-interface-info__body
+            css += 'body:has(.new-interface-info__body:not(:has(.visible))) .background__fade { opacity: 0 !important; pointer-events: none; } ';
+            
             // Основные переменные для легкой настройки
             css += ':root { --menu-bg: rgba(20, 20, 23, 0.75); --menu-bg-hover: rgba(20, 20, 23, 0.95); --menu-width-collapsed: 72px; --menu-width-expanded: 200px; --accent-color: #e50914; --text-color: #e8e8e8; --text-color-active: #ffffff; --blur-strength: 10px; --transition-speed: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); } ';
             
