@@ -1,41 +1,59 @@
 (function () {
     'use strict';
 
-    // --- ЧАСТЬ 1: ЗАГРУЗКА ВНЕШНИХ ПЛАГИНОВ (РАННЯЯ ИНИЦИАЛИЗАЦИЯ) ---
-    // Вынесено из appready. Плагины загрузятся во время старта Lampa, 
-    // ДО обработки intent'а Android TV. Это предотвратит перекрытие страницы фильма.
-    var externalPlugins = [
-        'https://aviamovie.github.io/surs.js', // Функциональная главная страница
-        'https://ipavlin98.github.io/lmp-plugins/int.js', // Красивый интерфейс главной страницы
-        'https://darkestclouds.github.io/plugins/applecation/applecation.js', // Красивый интерфейс страницы фильма
-        'http://cub.red/plugin/tmdb-proxy', // TMDB прокси
-        'http://bwa.ad/rc', // Фильмы и сериалы
-        'https://lampame.github.io/main/lme.js', // Твики для интерфейса
-        'https://ipavlin98.github.io/lmp-plugins/series-progress-fix.js',
-        'https://nb557.github.io/plugins/free.js', // Обход блокировок
-        'https://ipavlin98.github.io/lmp-plugins/rt.js', // RuTube трейлеры
-        'https://ipavlin98.github.io/lmp-plugins/search-focus-no-mic.js', // Фокус на поле ввода
-        'http://94.103.86.206/plugins/nots', // Скрытие карточек с TS
-        'https://darkestclouds.github.io/plugins/easytorrent/easytorrent.js', // Умная сортировка
-        'https://lampame.github.io/main/pubtorr.js', // Публичные парсеры
-        'https://lampame.github.io/main/torrentmanager.js', // Скачивание торрентов
-        'https://e.vg/IqhjvbiYo' // AdBlock
-    ];
+    function startPlugin() {
+        
+        // --- НОВОЕ: ЗАЩИТА ОТ АГРЕССИВНОГО ПОВЕДЕНИЯ SURS.JS ---
+        // Сохраняем оригинальный метод навигации Lampa
+        var originalActivityPush = Lampa.Activity.push;
+        var blockNextMainPagePush = false;
 
-    // Используем нативный метод добавления скриптов
-    // Флаг async = false гарантирует строгое сохранение порядка загрузки
-    externalPlugins.forEach(function(url) {
-        var script = document.createElement('script');
-        script.src = url;
-        script.async = false; 
-        document.head.appendChild(script);
-    });
-    console.log('My Config: Внешние плагины поставлены в очередь на загрузку');
+        // Проверяем, открыла ли Lampa карточку фильма напрямую (через историю Android TV)
+        var currentActivity = Lampa.Activity.active();
+        if (currentActivity && currentActivity.component === 'full') {
+            blockNextMainPagePush = true;
+            console.log('My Config: Запуск с карточки фильма. Включаю защиту от перехвата экрана.');
+        }
+
+        // Временно переопределяем функцию навигации Lampa
+        Lampa.Activity.push = function (obj) {
+            // Если surs.js пытается открыть главную, а у нас уже открыт фильм
+            if (blockNextMainPagePush && (obj.component === 'surs' || obj.component === 'main' || obj.component === 'start')) {
+                console.log('My Config: Блокировка! Отменен принудительный переход на главную страницу от surs.js.');
+                // Снимаем блокировку, чтобы при нажатии "Назад" главная страница открылась нормально
+                blockNextMainPagePush = false; 
+                return false; // Отменяем переход
+            }
+            // В остальных случаях пропускаем навигацию как обычно
+            return originalActivityPush.apply(this, arguments);
+        };
 
 
-    // --- ЧАСТЬ 2: НАСТРОЙКИ LAMPA (Storage) ---
-    // Применяются сразу, чтобы Lampa использовала их при первой же отрисовке интерфейса
-    if (window.Lampa && Lampa.Storage) {
+        // --- ЧАСТЬ 1: ЗАГРУЗКА ВНЕШНИХ ПЛАГИНОВ ---
+        if (Lampa.Utils && Lampa.Utils.putScriptAsync) {
+            Lampa.Utils.putScriptAsync([
+                'https://aviamovie.github.io/surs.js', 
+                'https://ipavlin98.github.io/lmp-plugins/int.js', 
+                'https://darkestclouds.github.io/plugins/applecation/applecation.js', 
+                'http://cub.red/plugin/tmdb-proxy', 
+                'http://bwa.ad/rc', 
+                'https://lampame.github.io/main/lme.js', 
+                'https://ipavlin98.github.io/lmp-plugins/series-progress-fix.js',
+                'https://nb557.github.io/plugins/free.js', 
+                'https://ipavlin98.github.io/lmp-plugins/rt.js', 
+                'https://ipavlin98.github.io/lmp-plugins/search-focus-no-mic.js', 
+                'http://94.103.86.206/plugins/nots', 
+                'https://darkestclouds.github.io/plugins/easytorrent/easytorrent.js', 
+                'https://lampame.github.io/main/pubtorr.js', 
+                'https://lampame.github.io/main/torrentmanager.js', 
+                'https://e.vg/IqhjvbiYo' 
+            ], function () {
+                console.log('Внешние плагины успешно загружены');
+            });
+        }
+
+
+        // --- ЧАСТЬ 2: НАСТРОЙКИ LAMPA (Storage) ---
         Lampa.Storage.set('start_page', 'main');
         Lampa.Storage.set('surs_name', 'P2X');
         Lampa.Storage.set('source', 'P2X');
@@ -84,21 +102,21 @@
         
         Lampa.Storage.set('menu_hide', '["Подборки","Каталог","Лента","Фильмы","Мультфильмы","Сериалы","Персоны","Релизы","Аниме","Подписки","Расписание","Торренты","Спорт","Для детей","Shots","Torrent Manager"]');
         Lampa.Storage.set('menu_sort', '["Поиск","Главная","Избранное","История","Фильтр"]');
-    }
 
 
-    // --- ЧАСТЬ 3: CSS ИНЪЕКЦИЯ ---
-    // CSS внедряется немедленно для избежания мерцания стандартного интерфейса
-    var css = '';
+        // --- ЧАСТЬ 3: CSS ИНЪЕКЦИЯ ---
+        var css = '';
 
-    css += '.head .head__logo-icon, .head .open--search, .head .open--settings, .head .time--clock + div, .head .open--premium, .head .open--feed, .head .notice--icon, .head .open--broadcast, .head .full--screen, .head .m-reload-screen, .head .black-friday__button, .head .torrent-manager-icon {display: none !important;} ';
-    css += '.menu li.menu__item[data-action="streaming"], .menu li.menu__item[data-action="catalog"], .menu li.menu__item[data-action="feed"], .menu li.menu__item[data-action="movie"], .menu li.menu__item[data-action="cartoon"], .menu li.menu__item[data-action="tv"], .menu li.menu__item[data-action="myperson"], .menu li.menu__item[data-action="relise"], .menu li.menu__item[data-action="anime"], .menu li.menu__item[data-action="subscribes"], .menu li.menu__item[data-action="timetable"], .menu li.menu__item[data-action="mytorrents"], .menu li.menu__item[data-action="kids"], .menu li.menu__item:not([data-action]) {display: none !important;} ';
-    css += '.menu .menu__split, .menu li.menu__item[data-action="about"], .menu li.menu__item[data-action="console"], .menu li.menu__item[data-action="edit"] {display: none !important;} ';
-    css += '.wrap__left .scroll__content {display: flex; flex-direction: column; min-height: 100vh;} .wrap__left .scroll__body {margin-top: auto; margin-bottom: auto;} ';
-    css += '.head__title {visibility: hidden;} ';
+        css += '.head .head__logo-icon, .head .open--search, .head .open--settings, .head .time--clock + div, .head .open--premium, .head .open--feed, .head .notice--icon, .head .open--broadcast, .head .full--screen, .head .m-reload-screen, .head .black-friday__button, .head .torrent-manager-icon {display: none !important;} ';
+        css += '.menu li.menu__item[data-action="streaming"], .menu li.menu__item[data-action="catalog"], .menu li.menu__item[data-action="feed"], .menu li.menu__item[data-action="movie"], .menu li.menu__item[data-action="cartoon"], .menu li.menu__item[data-action="tv"], .menu li.menu__item[data-action="myperson"], .menu li.menu__item[data-action="relise"], .menu li.menu__item[data-action="anime"], .menu li.menu__item[data-action="subscribes"], .menu li.menu__item[data-action="timetable"], .menu li.menu__item[data-action="mytorrents"], .menu li.menu__item[data-action="kids"], .menu li.menu__item:not([data-action]) {display: none !important;} ';
+        css += '.menu .menu__split, .menu li.menu__item[data-action="about"], .menu li.menu__item[data-action="console"], .menu li.menu__item[data-action="edit"] {display: none !important;} ';
+        css += '.wrap__left .scroll__content {display: flex; flex-direction: column; min-height: 100vh;} .wrap__left .scroll__body {margin-top: auto; margin-bottom: auto;} ';
+        css += '.head__title {visibility: hidden;} ';
 
-    css += `
-.head, .head .open--profile, .head .head__backward, .head .head__menu-icon, .head .head__title, .head .head__markers, .head .head__time { display: none; }
+        css += `
+.head, .head .open--profile, .head .head__backward, .head .head__menu-icon, .head .head__title, .head .head__markers, .head .head__time {
+    display: none;
+}
 .wrap__left { padding: 0; }
 .wrap__content { padding: 0 !important; }
 .wrap__content .applecation .activity__body .full-start__background { margin-top: 4em !important; }
@@ -196,22 +214,26 @@
 }
 .card .card__view, .card-episode .full-episode, .register, .online.selector { animation: none !important; margin-bottom: 1em; }
 .card__type, .card__quality { z-index: 2; }
-    `;
+        `;
 
-    var style = document.createElement('style');
-    style.type = 'text/css';
-    if (style.styleSheet) style.styleSheet.cssText = css;
-    else style.appendChild(document.createTextNode(css));
+        var style = document.createElement('style');
+        style.type = 'text/css';
+        if (style.styleSheet) {
+            style.styleSheet.cssText = css;
+        } else {
+            style.appendChild(document.createTextNode(css));
+        }
+        
+        var target = document.head || document.getElementsByTagName('head')[0] || document.body;
+        if (target) {
+            target.appendChild(style);
+            console.log('My Config: CSS стили успешно внедрены');
+        } else {
+            console.log('My Config: Ошибка - некуда внедрить CSS');
+        }
 
-    var target = document.head || document.getElementsByTagName('head')[0] || document.body;
-    if (target) {
-        target.appendChild(style);
-        console.log('My Config: CSS стили успешно внедрены');
-    }
 
-
-    // --- ЧАСТЬ 4: DOM МАНИПУЛЯЦИИ (Выполняется СТРОГО после готовности Lampa) ---
-    function buildCustomDOM() {
+        // --- ЧАСТЬ 4: КНОПКА ПОИСКА В МЕНЮ ---
         var icon = '<svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>';
         var searchItem = $('<li class="menu__item selector" data-action="search_button"><div class="menu__ico">' + icon + '</div><div class="menu__text">Поиск</div></li>');
 
@@ -228,12 +250,11 @@
         console.log('My Config: Кнопка поиска добавлена');
     }
 
-    // Ожидаем рендера DOM-дерева Lampa для инъекции UI-элементов
     if (window.appready) {
-        buildCustomDOM();
+        startPlugin();
     } else {
         Lampa.Listener.follow('app', function (e) {
-            if (e.type == 'ready') buildCustomDOM();
+            if (e.type == 'ready') startPlugin();
         });
     }
 
