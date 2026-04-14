@@ -44,7 +44,7 @@
             css += '.wrap__content .applecation .activity__body .full-start__background { margin-top: 4em !important; } ';
             css += '.wrap__content .applecation.full-start-new { margin-bottom: 8em; } ';
             css += '.wrap__content .applecation.full-start-new .full-start-new__right { margin-bottom: -4em; } ';
-            css += '.wrap__content .activity__body > div > div { padding: 1em 2em !important; } ';
+            css += 'body:not(.touch-device) .wrap__content .activity__body > div > div { padding: 1em 2em !important; } ';
             css += '.new-interface-info__body { padding: 0.2em 1.5em 0 !important; } ';
             css += '.full-start-new__buttons { padding-top: 1em; } ';
             css += '.items-line__head { margin-top: 3.5em; } ';
