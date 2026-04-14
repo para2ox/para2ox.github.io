@@ -3,11 +3,12 @@
 
     // ==========================================
     // ЧАСТЬ 1: МГНОВЕННАЯ ИНЪЕКЦИЯ СТИЛЕЙ
-    // Выполняется сразу же, чтобы скрыть стандартные
-    // элементы до того, как они вообще появятся на экране
     // ==========================================
     function injectCSS() {
         var css = `
+            /* Фикс базового фона для предотвращения белых/серых вспышек */
+            body, #app { background-color: #141417 !important; }
+
             /* Старые стили (Скрытие элементов шапки и меню) */
             .head .head__logo-icon, .head .open--search, .head .open--settings, .head .time--clock + div, .head .open--premium, .head .open--feed, .head .notice--icon, .head .open--broadcast, .head .full--screen, .head .m-reload-screen, .head .black-friday__button, .head .torrent-manager-icon {display: none !important;}
             .menu li.menu__item[data-action="streaming"], .menu li.menu__item[data-action="catalog"], .menu li.menu__item[data-action="feed"], .menu li.menu__item[data-action="movie"], .menu li.menu__item[data-action="cartoon"], .menu li.menu__item[data-action="tv"], .menu li.menu__item[data-action="myperson"], .menu li.menu__item[data-action="relise"], .menu li.menu__item[data-action="anime"], .menu li.menu__item[data-action="subscribes"], .menu li.menu__item[data-action="timetable"], .menu li.menu__item[data-action="mytorrents"], .menu li.menu__item[data-action="kids"], .menu li.menu__item:not([data-action]) {display: none !important;}
@@ -42,7 +43,7 @@
                 --transition-speed: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
             }
 
-            /* Сам контейнер меню */
+            /* Контейнер меню */
             .menu { pointer-events: auto; border-radius: 24px; border-radius: 0 24px 24px 0; transition: width var(--transition-speed), background var(--transition-speed); display: flex; flex-direction: column; padding: 15px 0; }
             .menu__item { position: relative; display: flex; align-items: center; height: 50px; padding: 0 24px; color: var(--text-color); cursor: pointer; transition: all 0.2s ease; text-decoration: none; white-space: nowrap; background: transparent; border-radius: 1em; }
             .menu__item:hover, .menu__item.active, .menu__item.focus { color: var(--text-color-active); background: rgba(255, 255, 255, 0.12); }
@@ -75,76 +76,82 @@
 
         var target = document.head || document.getElementsByTagName('head')[0] || document.documentElement;
         if (target) target.appendChild(style);
-        
-        console.log('My Config: CSS стили внедрены (Мгновенно)');
     }
 
     // ==========================================
-    // ЧАСТЬ 2: РАННЯЯ ИНИЦИАЛИЗАЦИЯ НАСТРОЕК
-    // Меняет настройки Storage до того, как компоненты
-    // интерфейса начнут их запрашивать
+    // ЧАСТЬ 2: УМНОЕ ПРИМЕНЕНИЕ НАСТРОЕК
     // ==========================================
+    
+    // Вспомогательная функция: предотвращает перерисовку UI,
+    // если настройка уже имеет нужное значение.
+    function safeSetConfig(key, value) {
+        if (!window.Lampa || !window.Lampa.Storage) return;
+        var current = Lampa.Storage.get(key);
+        // Сравниваем как строки, так как Lampa иногда хранит bool как 'false'
+        if (String(current) !== String(value)) {
+            Lampa.Storage.set(key, value);
+        }
+    }
+
     function applySettingsAndScripts() {
         if (!window.Lampa || !window.Lampa.Storage) return false;
 
         // Преднастройки Lampa
-        Lampa.Storage.set('start_page', 'main');
-        Lampa.Storage.set('surs_name', 'P2X');
-        Lampa.Storage.set('source', 'P2X');
-        Lampa.Storage.set('glass_style', true);
-        Lampa.Storage.set('glass_opacity', 'easy');
-        Lampa.Storage.set('mask', true);
-        Lampa.Storage.set('video_quality_default', '1080');
-        Lampa.Storage.set('interface_size', 'small');
-        Lampa.Storage.set('keyboard_type', 'integrate');
-        Lampa.Storage.set('menu_always', false);
-        Lampa.Storage.set('screensaver', 'false');
-        Lampa.Storage.set('advanced_animation', true);
-        Lampa.Storage.set('shots_in_card', 'false');
-        Lampa.Storage.set('shots_in_player', 'false');
+        safeSetConfig('start_page', 'main');
+        safeSetConfig('surs_name', 'P2X');
+        safeSetConfig('source', 'P2X');
+        safeSetConfig('glass_style', true);
+        safeSetConfig('glass_opacity', 'easy');
+        safeSetConfig('mask', true);
+        safeSetConfig('video_quality_default', '1080');
+        safeSetConfig('interface_size', 'small');
+        safeSetConfig('keyboard_type', 'integrate');
+        safeSetConfig('menu_always', false);
+        safeSetConfig('screensaver', 'false');
+        safeSetConfig('advanced_animation', true);
+        safeSetConfig('shots_in_card', 'false');
+        safeSetConfig('shots_in_player', 'false');
 
-        // Настраиваем BWA
-        Lampa.Storage.set('bwaesgcmkey', 'NkL56zBHtwCjcOuE4RQmXMcVr2HhIh4cDEdLqknju7w=');
+        // BWA
+        safeSetConfig('bwaesgcmkey', 'NkL56zBHtwCjcOuE4RQmXMcVr2HhIh4cDEdLqknju7w=');
 
-        // Настраиваем плагин Applecation
-        Lampa.Storage.set('applecation_text_scale', '120');
-        Lampa.Storage.set('applecation_spacing_scale', '90');
-        Lampa.Storage.set('applecation_show_ratings', true);
-        Lampa.Storage.set('applecation_ratings_source', 'builtin');
-        Lampa.Storage.set('applecation_mdblist_api_key', 'wf3lktoy7sbbjrcnmf8g9omsw');
-        Lampa.Storage.set('applecation_enabled_ratings', '["tmdb","imdb","tomatoes","popcorn","metacritic","letterboxd","trakt"]');
-        Lampa.Storage.set('applecation_show_episode_count', true);
+        // Applecation
+        safeSetConfig('applecation_text_scale', '120');
+        safeSetConfig('applecation_spacing_scale', '90');
+        safeSetConfig('applecation_show_ratings', true);
+        safeSetConfig('applecation_ratings_source', 'builtin');
+        safeSetConfig('applecation_mdblist_api_key', 'wf3lktoy7sbbjrcnmf8g9omsw');
+        safeSetConfig('applecation_enabled_ratings', '["tmdb","imdb","tomatoes","popcorn","metacritic","letterboxd","trakt"]');
+        safeSetConfig('applecation_show_episode_count', true);
 
-        // Настраиваем плагин New Interface
-        Lampa.Storage.set('logo_show', 'false');
-        Lampa.Storage.set('show_background', 'true');
-        Lampa.Storage.set('status', 'true');
-        Lampa.Storage.set('seas', 'true');
-        Lampa.Storage.set('eps', 'true');
-        Lampa.Storage.set('rat', 'false');
-        Lampa.Storage.set('si_colored_ratings', 'false');
-        Lampa.Storage.set('si_rating_border', 'false');
-        Lampa.Storage.set('async_load', 'true');
-        Lampa.Storage.set('hide_captions', 'true');
-        Lampa.Storage.set('wide_post', 'false');
+        // New Interface
+        safeSetConfig('logo_show', 'false');
+        safeSetConfig('show_background', 'true');
+        safeSetConfig('status', 'true');
+        safeSetConfig('seas', 'true');
+        safeSetConfig('eps', 'true');
+        safeSetConfig('rat', 'false');
+        safeSetConfig('si_colored_ratings', 'false');
+        safeSetConfig('si_rating_border', 'false');
+        safeSetConfig('async_load', 'true');
+        safeSetConfig('hide_captions', 'true');
+        safeSetConfig('wide_post', 'false');
 
-        // Настраиваем LME Movie Enhancer
-        Lampa.Storage.set('lme_showbutton', true);
-        Lampa.Storage.set('lme_buttonhide', '["view--trailer","button--reaction","button--subscribe","button--options"]');
-        Lampa.Storage.set('lme_buttonsort', '["view--online:443719427","view--online","view--online_mod","view--torrent","view--rutube_trailer","button--book"]');
+        // LME Movie Enhancer
+        safeSetConfig('lme_showbutton', true);
+        safeSetConfig('lme_buttonhide', '["view--trailer","button--reaction","button--subscribe","button--options"]');
+        safeSetConfig('lme_buttonsort', '["view--online:443719427","view--online","view--online_mod","view--torrent","view--rutube_trailer","button--book"]');
 
-        // Настраиваем TorrServer и скачивание
-        Lampa.Storage.set('torrserver_savedb', true);
-        Lampa.Storage.set('torrserver_preload', 'false');
-        Lampa.Storage.set('lmetorrentSelect', 'universalClient');
+        // TorrServer
+        safeSetConfig('torrserver_savedb', true);
+        safeSetConfig('torrserver_preload', 'false');
+        safeSetConfig('lmetorrentSelect', 'universalClient');
 
         // Меню
-        Lampa.Storage.set('menu_hide', '["Подборки","Каталог","Лента","Фильмы","Мультфильмы","Сериалы","Персоны","Релизы","Аниме","Подписки","Расписание","Торренты","Спорт","Для детей","Shots","Torrent Manager"]');
-        Lampa.Storage.set('menu_sort', '["Поиск","Главная","Избранное","История","Фильтр"]');
+        safeSetConfig('menu_hide', '["Подборки","Каталог","Лента","Фильмы","Мультфильмы","Сериалы","Персоны","Релизы","Аниме","Подписки","Расписание","Торренты","Спорт","Для детей","Shots","Torrent Manager"]');
+        safeSetConfig('menu_sort', '["Поиск","Главная","Избранное","История","Фильтр"]');
 
-        console.log('My Config: Настройки Storage применены');
-
-        // Загрузка внешних плагинов
+        // Загрузка плагинов
         if (Lampa.Utils && Lampa.Utils.putScriptAsync) {
             Lampa.Utils.putScriptAsync([
                 'https://aviamovie.github.io/surs.js',
@@ -162,70 +169,45 @@
                 'https://lampame.github.io/main/pubtorr.js',
                 'https://lampame.github.io/main/torrentmanager.js',
                 'https://e.vg/IqhjvbiYo'
-            ], function () {
-                console.log('My Config: Внешние плагины успешно загружены');
-            });
+            ], function () {});
         }
         
         return true;
     }
 
     // ==========================================
-    // ЧАСТЬ 3: ДОБАВЛЕНИЕ ЭЛЕМЕНТОВ В DOM
-    // Выполняется строго после полной загрузки DOM
+    // ЧАСТЬ 3: ANDROID TV ROUTE GUARD
+    // ==========================================
+    // Защищает карточку фильма от перезаписи плагинами
+    function injectRouteGuard() {
+        if (!window.Lampa || !window.Lampa.Activity) return false;
+        
+        var originalPush = Lampa.Activity.push;
+        var bootTime = Date.now();
+        var routeGuardActive = true;
+
+        Lampa.Activity.push = function (params) {
+            if (routeGuardActive) {
+                // Если с момента запуска прошло меньше 4 секунд
+                if (Date.now() - bootTime < 4000) {
+                    var active = Lampa.Activity.active();
+                    // Если Lampa УЖЕ открыла фильм (Intent от Android TV), 
+                    // а сторонний скрипт пытается выкинуть нас на главную (main / surs)
+                    if (active && active.component === 'full' && (params.component === 'main' || params.component === 'surs')) {
+                        console.log('My Config: Заблокирован случайный редирект стороннего плагина (Защита Android TV)');
+                        return false; // Блокируем пуш
+                    }
+                } else {
+                    routeGuardActive = false; // Отключаем защиту после успешного старта
+                }
+            }
+            return originalPush.apply(this, arguments);
+        };
+        return true;
+    }
+
+    // ==========================================
+    // ЧАСТЬ 4: КНОПКА ПОИСКА В МЕНЮ
     // ==========================================
     function appendSearchButton() {
-        var icon = '<svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>';
-        var searchItem = $('<li class="menu__item selector" data-action="search_button"><div class="menu__ico">' + icon + '</div><div class="menu__text">Поиск</div></li>');
-
-        searchItem.on('hover:enter', function () {
-            var originalSearch = $('.head .open--search');
-            if (originalSearch.length) {
-                originalSearch.trigger('hover:enter');
-            } else if (Lampa.Search) {
-                Lampa.Search.open();
-            }
-        });
-
-        // Защита от дублей, если скрипт сработает дважды
-        if ($('.menu .menu__list li[data-action="search_button"]').length === 0) {
-            $('.menu .menu__list').eq(0).append(searchItem);
-            console.log('My Config: Кнопка поиска успешно добавлена в меню');
-        }
-    }
-
-    // ==========================================
-    // ЛОГИКА ЗАПУСКА
-    // ==========================================
-
-    // 1. Стили инжектим сразу (не ждем Lampa)
-    injectCSS();
-
-    // 2. Настройки применяем как только появилось ядро Lampa
-    var isSettingsApplied = applySettingsAndScripts();
-    
-    // Если скрипт запустился раньше ядра (например, загружен локально), 
-    // ставим слушатель или интервал для перехвата
-    if (!isSettingsApplied) {
-        var bootInterval = setInterval(function() {
-            if (window.Lampa && window.Lampa.Storage) {
-                clearInterval(bootInterval);
-                applySettingsAndScripts();
-            }
-        }, 50); // Проверяем каждые 50мс
-    }
-
-    // 3. UI-манипуляции (Кнопка поиска) привязываем к appready
-    if (window.appready) {
-        appendSearchButton();
-    } else {
-        // Подстраховка через Interval, так как иногда Listener.follow может быть недоступен на старте
-        var domInterval = setInterval(function() {
-            if (window.appready) {
-                clearInterval(domInterval);
-                appendSearchButton();
-            }
-        }, 100);
-    }
-
-})();
+        var icon = '<svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2
