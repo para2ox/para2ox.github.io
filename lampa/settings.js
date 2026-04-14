@@ -6,9 +6,9 @@
         // --- НОВОЕ: ЗАГРУЗКА ВНЕШНИХ ПЛАГИНОВ ---
         if (Lampa.Utils && Lampa.Utils.putScriptAsync) {
             Lampa.Utils.putScriptAsync([
-                //'https://aviamovie.github.io/surs.js', // Функциональная главная страница с годными рекомендациями
+                'https://aviamovie.github.io/surs.js', // Функциональная главная страница с годными рекомендациями
                 'https://ipavlin98.github.io/lmp-plugins/int.js', // Красивый интерфейс главной страницы
-                //'https://darkestclouds.github.io/plugins/applecation/applecation.js', // Красивый интерфейс страницы фильма
+                'https://darkestclouds.github.io/plugins/applecation/applecation.js', // Красивый интерфейс страницы фильма
                 'http://cub.red/plugin/tmdb-proxy', // TMDB прокси для беспробелмного отображения обложек
                 'http://bwa.ad/rc', // Фильмы и сериалы
                 'https://lampame.github.io/main/lme.js', // Твики для интерфейса (использую только для удобного отображения кнопок на странице фильма)
