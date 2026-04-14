@@ -160,6 +160,9 @@
             safeSetConfig('bwaesgcmkey', 'NkL56zBHtwCjcOuE4RQmXMcVr2HhIh4cDEdLqknju7w=');
             //safeSetConfig('agree_installation', true);
 
+            // Настраиваем Z01
+            safeSetConfig('aesgcmkey', 'oWBi2fxPIt9if+y0IAuRhSmthXrqPUCNyRXP9BCITsA=');
+
             /* // Настраиваем плагин Online Mod (https://nb557.github.io/plugins/online_mod.js)
             safeSetConfig('online_mod_rezka2_cookie', 'dle_user_id=38372; dle_password=d8efa0170ea646402578694fe9ccf72e; dle_newpm=0; dle_user_token=cadfee4517c32230654c3c64a6002b0a; dle_user_taken=1');
             safeSetConfig('online_mod_balanser', 'rezka2');
@@ -272,6 +275,53 @@
                 }
             }, 100);
         }
+
+        // ==========================================
+        // ЧАСТЬ 4: ДИНАМИЧЕСКИЕ ИЗМЕНЕНИЯ ИНТЕРФЕЙСА (SELECTBOX И КНОПКА ONLINE)
+        // ==========================================
+        function applyDynamicModifications() {
+            // 1. Скрытие 'demo' и модификация Filmix
+            var selectboxItems = document.querySelectorAll('.selectbox-item:not(.modified-by-script)');
+            for (var i = 0; i < selectboxItems.length; i++) {
+                var item = selectboxItems[i];
+                var titleElem = item.querySelector('.selectbox-item__title');
+                if (titleElem) {
+                    var text = titleElem.textContent || titleElem.innerText;
+                    // Скрываем, если содержит слово demo
+                    if (text.toLowerCase().indexOf('demo') !== -1) {
+                        item.style.display = 'none';
+                        item.classList.add('modified-by-script');
+                    } 
+                    // Находим Filmix, переименовываем и поднимаем наверх
+                    else if (text.trim() === 'Filmix' || text.trim() === '👑 Filmix Premium') {
+                        titleElem.textContent = '👑 Filmix Premium';
+                        var parent = item.parentNode;
+                        if (parent && parent.firstChild !== item) {
+                            parent.insertBefore(item, parent.firstChild);
+                        }
+                        item.classList.add('modified-by-script');
+                    }
+                }
+            }
+
+            // 2. Замена SVG в кнопке view--online
+            var onlineBtns = document.querySelectorAll('.lampac--button.view--online:not(.svg-modified)');
+            for (var j = 0; j < onlineBtns.length; j++) {
+                var btn = onlineBtns[j];
+                var svg = btn.querySelector('svg');
+                if (svg) {
+                    var newSvg = '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 392.697 392.697" xml:space="preserve"><path d="M21.837,83.419l36.496,16.678L227.72,19.886c1.229-0.592,2.002-1.846,1.98-3.209c-0.021-1.365-0.834-2.592-2.082-3.145 L197.766,0.3c-0.903-0.4-1.933-0.4-2.837,0L21.873,77.036c-1.259,0.559-2.073,1.803-2.081,3.18 C19.784,81.593,20.584,82.847,21.837,83.419z" fill="currentColor"></path><path d="M185.689,177.261l-64.988-30.01v91.617c0,0.856-0.44,1.655-1.167,2.114c-0.406,0.257-0.869,0.386-1.333,0.386 c-0.368,0-0.736-0.082-1.079-0.244l-68.874-32.625c-0.869-0.416-1.421-1.293-1.421-2.256v-92.229L6.804,95.5 c-1.083-0.496-2.344-0.406-3.347,0.238c-1.002,0.645-1.608,1.754-1.608,2.944v208.744c0,1.371,0.799,2.615,2.045,3.185 l178.886,81.768c0.464,0.211,0.96,0.315,1.455,0.315c0.661,0,1.318-0.188,1.892-0.555c1.002-0.645,1.608-1.754,1.608-2.945 V180.445C187.735,179.076,186.936,177.831,185.689,177.261z" fill="currentColor"></path><path d="M389.24,95.74c-1.002-0.644-2.264-0.732-3.347-0.238l-178.876,81.76c-1.246,0.57-2.045,1.814-2.045,3.185v208.751 c0,1.191,0.606,2.302,1.608,2.945c0.572,0.367,1.23,0.555,1.892,0.555c0.495,0,0.991-0.104,1.455-0.315l178.876-81.768 c1.246-0.568,2.045-1.813,2.045-3.185V98.685C390.849,97.494,390.242,96.384,389.24,95.74z" fill="currentColor"></path><path d="M372.915,80.216c-0.009-1.377-0.823-2.621-2.082-3.18l-60.182-26.681c-0.938-0.418-2.013-0.399-2.938,0.045 l-173.755,82.992l60.933,29.117c0.462,0.211,0.958,0.316,1.455,0.316s0.993-0.105,1.455-0.316l173.066-79.092 C372.122,82.847,372.923,81.593,372.915,80.216z" fill="currentColor"></path></svg>';
+                    svg.outerHTML = newSvg;
+                    btn.classList.add('svg-modified');
+                }
+            }
+        }
+
+        // Наблюдатель за изменениями DOM для динамической подмены
+        var observer = new MutationObserver(function() {
+            applyDynamicModifications();
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
 
     } catch (e) {
         console.log('Plugin Init Error', e);
