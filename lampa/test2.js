@@ -30,9 +30,9 @@
         // --- ЧАСТЬ 1: НАСТРОЙКИ LAMPA (Storage) ---
         
         // Преднастройки Lampa
-        //Lampa.Storage.set('start_page', 'main');
+        Lampa.Storage.set('start_page', 'main');
         //Lampa.Storage.set('surs_name', 'P2X');
-        //Lampa.Storage.set('source', 'P2X');
+        Lampa.Storage.set('source', 'SURS');
         // Lampa.Storage.set('surs_settings', '');
         Lampa.Storage.set('glass_style', true);
         Lampa.Storage.set('glass_opacity', 'easy');
