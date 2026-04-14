@@ -14,6 +14,7 @@
                 'https://lampame.github.io/main/lme.js', // Твики для интерфейса (использую только для удобного отображения кнопок на странице фильма)
                 'https://ipavlin98.github.io/lmp-plugins/series-progress-fix.js',
                 'https://nb557.github.io/plugins/free.js', // Обход блокировок контента от Lampa (полезно для стримингов вроде START)
+                    //'https://amikdn.github.io/anti-dmca.js', // Резерв плагина free.js
                 'https://ipavlin98.github.io/lmp-plugins/rt.js', // RuTube трейлеры
                 'https://ipavlin98.github.io/lmp-plugins/search-focus-no-mic.js', // Фокус на поле ввода при открытии поиска
                 'http://94.103.86.206/plugins/nots', // Скрытие карточек с TS
@@ -47,7 +48,6 @@
         // Lampa.Storage.set('black_style', true);
         Lampa.Storage.set('shots_in_card', 'false');
         Lampa.Storage.set('shots_in_player', 'false');
-
 
         // Настраиваем BWA (http://bwa.ad/rc)
         Lampa.Storage.set('bwaesgcmkey', 'NkL56zBHtwCjcOuE4RQmXMcVr2HhIh4cDEdLqknju7w=');
