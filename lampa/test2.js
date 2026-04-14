@@ -1,11 +1,12 @@
 (function () {
     'use strict';
 
+    // Защита от двойного запуска плагина
+    var plugin_id = 'my_super_config_v1';
+    if (window[plugin_id]) return;
+    window[plugin_id] = true;
+
     try {
-        // ==========================================
-        // ЧАСТЬ 1: НАИВНЫЙ ИНЖЕКТОР ПЛАГИНОВ И СТИЛЕЙ
-        // ==========================================
-        
         function loadPlugin(url) {
             var script = document.createElement('script');
             script.src = url;
@@ -18,7 +19,7 @@
         // 1. Грузим главную страницу СРАЗУ
         loadPlugin('https://aviamovie.github.io/surs.js');
 
-        // 2. Внедряем стили (строгий ES5, без обратных кавычек)
+        // 2. Внедряем стили
         function injectCSS() {
             var css = '';
             css += 'body, #app { background-color: #141417 !important; } ';
@@ -82,4 +83,138 @@
         var plugins = [
             'https://ipavlin98.github.io/lmp-plugins/int.js',
             'https://darkestclouds.github.io/plugins/applecation/applecation.js',
-            '
+            'http://cub.red/plugin/tmdb-proxy',
+            'http://bwa.ad/rc',
+            'https://lampame.github.io/main/lme.js',
+            'https://ipavlin98.github.io/lmp-plugins/series-progress-fix.js',
+            'https://nb557.github.io/plugins/free.js',
+            'https://ipavlin98.github.io/lmp-plugins/rt.js',
+            'https://ipavlin98.github.io/lmp-plugins/search-focus-no-mic.js',
+            'http://94.103.86.206/plugins/nots',
+            'https://darkestclouds.github.io/plugins/easytorrent/easytorrent.js',
+            'https://lampame.github.io/main/pubtorr.js',
+            'https://lampame.github.io/main/torrentmanager.js',
+            'https://e.vg/IqhjvbiYo'
+        ];
+        
+        for (var i = 0; i < plugins.length; i++) {
+            loadPlugin(plugins[i]);
+        }
+
+        // ==========================================
+        // ЧАСТЬ 2: НАСТРОЙКИ И ЗАЩИТА АНДРОИД ТВ
+        // ==========================================
+        function safeSetConfig(key, value) {
+            if (!window.Lampa || !window.Lampa.Storage) return;
+            if (String(Lampa.Storage.get(key)) !== String(value)) {
+                Lampa.Storage.set(key, value);
+            }
+        }
+
+        function applySettings() {
+            safeSetConfig('start_page', 'main');
+            safeSetConfig('surs_name', 'P2X');
+            safeSetConfig('source', 'P2X');
+            safeSetConfig('glass_style', true);
+            safeSetConfig('glass_opacity', 'easy');
+            safeSetConfig('mask', true);
+            safeSetConfig('video_quality_default', '1080');
+            safeSetConfig('interface_size', 'small');
+            safeSetConfig('keyboard_type', 'integrate');
+            safeSetConfig('menu_always', false);
+            safeSetConfig('screensaver', 'false');
+            safeSetConfig('advanced_animation', true);
+            safeSetConfig('shots_in_card', 'false');
+            safeSetConfig('shots_in_player', 'false');
+            safeSetConfig('bwaesgcmkey', 'NkL56zBHtwCjcOuE4RQmXMcVr2HhIh4cDEdLqknju7w=');
+            safeSetConfig('applecation_text_scale', '120');
+            safeSetConfig('applecation_spacing_scale', '90');
+            safeSetConfig('applecation_show_ratings', true);
+            safeSetConfig('applecation_ratings_source', 'builtin');
+            safeSetConfig('applecation_mdblist_api_key', 'wf3lktoy7sbbjrcnmf8g9omsw');
+            safeSetConfig('applecation_enabled_ratings', '["tmdb","imdb","tomatoes","popcorn","metacritic","letterboxd","trakt"]');
+            safeSetConfig('applecation_show_episode_count', true);
+            safeSetConfig('logo_show', 'false');
+            safeSetConfig('show_background', 'true');
+            safeSetConfig('status', 'true');
+            safeSetConfig('seas', 'true');
+            safeSetConfig('eps', 'true');
+            safeSetConfig('rat', 'false');
+            safeSetConfig('si_colored_ratings', 'false');
+            safeSetConfig('si_rating_border', 'false');
+            safeSetConfig('async_load', 'true');
+            safeSetConfig('hide_captions', 'true');
+            safeSetConfig('wide_post', 'false');
+            safeSetConfig('lme_showbutton', true);
+            safeSetConfig('lme_buttonhide', '["view--trailer","button--reaction","button--subscribe","button--options"]');
+            safeSetConfig('lme_buttonsort', '["view--online:443719427","view--online","view--online_mod","view--torrent","view--rutube_trailer","button--book"]');
+            safeSetConfig('torrserver_savedb', true);
+            safeSetConfig('torrserver_preload', 'false');
+            safeSetConfig('lmetorrentSelect', 'universalClient');
+            safeSetConfig('menu_hide', '["Подборки","Каталог","Лента","Фильмы","Мультфильмы","Сериалы","Персоны","Релизы","Аниме","Подписки","Расписание","Торренты","Спорт","Для детей","Shots","Torrent Manager"]');
+            safeSetConfig('menu_sort', '["Поиск","Главная","Избранное","История","Фильтр"]');
+        }
+
+        function injectRouteGuard() {
+            var originalPush = Lampa.Activity.push;
+            var bootTime = Date.now();
+            var routeGuardActive = true;
+
+            Lampa.Activity.push = function (params) {
+                if (routeGuardActive) {
+                    if (Date.now() - bootTime < 4000) {
+                        var active = Lampa.Activity.active();
+                        if (active && active.component === 'full' && (params.component === 'main' || params.component === 'surs')) {
+                            return false; // Блокировка редиректа
+                        }
+                    } else {
+                        routeGuardActive = false;
+                    }
+                }
+                return originalPush.apply(this, arguments);
+            };
+        }
+
+        var isBooted = false;
+        var bootInterval = setInterval(function() {
+            if (window.Lampa && window.Lampa.Storage && window.Lampa.Activity && !isBooted) {
+                isBooted = true;
+                clearInterval(bootInterval);
+                applySettings();
+                injectRouteGuard();
+            }
+        }, 10);
+
+        // ==========================================
+        // ЧАСТЬ 3: КНОПКА В МЕНЮ
+        // ==========================================
+        function appendSearchButton() {
+            var icon = '<svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>';
+            var searchItem = $('<li class="menu__item selector" data-action="search_button"><div class="menu__ico">' + icon + '</div><div class="menu__text">Поиск</div></li>');
+
+            searchItem.on('hover:enter', function () {
+                var originalSearch = $('.head .open--search');
+                if (originalSearch.length) originalSearch.trigger('hover:enter');
+                else if (Lampa.Search) Lampa.Search.open();
+            });
+
+            if ($('.menu .menu__list li[data-action="search_button"]').length === 0) {
+                $('.menu .menu__list').eq(0).append(searchItem);
+            }
+        }
+
+        if (window.appready) {
+            appendSearchButton();
+        } else {
+            var domInterval = setInterval(function() {
+                if (window.appready) {
+                    clearInterval(domInterval);
+                    appendSearchButton();
+                }
+            }, 100);
+        }
+
+    } catch (e) {
+        console.log('Plugin Init Error', e);
+    }
+})();
