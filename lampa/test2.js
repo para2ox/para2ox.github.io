@@ -12,7 +12,7 @@
         sursScript.async = true;
         (document.head || document.documentElement).appendChild(sursScript);
 
-        // Инжектим стили СРАЗУ
+        // Инжектим стили СРАЗУ. (Удален селектор :has, из-за которого падал Android TV)
         var css = '';
         css += '.head .head__logo-icon, .head .open--search, .head .open--settings, .head .time--clock + div, .head .open--premium, .head .open--feed, .head .notice--icon, .head .open--broadcast, .head .full--screen, .head .m-reload-screen, .head .black-friday__button, .head .torrent-manager-icon {display: none !important;} ';
         css += '.menu li.menu__item[data-action="streaming"], .menu li.menu__item[data-action="catalog"], .menu li.menu__item[data-action="feed"], .menu li.menu__item[data-action="movie"], .menu li.menu__item[data-action="cartoon"], .menu li.menu__item[data-action="tv"], .menu li.menu__item[data-action="myperson"], .menu li.menu__item[data-action="relise"], .menu li.menu__item[data-action="anime"], .menu li.menu__item[data-action="subscribes"], .menu li.menu__item[data-action="timetable"], .menu li.menu__item[data-action="mytorrents"], .menu li.menu__item[data-action="kids"], .menu li.menu__item:not([data-action]) {display: none !important;} ';
@@ -31,12 +31,10 @@
         css += '.items-line__head { margin-top: 3.5em; } ';
         css += '.scroll--horizontal .scroll__content { margin-top: 0.5em; } ';
         
-        css += '.new-interface-info__body:not(:has(.visible)) { display: none; } ';
-        
         css += ':root { --menu-bg: rgba(20, 20, 23, 0.75); --menu-bg-hover: rgba(20, 20, 23, 0.95); --menu-width-collapsed: 72px; --menu-width-expanded: 200px; --accent-color: #e50914; --text-color: #e8e8e8; --text-color-active: #ffffff; --blur-strength: 10px; --transition-speed: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); } ';
         css += '.menu { pointer-events: auto; border-radius: 24px; border-radius: 0 24px 24px 0; transition: width var(--transition-speed), background var(--transition-speed); display: flex; flex-direction: column; padding: 15px 0; } ';
         css += '.menu__item { position: relative; display: flex; align-items: center; height: 50px; padding: 0 24px; color: var(--text-color); cursor: pointer; transition: all 0.2s ease; text-decoration: none; white-space: nowrap; background: transparent; border-radius: 1em; } ';
-        css += '.menu__item:hover, .menu__item.active, .menu__item.focus { color: var(--text-color-active); background: rgba(255, 255, 255, 0.12); zbox-shadow: 0 15px 40px rgba(0, 0, 0, 0.4); } ';
+        css += '.menu__item:hover, .menu__item.active, .menu__item.focus { color: var(--text-color-active); background: rgba(255, 255, 255, 0.12); box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4); } ';
         css += '.menu__item::before { content: ""; position: absolute; left: 0px; top: 50%; transform: translateY(-50%); width: 3px; height: 0; background-color: var(--accent-color); border-radius: 0 4px 4px 0; transition: height 0.2s ease; box-shadow: 0 0 10px var(--accent-color); } ';
         css += '.menu__item.active::before, .menu__item.focus::before { height: 60%; } ';
         css += '.menu__ico { display: flex; align-items: center; justify-content: center; min-width: 24px; height: 24px; margin-right: 20px; } ';
@@ -159,4 +157,24 @@
 
             // Кнопка поиска
             var icon = '<svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>';
-            var searchItem = $('<li class="menu__item selector" data-action="search_button"><div class="menu__ico">' + icon + '</div><div class="
+            var searchItem = $('<li class="menu__item selector" data-action="search_button"><div class="menu__ico">' + icon + '</div><div class="menu__text">Поиск</div></li>');
+            searchItem.on('hover:enter', function () {
+                var originalSearch = $('.head .open--search');
+                if (originalSearch.length) originalSearch.trigger('hover:enter');
+                else if (Lampa.Search) Lampa.Search.open();
+            });
+            $('.menu .menu__list').eq(0).append(searchItem);
+        }
+
+        // Ждем готовности приложения для запуска внутренних настроек
+        var checkReady = setInterval(function() {
+            if (window.appready) {
+                clearInterval(checkReady);
+                startPlugin();
+            }
+        }, 100);
+
+    } catch (e) {
+        console.log('Plugin Error:', e);
+    }
+})();
