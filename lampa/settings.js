@@ -138,9 +138,10 @@
 
         function applySettings() {
             // Преднастройки Lampa
-            safeSetConfig('start_page', 'main');
-            safeSetConfig('surs_name', 'P2X');
-            safeSetConfig('source', 'P2X');
+            // Преднастройки Lampa
+        Lampa.Storage.set('start_page', 'main');
+        Lampa.Storage.set('surs_name', 'P2X');
+        Lampa.Storage.set('source', 'P2X');
             // safeSetConfig('surs_settings', '');
             safeSetConfig('glass_style', true);
             safeSetConfig('glass_opacity', 'easy');
