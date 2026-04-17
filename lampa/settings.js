@@ -28,12 +28,12 @@
             var css = '';
             css += 'body, #app { background-color: #141417 !important; } ';
             
-            // Блок 1: Старые стили (Скрытие элементов шапки и меню)
+            // Блок 1: Старые стили
             css += '.head .head__logo-icon, .head .open--search, .head .open--settings, .head .time--clock + div, .head .open--premium, .head .open--feed, .head .notice--icon, .head .open--broadcast, .head .full--screen, .head .m-reload-screen, .head .black-friday__button, .head .torrent-manager-icon {display: none !important;} ';
             css += '.menu li.menu__item[data-action="streaming"], .menu li.menu__item[data-action="catalog"], .menu li.menu__item[data-action="feed"], .menu li.menu__item[data-action="movie"], .menu li.menu__item[data-action="cartoon"], .menu li.menu__item[data-action="tv"], .menu li.menu__item[data-action="myperson"], .menu li.menu__item[data-action="relise"], .menu li.menu__item[data-action="anime"], .menu li.menu__item[data-action="subscribes"], .menu li.menu__item[data-action="timetable"], .menu li.menu__item[data-action="mytorrents"], .menu li.menu__item[data-action="kids"], .menu li.menu__item:not([data-action]) {display: none !important;} ';
             css += '.menu .menu__split, .menu li.menu__item[data-action="about"], .menu li.menu__item[data-action="console"], .menu li.menu__item[data-action="edit"] {display: none !important;} ';
             
-            // Корректировка контейнера слева (из старого кода)
+            // Корректировка контейнера слева
             css += '.wrap__left .scroll__content {display: flex; flex-direction: column; min-height: 100vh;} .wrap__left .scroll__body {margin-top: auto; margin-bottom: auto;} ';
             css += '.head__title {visibility: hidden;} ';
             
@@ -51,7 +51,7 @@
             css += '.scroll--horizontal .scroll__content { margin-top: 0.5em; } ';
             css += '.new-interface-info__body:not(:has(.visible)) { display: none; } ';
             
-            // ДОБАВЛЕНО: Скрытие .background__fade при отсутствии .visible в .new-interface-info__body
+            // Скрытие .background__fade при отсутствии .visible в .new-interface-info__body
             css += 'body:not(:has(.full-start__background.active)) .background__fade { opacity: 0 !important; pointer-events: none; } ';
             
             // Основные переменные для легкой настройки
@@ -59,22 +59,15 @@
             
             // Сам контейнер меню
             css += '.menu { pointer-events: auto; border-radius: 24px; border-radius: 0 24px 24px 0; transition: width var(--transition-speed), background var(--transition-speed); display: flex; flex-direction: column; padding: 15px 0; } ';
-            // Элемент меню
             css += '.menu__item { position: relative; display: flex; align-items: center; height: 50px; padding: 0 24px; color: var(--text-color); cursor: pointer; transition: all 0.2s ease; text-decoration: none; white-space: nowrap; background: transparent; border-radius: 1em; } ';
-            // Ховер эффект и активное состояние
             css += '.menu__item:hover, .menu__item.active, .menu__item.focus { color: var(--text-color-active); background: rgba(255, 255, 255, 0.12); } ';
-            // Акцентная полоска слева при наведении
-            css += '.menu__item::before { content: absolute; left: 0px; top: 50%; transform: translateY(-50%); width: 3px; height: 0; background-color: var(--accent-color); border-radius: 0 4px 4px 0; transition: height 0.2s ease; box-shadow: 0 0 10px var(--accent-color); } ';
+            css += '.menu__item::before { content: ""; position: absolute; left: 0px; top: 50%; transform: translateY(-50%); width: 3px; height: 0; background-color: var(--accent-color); border-radius: 0 4px 4px 0; transition: height 0.2s ease; box-shadow: 0 0 10px var(--accent-color); } ';
             css += '.menu__item.active::before, .menu__item.focus::before { height: 60%; } ';
-            // Иконки
             css += '.menu__ico { display: flex; align-items: center; justify-content: center; min-width: 24px; height: 24px; margin-right: 20px; } ';
             css += '.menu__item.focus .menu__ico svg > * { width: 24px; height: 24px; stroke: currentColor !important; transition: transform 0.2s; } ';
             css += '.menu__item.focus .menu__ico svg path { fill: currentColor !important; } ';
-            // Анимация иконки при наведении
             css += '.menu__item:hover .menu__ico svg { transform: scale(1.1); } ';
-            // Текст меню
             css += '.menu__text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 15px; font-weight: 500; transform: translateX(-10px); transition: opacity 0.3s ease, transform 0.3s ease; } ';
-            // Разделитель секций
             css += '.menu__split { height: 1px; background: rgba(255, 255, 255, 0.1); margin: 10px 24px; width: calc(100% - 48px); } ';
             css += '.head__body { padding: 0 !important; } ';
             css += '.online.selector { border-radius: 1em; } ';
@@ -232,115 +225,73 @@
         }
 
         // ==========================================
-        // ЧАСТЬ 4: ФИЛЬТРАЦИЯ ИСТОЧНИКОВ И ПРЕМИУМ-ИМЕНА (FIXED v2)
+        // ЧАСТЬ 4: ФИЛЬТРАЦИЯ ИСТОЧНИКОВ И ПРЕМИУМ-ИМЕНА (ЯДРО LAMPA)
         // ==========================================
-        function initSourceFilter() {
-            function processSelectbox(selectbox) {
-                var titleElement = selectbox.find('.selectbox__title');
-                if (!titleElement.length || titleElement.text().trim() !== 'Сортировать') return;
+        function initSourceFilterProxy() {
+            // Проверяем, что Lampa загружена и мы еще не пропатчили метод
+            if (!window.Lampa || !window.Lampa.Select || window.Lampa.Select._my_filter_patched) return false;
 
-                var items = selectbox.find('.selectbox-item');
-                var validItems = [];
-                var activeWasRemoved = false;
+            // Сохраняем оригинальный системный метод создания списков
+            var originalSelectOpen = Lampa.Select.open;
 
-                items.each(function () {
-                    var item = $(this);
-                    var textElem = item.find('.selectbox-item__title');
-                    var text = textElem.text().toLowerCase();
+            // Подменяем его своей логикой
+            Lampa.Select.open = function (params) {
+                try {
+                    // Проверяем, что это именно модалка "Сортировать" (выбор балансера) 
+                    // и что нам передали массив элементов
+                    if (params && params.title === 'Сортировать' && Array.isArray(params.items)) {
+                        var filteredItems = [];
 
-                    var isValid = false;
-                    
-                    // Меняем текст, если есть совпадения
-                    if (text.indexOf('rezka') !== -1) {
-                        textElem.text('👑 Rezka Premium');
-                        isValid = true;
-                    } else if (text.indexOf('kinopub') !== -1) {
-                        textElem.text('👑 KinoPub Premium');
-                        isValid = true;
-                    } else if (text.indexOf('filmix') !== -1) {
-                        textElem.text('👑 Filmix Premium');
-                        isValid = true;
-                    }
+                        // Перебираем исходный массив, который Lampa подготовила для рендера
+                        for (var i = 0; i < params.items.length; i++) {
+                            var item = params.items[i];
+                            var title = (item.title || item.name || '').toString();
+                            var lowerTitle = title.toLowerCase();
 
-                    if (isValid) {
-                        validItems.push(item);
-                    } else {
-                        // Запоминаем, был ли удаляемый элемент в фокусе
-                        if (item.hasClass('focus') || item.hasClass('selected')) {
-                            activeWasRemoved = true;
-                        }
-                        // Жестко удаляем элемент (сохраняет индексы кликов для остальных)
-                        item.remove();
-                    }
-                });
-
-                // Если активный элемент (Mirage) был удален, мы должны принудительно 
-                // передать фокус первому выжившему, иначе навигатор зависнет.
-                if (activeWasRemoved && validItems.length > 0) {
-                    var firstValid = validItems[0];
-                    
-                    var applyFocus = function() {
-                        // Чистим стейт у остальных и ставим визуальный фокус
-                        selectbox.find('.selectbox-item').removeClass('focus selected');
-                        firstValid.addClass('focus selected');
-                        
-                        // Дергаем внутренние эвенты Lampa, чтобы движок понял, где курсор
-                        firstValid.trigger('mouseenter');
-                        firstValid.trigger('hover:focus');
-                        
-                        // Контрольный выстрел через API навигатора
-                        if (window.Lampa && window.Lampa.Navigator) {
-                            Lampa.Navigator.focus(firstValid[0]);
-                        }
-                    };
-
-                    // Делаем двойной вызов: сразу и чуть позже, чтобы пробить стек анимаций рендера меню
-                    setTimeout(applyFocus, 20);
-                    setTimeout(applyFocus, 100); 
-                }
-            }
-
-            var observer = new MutationObserver(function (mutations) {
-                mutations.forEach(function (mutation) {
-                    if (mutation.type === 'childList') {
-                        mutation.addedNodes.forEach(function (node) {
-                            if (node.nodeType === 1) { 
-                                var el = $(node);
-                                if (el.hasClass('selectbox') && el.hasClass('animate')) {
-                                    processSelectbox(el);
-                                } else if (el.find('.selectbox.animate').length) {
-                                    processSelectbox(el.find('.selectbox.animate'));
-                                }
+                            // Оставляем только нужные и переименовываем прямо в объекте
+                            if (lowerTitle.indexOf('rezka') !== -1) {
+                                item.title = '👑 Rezka Premium';
+                                filteredItems.push(item);
+                            } else if (lowerTitle.indexOf('kinopub') !== -1) {
+                                item.title = '👑 KinoPub Premium';
+                                filteredItems.push(item);
+                            } else if (lowerTitle.indexOf('filmix') !== -1) {
+                                item.title = '👑 Filmix Premium';
+                                filteredItems.push(item);
                             }
-                        });
-                    } 
-                    else if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-                        var el = $(mutation.target);
-                        if (el.hasClass('selectbox') && el.hasClass('animate')) {
-                            processSelectbox(el);
+                        }
+
+                        // Если после фильтрации хоть что-то осталось, подменяем массив.
+                        // Если все балансеры отвалились (пусто), оставляем оригинальный массив,
+                        // чтобы не крашить интерфейс пустой модалкой.
+                        if (filteredItems.length > 0) {
+                            params.items = filteredItems;
                         }
                     }
-                });
-            });
+                } catch (e) {
+                    console.log('Error in Lampa.Select proxy:', e);
+                }
 
-            observer.observe(document.body, {
-                childList: true,
-                subtree: true,
-                attributes: true,
-                attributeFilter: ['class']
-            });
+                // Отдаем отфильтрованные данные обратно в родной движок Lampa.
+                // Дальше она сама корректно построит DOM, назначит фокусы и обработает Enter.
+                return originalSelectOpen.apply(this, arguments);
+            };
+
+            // Ставим флаг, чтобы не создать рекурсию при перезапуске плагина
+            window.Lampa.Select._my_filter_patched = true;
+            return true;
         }
 
         // Запуск скриптов
         if (window.appready) {
             appendSearchButton();
-            initSourceFilter();
+            initSourceFilterProxy();
         } else {
             var domInterval = setInterval(function() {
                 if (window.appready) {
                     clearInterval(domInterval);
                     appendSearchButton();
-                    initSourceFilter();
+                    initSourceFilterProxy();
                 }
             }, 100);
         }
