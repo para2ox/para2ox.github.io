@@ -19,7 +19,7 @@
         // --- НОВОЕ: ЗАГРУЗКА ВНЕШНИХ ПЛАГИНОВ ---
         
         // 1. Грузим главную страницу СРАЗУ
-        loadPlugin('https://aviamovie.github.io/surs.js'); // Функциональная главная страница с годными рекомендациями
+        loadPlugin('https://aviamovie.github.io/surs.js'); 
 
         // --- ЧАСТЬ 2: CSS ИНЪЕКЦИЯ ---
         
@@ -64,7 +64,7 @@
             // Ховер эффект и активное состояние
             css += '.menu__item:hover, .menu__item.active, .menu__item.focus { color: var(--text-color-active); background: rgba(255, 255, 255, 0.12); } ';
             // Акцентная полоска слева при наведении
-            css += '.menu__item::before { content: ""; position: absolute; left: 0px; top: 50%; transform: translateY(-50%); width: 3px; height: 0; background-color: var(--accent-color); border-radius: 0 4px 4px 0; transition: height 0.2s ease; box-shadow: 0 0 10px var(--accent-color); } ';
+            css += '.menu__item::before { content: absolute; left: 0px; top: 50%; transform: translateY(-50%); width: 3px; height: 0; background-color: var(--accent-color); border-radius: 0 4px 4px 0; transition: height 0.2s ease; box-shadow: 0 0 10px var(--accent-color); } ';
             css += '.menu__item.active::before, .menu__item.focus::before { height: 60%; } ';
             // Иконки
             css += '.menu__ico { display: flex; align-items: center; justify-content: center; min-width: 24px; height: 24px; margin-right: 20px; } ';
@@ -102,22 +102,20 @@
 
         // 3. Грузим остальные плагины
         var plugins = [
-            'https://ipavlin98.github.io/lmp-plugins/int.js', // Красивый интерфейс главной страницы
-            'https://darkestclouds.github.io/plugins/applecation/applecation.js', // Красивый интерфейс страницы фильма
-            'http://cub.red/plugin/tmdb-proxy', // TMDB прокси для беспробелмного отображения обложек
-            'http://bwa.ad/rc', // Фильмы и сериалы
-            //'http://z01.online/live',
-            'https://lampame.github.io/main/lme.js', // Твики для интерфейса (использую только для удобного отображения кнопок на странице фильма)
+            'https://ipavlin98.github.io/lmp-plugins/int.js', 
+            'https://darkestclouds.github.io/plugins/applecation/applecation.js', 
+            'http://cub.red/plugin/tmdb-proxy', 
+            'http://bwa.ad/rc', 
+            'https://lampame.github.io/main/lme.js', 
             'https://ipavlin98.github.io/lmp-plugins/series-progress-fix.js',
-            'https://nb557.github.io/plugins/free.js', // Обход блокировок контента от Lampa (полезно для стримингов вроде START)
-            //'https://amikdn.github.io/anti-dmca.js', // Резерв плагина free.js
-            'https://ipavlin98.github.io/lmp-plugins/rt.js', // RuTube трейлеры
-            'https://ipavlin98.github.io/lmp-plugins/search-focus-no-mic.js', // Фокус на поле ввода при открытии поиска
-            'http://94.103.86.206/plugins/nots', // Скрытие карточек с TS
-            'https://darkestclouds.github.io/plugins/easytorrent/easytorrent.js', // Умная сортировка файлов торрентов
-            'https://lampame.github.io/main/pubtorr.js', // Сборник публичных парсеров  с отображением статуса доступности
-            'https://lampame.github.io/main/torrentmanager.js', // Скачивание торрентов
-            'https://e.vg/IqhjvbiYo' // AdBlock
+            'https://nb557.github.io/plugins/free.js', 
+            'https://ipavlin98.github.io/lmp-plugins/rt.js', 
+            'https://ipavlin98.github.io/lmp-plugins/search-focus-no-mic.js', 
+            'http://94.103.86.206/plugins/nots', 
+            'https://darkestclouds.github.io/plugins/easytorrent/easytorrent.js', 
+            'https://lampame.github.io/main/pubtorr.js', 
+            'https://lampame.github.io/main/torrentmanager.js', 
+            'https://e.vg/IqhjvbiYo' 
         ];
         
         for (var i = 0; i < plugins.length; i++) {
@@ -127,17 +125,13 @@
         }
 
         // ==========================================
-        // ЧАСТЬ 1: НАСТРОЙКИ LAMPA (Storage) И ЗАЩИТА АНДРОИД ТВ
+        // ЧАСТЬ 1: НАСТРОЙКИ LAMPA
         // ==========================================
         function safeSetConfig(key, value) {
-            //if (!window.Lampa || !window.Lampa.Storage) return;
-            //if (String(Lampa.Storage.get(key)) !== String(value)) {
-                Lampa.Storage.set(key, value);
-            //}
+            Lampa.Storage.set(key, value);
         }
 
         function applySettings() {
-            // Преднастройки Lampa
             safeSetConfig('start_page', 'main');
             safeSetConfig('surs_name', '🪐 Phobos');
             safeSetConfig('source', '🪐 Phobos');
@@ -150,27 +144,12 @@
             safeSetConfig('menu_always', false);
             safeSetConfig('screensaver', 'false');
             safeSetConfig('advanced_animation', true);
-            // safeSetConfig('background', true);
-            // safeSetConfig('background_type', 'simple');
-            // safeSetConfig('black_style', true);
             safeSetConfig('shots_in_card', 'false');
             safeSetConfig('shots_in_player', 'false');
 
-            // Настраиваем BWA (http://bwa.ad/rc)
             safeSetConfig('bwaesgcmkey', 'NkL56zBHtwCjcOuE4RQmXMcVr2HhIh4cDEdLqknju7w=');
-            //safeSetConfig('agree_installation', true);
-            
-            // Настраиваем Z01
             safeSetConfig('aesgcmkey', 'oWBi2fxPIt9if+y0IAuRhSmthXrqPUCNyRXP9BCITsA=');
 
-            /* // Настраиваем плагин Online Mod (https://nb557.github.io/plugins/online_mod.js)
-            safeSetConfig('online_mod_rezka2_cookie', 'dle_user_id=38372; dle_password=d8efa0170ea646402578694fe9ccf72e; dle_newpm=0; dle_user_token=cadfee4517c32230654c3c64a6002b0a; dle_user_taken=1');
-            safeSetConfig('online_mod_balanser', 'rezka2');
-            safeSetConfig('online_mod_save_last_balanser', true);
-            safeSetConfig('online_mod_full_episode_title', true);
-            safeSetConfig('online_mod_rezka2_fix_stream', true); */
-
-            // Настраиваем плагин Applecation
             safeSetConfig('applecation_text_scale', '120');
             safeSetConfig('applecation_spacing_scale', '90');
             safeSetConfig('applecation_show_ratings', true);
@@ -179,7 +158,6 @@
             safeSetConfig('applecation_enabled_ratings', '["tmdb","imdb","tomatoes","popcorn","metacritic","letterboxd","trakt"]');
             safeSetConfig('applecation_show_episode_count', true);
 
-            // Настраиваем плагин New Interface
             safeSetConfig('logo_show', 'false');
             safeSetConfig('show_background', 'true');
             safeSetConfig('status', 'true');
@@ -192,21 +170,15 @@
             safeSetConfig('hide_captions', 'true');
             safeSetConfig('wide_post', 'false');
 
-            // Настраиваем кнопки на странице фильма в плагине LME Movie Enhancer
             safeSetConfig('lme_showbutton', true);
             safeSetConfig('lme_buttonhide', '["view--trailer","button--reaction","button--subscribe","button--options"]');
             safeSetConfig('lme_buttonsort', '["view--online:443719427","view--online","view--online_mod","view--torrent","view--rutube_trailer","button--book"]');
 
-            // Настраиваем TorrServer
-            //safeSetConfig('torrserver_use_link', 'one');
-            //safeSetConfig('torrserver_url', 'localhost:8090');
             safeSetConfig('torrserver_savedb', true);
             safeSetConfig('torrserver_preload', 'false');
 
-            // Настраиваем плагин для скачивания торрентов
             safeSetConfig('lmetorrentSelect', 'universalClient');
 
-            // Скрываем и сортируем пункты меню
             safeSetConfig('menu_hide', '["Подборки","Каталог","Лента","Фильмы","Мультфильмы","Сериалы","Персоны","Релизы","Аниме","Подписки","Расписание","Торренты","Спорт","Для детей","Shots","Torrent Manager"]');
             safeSetConfig('menu_sort', '["Поиск","Главная","Избранное","История","Фильтр"]');
         }
@@ -221,7 +193,7 @@
                     if (Date.now() - bootTime < 4000) {
                         var active = Lampa.Activity.active();
                         if (active && active.component === 'full' && (params.component === 'main' || params.component === 'surs')) {
-                            return false; // Блокировка редиректа
+                            return false; 
                         }
                     } else {
                         routeGuardActive = false;
@@ -245,33 +217,130 @@
         // ЧАСТЬ 3: КНОПКА ПОИСКА В МЕНЮ
         // ==========================================
         function appendSearchButton() {
-            // SVG иконка лупы
             var icon = '<svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>';
-            // Создаем элемент меню
             var searchItem = $('<li class="menu__item selector" data-action="search_button"><div class="menu__ico">' + icon + '</div><div class="menu__text">Поиск</div></li>');
 
-            // Навешиваем событие
             searchItem.on('hover:enter', function () {
-                // Находим оригинальную кнопку поиска в шапке (она скрыта CSS, но существует)
                 var originalSearch = $('.head .open--search');
-                if (originalSearch.length) originalSearch.trigger('hover:enter'); // Эмулируем нажатие на оригинальную кнопку
-                else if (Lampa.Search) Lampa.Search.open(); // Резервный метод
+                if (originalSearch.length) originalSearch.trigger('hover:enter'); 
+                else if (Lampa.Search) Lampa.Search.open(); 
             });
 
-            // Добавляем кнопку в меню
             if ($('.menu .menu__list li[data-action="search_button"]').length === 0) {
                 $('.menu .menu__list').eq(0).append(searchItem);
             }
         }
 
-        // Запуск скрипта после готовности приложения
+        // ==========================================
+        // ЧАСТЬ 4: ФИЛЬТРАЦИЯ ИСТОЧНИКОВ И ПРЕМИУМ-ИМЕНА (FIXED v2)
+        // ==========================================
+        function initSourceFilter() {
+            function processSelectbox(selectbox) {
+                var titleElement = selectbox.find('.selectbox__title');
+                if (!titleElement.length || titleElement.text().trim() !== 'Сортировать') return;
+
+                var items = selectbox.find('.selectbox-item');
+                var validItems = [];
+                var activeWasRemoved = false;
+
+                items.each(function () {
+                    var item = $(this);
+                    var textElem = item.find('.selectbox-item__title');
+                    var text = textElem.text().toLowerCase();
+
+                    var isValid = false;
+                    
+                    // Меняем текст, если есть совпадения
+                    if (text.indexOf('rezka') !== -1) {
+                        textElem.text('👑 Rezka Premium');
+                        isValid = true;
+                    } else if (text.indexOf('kinopub') !== -1) {
+                        textElem.text('👑 KinoPub Premium');
+                        isValid = true;
+                    } else if (text.indexOf('filmix') !== -1) {
+                        textElem.text('👑 Filmix Premium');
+                        isValid = true;
+                    }
+
+                    if (isValid) {
+                        validItems.push(item);
+                    } else {
+                        // Запоминаем, был ли удаляемый элемент в фокусе
+                        if (item.hasClass('focus') || item.hasClass('selected')) {
+                            activeWasRemoved = true;
+                        }
+                        // Жестко удаляем элемент (сохраняет индексы кликов для остальных)
+                        item.remove();
+                    }
+                });
+
+                // Если активный элемент (Mirage) был удален, мы должны принудительно 
+                // передать фокус первому выжившему, иначе навигатор зависнет.
+                if (activeWasRemoved && validItems.length > 0) {
+                    var firstValid = validItems[0];
+                    
+                    var applyFocus = function() {
+                        // Чистим стейт у остальных и ставим визуальный фокус
+                        selectbox.find('.selectbox-item').removeClass('focus selected');
+                        firstValid.addClass('focus selected');
+                        
+                        // Дергаем внутренние эвенты Lampa, чтобы движок понял, где курсор
+                        firstValid.trigger('mouseenter');
+                        firstValid.trigger('hover:focus');
+                        
+                        // Контрольный выстрел через API навигатора
+                        if (window.Lampa && window.Lampa.Navigator) {
+                            Lampa.Navigator.focus(firstValid[0]);
+                        }
+                    };
+
+                    // Делаем двойной вызов: сразу и чуть позже, чтобы пробить стек анимаций рендера меню
+                    setTimeout(applyFocus, 20);
+                    setTimeout(applyFocus, 100); 
+                }
+            }
+
+            var observer = new MutationObserver(function (mutations) {
+                mutations.forEach(function (mutation) {
+                    if (mutation.type === 'childList') {
+                        mutation.addedNodes.forEach(function (node) {
+                            if (node.nodeType === 1) { 
+                                var el = $(node);
+                                if (el.hasClass('selectbox') && el.hasClass('animate')) {
+                                    processSelectbox(el);
+                                } else if (el.find('.selectbox.animate').length) {
+                                    processSelectbox(el.find('.selectbox.animate'));
+                                }
+                            }
+                        });
+                    } 
+                    else if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                        var el = $(mutation.target);
+                        if (el.hasClass('selectbox') && el.hasClass('animate')) {
+                            processSelectbox(el);
+                        }
+                    }
+                });
+            });
+
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true,
+                attributes: true,
+                attributeFilter: ['class']
+            });
+        }
+
+        // Запуск скриптов
         if (window.appready) {
             appendSearchButton();
+            initSourceFilter();
         } else {
             var domInterval = setInterval(function() {
                 if (window.appready) {
                     clearInterval(domInterval);
                     appendSearchButton();
+                    initSourceFilter();
                 }
             }, 100);
         }
