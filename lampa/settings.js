@@ -130,7 +130,10 @@
         // ЧАСТЬ 1: НАСТРОЙКИ LAMPA (Storage) И ЗАЩИТА АНДРОИД ТВ
         // ==========================================
         function safeSetConfig(key, value) {
-            Lampa.Storage.set(key, value);
+            //if (!window.Lampa || !window.Lampa.Storage) return;
+            //if (String(Lampa.Storage.get(key)) !== String(value)) {
+                Lampa.Storage.set(key, value);
+            //}
         }
 
         function applySettings() {
@@ -147,14 +150,25 @@
             safeSetConfig('menu_always', false);
             safeSetConfig('screensaver', 'false');
             safeSetConfig('advanced_animation', true);
+            // safeSetConfig('background', true);
+            // safeSetConfig('background_type', 'simple');
+            // safeSetConfig('black_style', true);
             safeSetConfig('shots_in_card', 'false');
             safeSetConfig('shots_in_player', 'false');
 
             // Настраиваем BWA (http://bwa.ad/rc)
             safeSetConfig('bwaesgcmkey', 'NkL56zBHtwCjcOuE4RQmXMcVr2HhIh4cDEdLqknju7w=');
+            //safeSetConfig('agree_installation', true);
             
             // Настраиваем Z01
             safeSetConfig('aesgcmkey', 'oWBi2fxPIt9if+y0IAuRhSmthXrqPUCNyRXP9BCITsA=');
+
+            /* // Настраиваем плагин Online Mod (https://nb557.github.io/plugins/online_mod.js)
+            safeSetConfig('online_mod_rezka2_cookie', 'dle_user_id=38372; dle_password=d8efa0170ea646402578694fe9ccf72e; dle_newpm=0; dle_user_token=cadfee4517c32230654c3c64a6002b0a; dle_user_taken=1');
+            safeSetConfig('online_mod_balanser', 'rezka2');
+            safeSetConfig('online_mod_save_last_balanser', true);
+            safeSetConfig('online_mod_full_episode_title', true);
+            safeSetConfig('online_mod_rezka2_fix_stream', true); */
 
             // Настраиваем плагин Applecation
             safeSetConfig('applecation_text_scale', '120');
@@ -184,6 +198,8 @@
             safeSetConfig('lme_buttonsort', '["view--online:443719427","view--online","view--online_mod","view--torrent","view--rutube_trailer","button--book"]');
 
             // Настраиваем TorrServer
+            //safeSetConfig('torrserver_use_link', 'one');
+            //safeSetConfig('torrserver_url', 'localhost:8090');
             safeSetConfig('torrserver_savedb', true);
             safeSetConfig('torrserver_preload', 'false');
 
@@ -236,9 +252,10 @@
 
             // Навешиваем событие
             searchItem.on('hover:enter', function () {
+                // Находим оригинальную кнопку поиска в шапке (она скрыта CSS, но существует)
                 var originalSearch = $('.head .open--search');
-                if (originalSearch.length) originalSearch.trigger('hover:enter');
-                else if (Lampa.Search) Lampa.Search.open();
+                if (originalSearch.length) originalSearch.trigger('hover:enter'); // Эмулируем нажатие на оригинальную кнопку
+                else if (Lampa.Search) Lampa.Search.open(); // Резервный метод
             });
 
             // Добавляем кнопку в меню
@@ -247,90 +264,14 @@
             }
         }
 
-        // ==========================================
-        // ЧАСТЬ 4: ФИЛЬТРАЦИЯ МЕНЮ ИСТОЧНИКОВ
-        // ==========================================
-        function initSourceFilter() {
-            var observer = new MutationObserver(function(mutations) {
-                var $selectbox = $('.selectbox.animate');
-                
-                // Если меню открыто и мы его еще не обрабатывали
-                if ($selectbox.length > 0 && !$selectbox.data('source-filtered')) {
-                    var titleText = $selectbox.find('.selectbox__title').text();
-                    
-                    // Проверяем, что это меню "Сортировать"
-                    if (titleText.indexOf('Сортировать') !== -1) {
-                        $selectbox.data('source-filtered', true); // Помечаем, чтобы избежать цикличности
-                        
-                        var items = $selectbox.find('.selectbox-item');
-                        var firstKept = null;
-                        var focusedKept = false;
-                        
-                        items.each(function() {
-                            var $item = $(this);
-                            var $title = $item.find('.selectbox-item__title');
-                            var text = $title.text().toLowerCase();
-                            var kept = false;
-                            
-                            // Сравниваем текст (без учета регистра)
-                            if (text.indexOf('rezka') !== -1) {
-                                $title.text('👑 Rezka Premium');
-                                kept = true;
-                            } else if (text.indexOf('kinopub') !== -1) {
-                                $title.text('👑 KinoPub Premium');
-                                kept = true;
-                            } else if (text.indexOf('filmix') !== -1) {
-                                $title.text('👑 Filmix Premium');
-                                kept = true;
-                            }
-                            
-                            if (kept) {
-                                if (!firstKept) firstKept = $item;
-                                // Проверяем, стоял ли уже фокус на одном из оставшихся элементов
-                                if ($item.hasClass('focus') || $item.hasClass('selected')) {
-                                    focusedKept = true;
-                                }
-                            } else {
-                                // Если не совпало — удаляем системные классы навигации и визуально скрываем
-                                $item.removeClass('selector focus selected').hide();
-                            }
-                        });
-                        
-                        // Если предыдущий выбранный источник (например, Mirage) был скрыт,
-                        // ставим визуальный фокус на первый доступный в списке
-                        if (!focusedKept && firstKept) {
-                            firstKept.addClass('focus');
-                            
-                            // Заставляем внутренний контроллер Lampa пересчитать активные элементы .selector
-                            setTimeout(function() {
-                                if (window.Lampa && window.Lampa.Controller) {
-                                    var visibleItems = $selectbox.find('.selector').toArray();
-                                    Lampa.Controller.collectionSet(visibleItems);
-                                    Lampa.Controller.collectionFocus(firstKept[0]);
-                                }
-                            }, 50);
-                        }
-                    }
-                } else if ($selectbox.length === 0) {
-                    // Сбрасываем флаг, если меню было закрыто (класс animate исчез или блок удален)
-                    $('.selectbox').data('source-filtered', false);
-                }
-            });
-
-            // Запускаем отслеживание DOM на появление .selectbox и изменение его классов
-            observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
-        }
-
-        // Запуск скриптов после готовности приложения
+        // Запуск скрипта после готовности приложения
         if (window.appready) {
             appendSearchButton();
-            initSourceFilter(); // Инициализация нового фильтра
         } else {
             var domInterval = setInterval(function() {
                 if (window.appready) {
                     clearInterval(domInterval);
                     appendSearchButton();
-                    initSourceFilter(); // Инициализация нового фильтра
                 }
             }, 100);
         }
