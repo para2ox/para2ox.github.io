@@ -130,21 +130,14 @@
         // ЧАСТЬ 1: НАСТРОЙКИ LAMPA (Storage) И ЗАЩИТА АНДРОИД ТВ
         // ==========================================
         function safeSetConfig(key, value) {
-            if (!window.Lampa || !window.Lampa.Storage) return;
-            if (String(Lampa.Storage.get(key)) !== String(value)) {
-                Lampa.Storage.set(key, value);
-            }
+            Lampa.Storage.set(key, value);
         }
 
         function applySettings() {
             // Преднастройки Lampa
-        //Lampa.Storage.set('start_page', 'main');
-        //Lampa.Storage.set('surs_name', 'P2XXX');
-        //Lampa.Storage.set('source', 'P2XXX');
             safeSetConfig('start_page', 'main');
-            safeSetConfig('surs_name', 'P2XXXX');
-            safeSetConfig('source', 'P2XXXX');
-            // safeSetConfig('surs_settings', '');
+            safeSetConfig('surs_name', '🪐 Phobos');
+            safeSetConfig('source', '🪐 Phobos');
             safeSetConfig('glass_style', true);
             safeSetConfig('glass_opacity', 'easy');
             safeSetConfig('mask', true);
@@ -154,25 +147,14 @@
             safeSetConfig('menu_always', false);
             safeSetConfig('screensaver', 'false');
             safeSetConfig('advanced_animation', true);
-            // safeSetConfig('background', true);
-            // safeSetConfig('background_type', 'simple');
-            // safeSetConfig('black_style', true);
             safeSetConfig('shots_in_card', 'false');
             safeSetConfig('shots_in_player', 'false');
 
             // Настраиваем BWA (http://bwa.ad/rc)
             safeSetConfig('bwaesgcmkey', 'NkL56zBHtwCjcOuE4RQmXMcVr2HhIh4cDEdLqknju7w=');
-            //safeSetConfig('agree_installation', true);
             
             // Настраиваем Z01
             safeSetConfig('aesgcmkey', 'oWBi2fxPIt9if+y0IAuRhSmthXrqPUCNyRXP9BCITsA=');
-
-            /* // Настраиваем плагин Online Mod (https://nb557.github.io/plugins/online_mod.js)
-            safeSetConfig('online_mod_rezka2_cookie', 'dle_user_id=38372; dle_password=d8efa0170ea646402578694fe9ccf72e; dle_newpm=0; dle_user_token=cadfee4517c32230654c3c64a6002b0a; dle_user_taken=1');
-            safeSetConfig('online_mod_balanser', 'rezka2');
-            safeSetConfig('online_mod_save_last_balanser', true);
-            safeSetConfig('online_mod_full_episode_title', true);
-            safeSetConfig('online_mod_rezka2_fix_stream', true); */
 
             // Настраиваем плагин Applecation
             safeSetConfig('applecation_text_scale', '120');
@@ -202,8 +184,6 @@
             safeSetConfig('lme_buttonsort', '["view--online:443719427","view--online","view--online_mod","view--torrent","view--rutube_trailer","button--book"]');
 
             // Настраиваем TorrServer
-            //safeSetConfig('torrserver_use_link', 'one');
-            //safeSetConfig('torrserver_url', 'localhost:8090');
             safeSetConfig('torrserver_savedb', true);
             safeSetConfig('torrserver_preload', 'false');
 
@@ -249,33 +229,106 @@
         // ЧАСТЬ 3: КНОПКА ПОИСКА В МЕНЮ
         // ==========================================
         function appendSearchButton() {
-            // SVG иконка лупы
             var icon = '<svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>';
-            // Создаем элемент меню
             var searchItem = $('<li class="menu__item selector" data-action="search_button"><div class="menu__ico">' + icon + '</div><div class="menu__text">Поиск</div></li>');
 
-            // Навешиваем событие
             searchItem.on('hover:enter', function () {
-                // Находим оригинальную кнопку поиска в шапке (она скрыта CSS, но существует)
                 var originalSearch = $('.head .open--search');
-                if (originalSearch.length) originalSearch.trigger('hover:enter'); // Эмулируем нажатие на оригинальную кнопку
-                else if (Lampa.Search) Lampa.Search.open(); // Резервный метод
+                if (originalSearch.length) originalSearch.trigger('hover:enter'); 
+                else if (Lampa.Search) Lampa.Search.open(); 
             });
 
-            // Добавляем кнопку в меню
             if ($('.menu .menu__list li[data-action="search_button"]').length === 0) {
                 $('.menu .menu__list').eq(0).append(searchItem);
             }
         }
 
-        // Запуск скрипта после готовности приложения
+        // ==========================================
+        // ЧАСТЬ 4: ФИЛЬТРАЦИЯ ИСТОЧНИКОВ И ПРЕМИУМ-ИМЕНА
+        // ==========================================
+        function initSourceFilter() {
+            function processSelectbox(selectbox) {
+                var titleElement = selectbox.find('.selectbox__title');
+                if (!titleElement.length || titleElement.text().trim() !== 'Сортировать') return;
+
+                var items = selectbox.find('.selectbox-item');
+                var hasFocusedItem = false;
+
+                items.each(function () {
+                    var item = $(this);
+                    var textElem = item.find('.selectbox-item__title');
+                    var text = textElem.text().toLowerCase();
+
+                    // Проверяем наличие нужных подстрок и меняем текст
+                    if (text.indexOf('rezka') !== -1) {
+                        textElem.text('👑 Rezka Premium');
+                    } else if (text.indexOf('kinopub') !== -1) {
+                        textElem.text('👑 KinoPub Premium');
+                    } else if (text.indexOf('filmix') !== -1) {
+                        textElem.text('👑 Filmix Premium');
+                    } else {
+                        // Если не совпало — удаляем элемент из списка
+                        item.remove();
+                        return; // Переходим к следующему элементу
+                    }
+
+                    // Если элемент остался и был в фокусе, фиксируем это
+                    if (item.hasClass('focus')) {
+                        hasFocusedItem = true;
+                    }
+                });
+
+                // Если сфокусированный элемент был удален, ставим фокус на первый оставшийся
+                if (!hasFocusedItem && selectbox.find('.selectbox-item').length > 0) {
+                    selectbox.find('.selectbox-item').first().addClass('focus');
+                }
+            }
+
+            // Инициализация MutationObserver для отслеживания динамических модалок
+            var observer = new MutationObserver(function (mutations) {
+                mutations.forEach(function (mutation) {
+                    // Отслеживаем добавление новых узлов в DOM
+                    if (mutation.type === 'childList') {
+                        mutation.addedNodes.forEach(function (node) {
+                            if (node.nodeType === 1) { // Если это элемент
+                                var el = $(node);
+                                if (el.hasClass('selectbox') && el.hasClass('animate')) {
+                                    processSelectbox(el);
+                                } else if (el.find('.selectbox.animate').length) {
+                                    processSelectbox(el.find('.selectbox.animate'));
+                                }
+                            }
+                        });
+                    } 
+                    // Отслеживаем изменение атрибута class (появление .animate)
+                    else if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                        var el = $(mutation.target);
+                        if (el.hasClass('selectbox') && el.hasClass('animate')) {
+                            processSelectbox(el);
+                        }
+                    }
+                });
+            });
+
+            // Наблюдаем за body (все всплывающие окна Lampa рендерятся там)
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true,
+                attributes: true,
+                attributeFilter: ['class']
+            });
+        }
+
+        // Запуск скриптов после готовности DOM
         if (window.appready) {
             appendSearchButton();
+            initSourceFilter();
         } else {
             var domInterval = setInterval(function() {
                 if (window.appready) {
                     clearInterval(domInterval);
                     appendSearchButton();
+                    initSourceFilter();
                 }
             }, 100);
         }
