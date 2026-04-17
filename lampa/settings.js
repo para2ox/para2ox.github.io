@@ -258,13 +258,12 @@
                 if ($selectbox.length > 0 && !$selectbox.data('source-filtered')) {
                     var titleText = $selectbox.find('.selectbox__title').text();
                     
-                    // Проверяем, что это меню "Сортировать"
                     if (titleText.indexOf('Сортировать') !== -1) {
                         $selectbox.data('source-filtered', true); // Помечаем, чтобы избежать цикличности
                         
                         var items = $selectbox.find('.selectbox-item');
                         var firstKept = null;
-                        var focusedKept = false;
+                        var targetFocus = null;
                         
                         items.each(function() {
                             var $item = $(this);
@@ -286,45 +285,48 @@
                             
                             if (kept) {
                                 if (!firstKept) firstKept = $item;
-                                // Проверяем, стоял ли уже фокус на одном из оставшихся элементов
+                                // Если элемент уже был выбран системой, запоминаем его как цель для фокуса
                                 if ($item.hasClass('focus') || $item.hasClass('selected')) {
-                                    focusedKept = true;
+                                    targetFocus = $item;
                                 }
                             } else {
-                                // Если не совпало — удаляем системные классы навигации и визуально скрываем
+                                // Если не совпало — удаляем классы и скрываем
                                 $item.removeClass('selector focus selected').hide();
                             }
                         });
                         
-                        // Если предыдущий выбранный источник (например, Mirage) был скрыт,
-                        // ставим визуальный фокус на первый доступный в списке
-                        if (!focusedKept && firstKept) {
-                            firstKept.addClass('focus');
+                        // Если активный элемент был скрыт (например, Mirage), переводим фокус на первый доступный
+                        if (!targetFocus && firstKept) {
+                            targetFocus = firstKept;
                         }
                         
-                        // ИСПРАВЛЕНИЕ ОШИБКИ: Заставляем внутренний контроллер Lampa обновить список селекторов,
-                        // передав DOM контейнер вместо массива. Тогда он найдет только оставшиеся видимые пункты.
+                        // Визуально ставим фокус на правильный элемент
+                        if (targetFocus) {
+                            items.removeClass('focus');
+                            targetFocus.addClass('focus');
+                        }
+                        
+                        // Сообщаем внутреннему контроллеру Lampa обновленный список и ЯВНО задаем фокус
                         setTimeout(function() {
                             if (window.Lampa && window.Lampa.Controller) {
                                 var containerNode = $selectbox.find('.scroll__body')[0] || $selectbox[0];
                                 
-                                // Обновляем "карту" навигации контроллера
+                                // Шаг 1: Обновляем карту навигации (это действие сбрасывает текущий фокус внутри контроллера)
                                 Lampa.Controller.collectionSet(containerNode);
                                 
-                                // Если фокус смещался вручную — перенаправляем навигацию Lampa на него
-                                if (!focusedKept && firstKept) {
-                                    Lampa.Controller.collectionFocus(firstKept[0], containerNode);
+                                // Шаг 2: Жестко возвращаем фокус нужному элементу, чтобы Enter сработал сразу
+                                if (targetFocus) {
+                                    Lampa.Controller.collectionFocus(targetFocus[0], containerNode);
                                 }
                             }
                         }, 50);
                     }
                 } else if ($selectbox.length === 0) {
-                    // Сбрасываем флаг, если меню было закрыто (класс animate исчез или блок удален)
+                    // Сбрасываем флаг, если меню было закрыто
                     $('.selectbox').data('source-filtered', false);
                 }
             });
 
-            // Запускаем отслеживание DOM на появление .selectbox и изменение его классов
             observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
         }
 
