@@ -130,10 +130,10 @@
         // ЧАСТЬ 1: НАСТРОЙКИ LAMPA (Storage) И ЗАЩИТА АНДРОИД ТВ
         // ==========================================
         function safeSetConfig(key, value) {
-            //if (!window.Lampa || !window.Lampa.Storage) return;
-            //if (String(Lampa.Storage.get(key)) !== String(value)) {
+            if (!window.Lampa || !window.Lampa.Storage) return;
+            if (String(Lampa.Storage.get(key)) !== String(value)) {
                 Lampa.Storage.set(key, value);
-            //}
+            }
         }
 
         function applySettings() {
@@ -142,8 +142,8 @@
         //Lampa.Storage.set('surs_name', 'P2XXX');
         //Lampa.Storage.set('source', 'P2XXX');
             safeSetConfig('start_page', 'main');
-            safeSetConfig('surs_name', 'P2XXX');
-            safeSetConfig('source', 'P2XXX');
+            safeSetConfig('surs_name', 'P2XXXX');
+            safeSetConfig('source', 'P2XXXX');
             // safeSetConfig('surs_settings', '');
             safeSetConfig('glass_style', true);
             safeSetConfig('glass_opacity', 'easy');
