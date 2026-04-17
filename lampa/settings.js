@@ -139,6 +139,8 @@
             safeSetConfig('advanced_animation', true);
             safeSetConfig('shots_in_card', 'false');
             safeSetConfig('shots_in_player', 'false');
+            safeSetConfig('online_balanser', 'kinopub');
+            safeSetConfig('active_balanser', 'kinopub');
 
             safeSetConfig('bwaesgcmkey', 'NkL56zBHtwCjcOuE4RQmXMcVr2HhIh4cDEdLqknju7w=');
             safeSetConfig('aesgcmkey', 'oWBi2fxPIt9if+y0IAuRhSmthXrqPUCNyRXP9BCITsA=');
