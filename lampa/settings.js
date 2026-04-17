@@ -159,8 +159,6 @@
             // Настраиваем BWA (http://bwa.ad/rc)
             safeSetConfig('bwaesgcmkey', 'NkL56zBHtwCjcOuE4RQmXMcVr2HhIh4cDEdLqknju7w=');
             //safeSetConfig('agree_installation', true);
-            safeSetConfig('active_balanser', 'filmix');
-            safeSetConfig('online_balanser', 'filmix');
             
             // Настраиваем Z01
             safeSetConfig('aesgcmkey', 'oWBi2fxPIt9if+y0IAuRhSmthXrqPUCNyRXP9BCITsA=');
