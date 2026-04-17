@@ -273,13 +273,13 @@
                             
                             // Сравниваем текст (без учета регистра)
                             if (text.indexOf('rezka') !== -1) {
-                                $title.text('👑 Rezka Premium');
+                                $title.text('🪐  Phobos 2  •  Rezka');
                                 kept = true;
                             } else if (text.indexOf('kinopub') !== -1) {
-                                $title.text('👑 KinoPub Premium');
+                                $title.text('🪐  Phobos 3  •  KinoPub');
                                 kept = true;
                             } else if (text.indexOf('filmix') !== -1) {
-                                $title.text('👑 Filmix Premium');
+                                $title.text('🪐  Phobos 1  •  Filmix');
                                 kept = true;
                             }
                             
