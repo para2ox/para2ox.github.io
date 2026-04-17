@@ -19,7 +19,7 @@
         // --- НОВОЕ: ЗАГРУЗКА ВНЕШНИХ ПЛАГИНОВ ---
         
         // 1. Грузим главную страницу СРАЗУ
-        loadPlugin('https://aviamovie.github.io/surs.js'); // Функциональная главная страница с годными рекомендациями
+        loadPlugin('https://aviamovie.github.io/surs.js'); 
 
         // --- ЧАСТЬ 2: CSS ИНЪЕКЦИЯ ---
         
@@ -102,22 +102,20 @@
 
         // 3. Грузим остальные плагины
         var plugins = [
-            'https://ipavlin98.github.io/lmp-plugins/int.js', // Красивый интерфейс главной страницы
-            'https://darkestclouds.github.io/plugins/applecation/applecation.js', // Красивый интерфейс страницы фильма
-            'http://cub.red/plugin/tmdb-proxy', // TMDB прокси для беспробелмного отображения обложек
-            'http://bwa.ad/rc', // Фильмы и сериалы
-            //'http://z01.online/live',
-            'https://lampame.github.io/main/lme.js', // Твики для интерфейса (использую только для удобного отображения кнопок на странице фильма)
+            'https://ipavlin98.github.io/lmp-plugins/int.js', 
+            'https://darkestclouds.github.io/plugins/applecation/applecation.js', 
+            'http://cub.red/plugin/tmdb-proxy', 
+            'http://bwa.ad/rc', 
+            'https://lampame.github.io/main/lme.js', 
             'https://ipavlin98.github.io/lmp-plugins/series-progress-fix.js',
-            'https://nb557.github.io/plugins/free.js', // Обход блокировок контента от Lampa (полезно для стримингов вроде START)
-            //'https://amikdn.github.io/anti-dmca.js', // Резерв плагина free.js
-            'https://ipavlin98.github.io/lmp-plugins/rt.js', // RuTube трейлеры
-            'https://ipavlin98.github.io/lmp-plugins/search-focus-no-mic.js', // Фокус на поле ввода при открытии поиска
-            'http://94.103.86.206/plugins/nots', // Скрытие карточек с TS
-            'https://darkestclouds.github.io/plugins/easytorrent/easytorrent.js', // Умная сортировка файлов торрентов
-            'https://lampame.github.io/main/pubtorr.js', // Сборник публичных парсеров  с отображением статуса доступности
-            'https://lampame.github.io/main/torrentmanager.js', // Скачивание торрентов
-            'https://e.vg/IqhjvbiYo' // AdBlock
+            'https://nb557.github.io/plugins/free.js', 
+            'https://ipavlin98.github.io/lmp-plugins/rt.js', 
+            'https://ipavlin98.github.io/lmp-plugins/search-focus-no-mic.js', 
+            'http://94.103.86.206/plugins/nots', 
+            'https://darkestclouds.github.io/plugins/easytorrent/easytorrent.js', 
+            'https://lampame.github.io/main/pubtorr.js', 
+            'https://lampame.github.io/main/torrentmanager.js', 
+            'https://e.vg/IqhjvbiYo' 
         ];
         
         for (var i = 0; i < plugins.length; i++) {
@@ -127,14 +125,13 @@
         }
 
         // ==========================================
-        // ЧАСТЬ 1: НАСТРОЙКИ LAMPA (Storage) И ЗАЩИТА АНДРОИД ТВ
+        // ЧАСТЬ 1: НАСТРОЙКИ LAMPA
         // ==========================================
         function safeSetConfig(key, value) {
             Lampa.Storage.set(key, value);
         }
 
         function applySettings() {
-            // Преднастройки Lampa
             safeSetConfig('start_page', 'main');
             safeSetConfig('surs_name', '🪐 Phobos');
             safeSetConfig('source', '🪐 Phobos');
@@ -150,13 +147,9 @@
             safeSetConfig('shots_in_card', 'false');
             safeSetConfig('shots_in_player', 'false');
 
-            // Настраиваем BWA (http://bwa.ad/rc)
             safeSetConfig('bwaesgcmkey', 'NkL56zBHtwCjcOuE4RQmXMcVr2HhIh4cDEdLqknju7w=');
-            
-            // Настраиваем Z01
             safeSetConfig('aesgcmkey', 'oWBi2fxPIt9if+y0IAuRhSmthXrqPUCNyRXP9BCITsA=');
 
-            // Настраиваем плагин Applecation
             safeSetConfig('applecation_text_scale', '120');
             safeSetConfig('applecation_spacing_scale', '90');
             safeSetConfig('applecation_show_ratings', true);
@@ -165,7 +158,6 @@
             safeSetConfig('applecation_enabled_ratings', '["tmdb","imdb","tomatoes","popcorn","metacritic","letterboxd","trakt"]');
             safeSetConfig('applecation_show_episode_count', true);
 
-            // Настраиваем плагин New Interface
             safeSetConfig('logo_show', 'false');
             safeSetConfig('show_background', 'true');
             safeSetConfig('status', 'true');
@@ -178,19 +170,15 @@
             safeSetConfig('hide_captions', 'true');
             safeSetConfig('wide_post', 'false');
 
-            // Настраиваем кнопки на странице фильма в плагине LME Movie Enhancer
             safeSetConfig('lme_showbutton', true);
             safeSetConfig('lme_buttonhide', '["view--trailer","button--reaction","button--subscribe","button--options"]');
             safeSetConfig('lme_buttonsort', '["view--online:443719427","view--online","view--online_mod","view--torrent","view--rutube_trailer","button--book"]');
 
-            // Настраиваем TorrServer
             safeSetConfig('torrserver_savedb', true);
             safeSetConfig('torrserver_preload', 'false');
 
-            // Настраиваем плагин для скачивания торрентов
             safeSetConfig('lmetorrentSelect', 'universalClient');
 
-            // Скрываем и сортируем пункты меню
             safeSetConfig('menu_hide', '["Подборки","Каталог","Лента","Фильмы","Мультфильмы","Сериалы","Персоны","Релизы","Аниме","Подписки","Расписание","Торренты","Спорт","Для детей","Shots","Torrent Manager"]');
             safeSetConfig('menu_sort', '["Поиск","Главная","Избранное","История","Фильтр"]');
         }
@@ -205,7 +193,7 @@
                     if (Date.now() - bootTime < 4000) {
                         var active = Lampa.Activity.active();
                         if (active && active.component === 'full' && (params.component === 'main' || params.component === 'surs')) {
-                            return false; // Блокировка редиректа
+                            return false; 
                         }
                     } else {
                         routeGuardActive = false;
@@ -244,7 +232,7 @@
         }
 
         // ==========================================
-        // ЧАСТЬ 4: ФИЛЬТРАЦИЯ ИСТОЧНИКОВ И ПРЕМИУМ-ИМЕНА
+        // ЧАСТЬ 4: ФИЛЬТРАЦИЯ ИСТОЧНИКОВ И ПРЕМИУМ-ИМЕНА (FIXED)
         // ==========================================
         function initSourceFilter() {
             function processSelectbox(selectbox) {
@@ -252,45 +240,60 @@
                 if (!titleElement.length || titleElement.text().trim() !== 'Сортировать') return;
 
                 var items = selectbox.find('.selectbox-item');
-                var hasFocusedItem = false;
+                var hasValidFocus = false;
+                var validItems = [];
 
                 items.each(function () {
                     var item = $(this);
                     var textElem = item.find('.selectbox-item__title');
                     var text = textElem.text().toLowerCase();
 
-                    // Проверяем наличие нужных подстрок и меняем текст
+                    var isValid = false;
+
+                    // Меняем текст, если есть совпадения
                     if (text.indexOf('rezka') !== -1) {
                         textElem.text('👑 Rezka Premium');
+                        isValid = true;
                     } else if (text.indexOf('kinopub') !== -1) {
                         textElem.text('👑 KinoPub Premium');
+                        isValid = true;
                     } else if (text.indexOf('filmix') !== -1) {
                         textElem.text('👑 Filmix Premium');
-                    } else {
-                        // Если не совпало — удаляем элемент из списка
-                        item.remove();
-                        return; // Переходим к следующему элементу
+                        isValid = true;
                     }
 
-                    // Если элемент остался и был в фокусе, фиксируем это
-                    if (item.hasClass('focus')) {
-                        hasFocusedItem = true;
+                    if (isValid) {
+                        validItems.push(item);
+                        // Проверяем, есть ли на валидном элементе активный статус или фокус
+                        if (item.hasClass('focus') || item.hasClass('selected')) {
+                            hasValidFocus = true;
+                        }
+                    } else {
+                        // ФИКС: Скрываем элемент и снимаем классы навигации, не удаляя ноду из DOM
+                        item.hide().removeClass('selector focus selected');
                     }
                 });
 
-                // Если сфокусированный элемент был удален, ставим фокус на первый оставшийся
-                if (!hasFocusedItem && selectbox.find('.selectbox-item').length > 0) {
-                    selectbox.find('.selectbox-item').first().addClass('focus');
+                // Если активный/выбранный элемент оказался скрыт (например, ранее был выбран Mirage)
+                if (!hasValidFocus && validItems.length > 0) {
+                    var firstValid = validItems[0];
+                    firstValid.addClass('focus selected');
+                    
+                    // Даем Lampa миллисекунду на отрисовку и заставляем навигатор встать на новый элемент
+                    setTimeout(function() {
+                        if (window.Lampa && window.Lampa.Navigator) {
+                            // Передаем сырой DOM-элемент в навигатор
+                            Lampa.Navigator.focus(firstValid[0]);
+                        }
+                    }, 10);
                 }
             }
 
-            // Инициализация MutationObserver для отслеживания динамических модалок
             var observer = new MutationObserver(function (mutations) {
                 mutations.forEach(function (mutation) {
-                    // Отслеживаем добавление новых узлов в DOM
                     if (mutation.type === 'childList') {
                         mutation.addedNodes.forEach(function (node) {
-                            if (node.nodeType === 1) { // Если это элемент
+                            if (node.nodeType === 1) { 
                                 var el = $(node);
                                 if (el.hasClass('selectbox') && el.hasClass('animate')) {
                                     processSelectbox(el);
@@ -300,7 +303,6 @@
                             }
                         });
                     } 
-                    // Отслеживаем изменение атрибута class (появление .animate)
                     else if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
                         var el = $(mutation.target);
                         if (el.hasClass('selectbox') && el.hasClass('animate')) {
@@ -310,7 +312,6 @@
                 });
             });
 
-            // Наблюдаем за body (все всплывающие окна Lampa рендерятся там)
             observer.observe(document.body, {
                 childList: true,
                 subtree: true,
@@ -319,7 +320,7 @@
             });
         }
 
-        // Запуск скриптов после готовности DOM
+        // Запуск скриптов
         if (window.appready) {
             appendSearchButton();
             initSourceFilter();
