@@ -77,11 +77,12 @@
             // Разделитель секций
             css += '.menu__split { height: 1px; background: rgba(255, 255, 255, 0.1); margin: 10px 24px; width: calc(100% - 48px); } ';
             css += '.head__body { padding: 0 !important; } ';
+            
+            // Карточки
             css += '.selector:not(.menu__item, .card, .show, .full-review-add, .full-person, .full-start-new__reactions) { border-radius: 1em; } ';
             css += '.selector:not(.menu__item, .card, .show, .full-review-add, .full-person, .full-start-new__reactions) * { filter: none !important; } ';
-
-            // Карточки
-            css += '.card .card__view::before, .card-episode .full-episode::before, .register::before, .selector:not(.menu__item, .card, .show, .full-review-add, .full-person, .full-start-new__reactions)::before { content: ""; position: absolute; inset: 0; border: 0 !important; border-radius: 1em; pointer-events: none; opacity: 0; transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important; will-change: opacity; z-index: 2; box-shadow: inset 2px 2px 1px rgba(255, 255, 255, 0.30), inset -2px -2px 2px rgba(255, 255, 255, 0.30); background: radial-gradient(circle at center, transparent 58%, rgba(255, 255, 255, 0.22) 75%, rgba(255, 255, 255, 0.38) 90%), radial-gradient(120% 85% at 18% 10%, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.10) 38%, transparent 62%); mix-blend-mode: screen; } ';
+            css += '.selector:not(.menu__item, .card, .show, .full-review-add, .full-person, .full-start-new__reactions)::before { backdrop-filter: blur(12px) !important; -webkit-backdrop-filter: blur(12px) !important; }';
+            css += '.card .card__view::before, .card-episode .full-episode::before, .register::before, .selector:not(.menu__item, .card, .show, .full-review-add, .full-person, .full-start-new__reactions)::before { content: ""; position: absolute; inset: 0; border: 0 !important; border-radius: 1em; pointer-events: none; opacity: 0; transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important; will-change: opacity; z-index: 2; box-shadow: inset 2px 2px 1px rgba(255, 255, 255, 0.30), inset -2px -2px 2px rgba(255, 255, 255, 0.30); background: radial-gradient(ellipse 130% 100% at 15% 10%, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.10) 40%, transparent 65%), linear-gradient(135deg, rgba(255, 255, 255, 0.22) 0%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.38) 100%); mix-blend-mode: screen; } ';
             css += '.card .card__view::after, .card-episode .full-episode::after, .register::after, .selector:not(.menu__item, .card, .show, .full-review-add, .full-person, .full-start-new__reactions)::after { display: none; } ';
             css += '.card.focus .card__view::before, .card.hover .card__view::before, .card-episode.focus .full-episode::before, .register.focus::before, .selector:not(.menu__item, .card, .show, .full-review-add, .full-person, .full-start-new__reactions).focus::before { opacity: 1; } ';
             css += '.card.focus, .card-episode.focus, .register.focus { transform: scale(1.08) translateY(-6px) !important; z-index: 10; } ';
