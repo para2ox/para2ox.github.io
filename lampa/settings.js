@@ -95,6 +95,7 @@
             css += '.selectbox-item, .settings-folder, .settings-param { margin: 12px; } ';
             
             // Карточки
+            css += '.simple-button--filter > div { z-index: 9; border-radius: 1.2em; padding: 0.4em 1.2em; font-weight: 600; color: rgba(255, 255, 255, 0.9); background: rgba(255, 255, 255, 0.12); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); } ';
             css += '.selector:not(.menu__item, .card, .show, .card-episode, .full-episode, .full-person, .full-start-new__reactions, .card-more) { border-radius: 1em; overflow: hidden; } ';
             css += '.selector:not(.menu__item, .card, .show, .card-episode, .full-episode, .full-person, .full-start-new__reactions, .card-more) * { filter: none !important; } ';
             css += '.selector:not(.menu__item, .card, .show, .card-episode, .full-episode, .full-person, .full-start-new__reactions, .card-more, .online-prestige, .torrent-item, .explorer-card__head-img)::before { backdrop-filter: blur(12px) !important; -webkit-backdrop-filter: blur(12px) !important; } ';
