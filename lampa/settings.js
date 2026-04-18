@@ -54,6 +54,10 @@
             css += '.new-interface-info__body:not(:has(.visible)) { display: none; } ';
             css += '.full-review-add + * { margin: 0; } ';
             
+            css += '.applecation__overlay { opacity: 1 !important; visibility: visible !important; transition: opacity 1s ease, visibility 1s ease !important; } ';
+            css += '.menu--open .applecation__overlay.full-start__background.loaded { opacity: 0 !important; visibility: hidden !important; transition: opacity 0s ease, visibility 0s ease !important; } ';
+            css += '.applecation-animated { -webkit-mask-image: linear-gradient(to left, rgba(0, 0, 0, 0.792) 0%, rgba(0, 0, 0, 0.504) 25%, rgba(0, 0, 0, 0.264) 45%, rgba(0, 0, 0, 0.12) 55%, rgba(0, 0, 0, 0.043) 60%, rgba(0, 0, 0, 0) 65%) !important; mask-image: linear-gradient(to left, rgba(0, 0, 0, 0.792) 55%, rgba(0, 0, 0, 0.504) 65%, rgba(0, 0, 0, 0.264) 75%, rgba(0, 0, 0, 0.12) 85%, rgba(0, 0, 0, 0.043) 95%, rgba(0, 0, 0, 0) 100%) !important; } ';
+            
             // Скрытие фонового изображения не на карточках
             //css += 'body:not(:has(.full-start__background.active)) .background__fade { opacity: 0 !important; pointer-events: none; } ';
             
@@ -352,10 +356,10 @@
                 if (hasChanges) {
                     // 1. Убираем класс selector, чтобы контроллер навигации Lampa перестал видеть этот элемент.
                     //    Это исправит проблему с "залипанием" невидимого курсора.
-                    /*var $addReviewBtn = $('.full-review-add.selector');
+                    var $addReviewBtn = $('.full-review-add.selector');
                     if ($addReviewBtn.length) {
                         $addReviewBtn.removeClass('selector').hide();
-                    }*/
+                    }
 
                     // 2. Ищем заголовки, чтобы найти родительский блок с комментариями
                     $('.items-line__title').each(function() {
@@ -365,7 +369,7 @@
                             // Проверяем, есть ли отзывы
                             if ($itemsLine.find('.full-review').length === 0) {
                                 // Скрываем блок целиком
-                                //$itemsLine.hide().removeClass('layer--visible selector');
+                                $itemsLine.hide().removeClass('layer--visible selector');
                             } else {
                                 // Если комментарии прогрузились - возвращаем видимость
                                 $itemsLine.show();
