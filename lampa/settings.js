@@ -352,10 +352,10 @@
                 if (hasChanges) {
                     // 1. Убираем класс selector, чтобы контроллер навигации Lampa перестал видеть этот элемент.
                     //    Это исправит проблему с "залипанием" невидимого курсора.
-                    var $addReviewBtn = $('.full-review-add.selector');
+                    /*var $addReviewBtn = $('.full-review-add.selector');
                     if ($addReviewBtn.length) {
                         $addReviewBtn.removeClass('selector').hide();
-                    }
+                    }*/
 
                     // 2. Ищем заголовки, чтобы найти родительский блок с комментариями
                     $('.items-line__title').each(function() {
@@ -365,7 +365,7 @@
                             // Проверяем, есть ли отзывы
                             if ($itemsLine.find('.full-review').length === 0) {
                                 // Скрываем блок целиком
-                                $itemsLine.hide().removeClass('layer--visible selector');
+                                //$itemsLine.hide().removeClass('layer--visible selector');
                             } else {
                                 // Если комментарии прогрузились - возвращаем видимость
                                 $itemsLine.show();
