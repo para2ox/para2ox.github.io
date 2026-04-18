@@ -364,8 +364,8 @@
                             
                             // Проверяем, есть ли отзывы
                             if ($itemsLine.find('.full-review').length === 0) {
-                                // Скрываем блок целиком
-                                $itemsLine.hide().removeClass('layer--visible selector');
+                                // Удаляем блок целиком из DOM
+                                $itemsLine.remove();
                             } else {
                                 // Если комментарии прогрузились - возвращаем видимость
                                 $itemsLine.show();
