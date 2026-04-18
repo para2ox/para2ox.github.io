@@ -270,15 +270,19 @@
         // ==========================================
         // ЧАСТЬ 4: ФИЛЬТРАЦИЯ МЕНЮ ИСТОЧНИКОВ
         // ==========================================
-        function initSourceFilter() {
+        // ==========================================
+        // ЧАСТЬ 4: ФИЛЬТРАЦИЯ SELECTBOX МЕНЮ (Источники и Избранное)
+        // ==========================================
+        function initSelectboxFilters() {
             var observer = new MutationObserver(function(mutations) {
                 var $selectbox = $('.selectbox.animate');
                 
-                // Если меню открыто и мы его еще не обрабатывали
-                if ($selectbox.length > 0 && !$selectbox.data('source-filtered')) {
-                    var titleText = $selectbox.find('.selectbox__title').text();
+                // Если меню открыто
+                if ($selectbox.length > 0) {
+                    var titleText = $selectbox.find('.selectbox__title').text().trim();
                     
-                    if (titleText.indexOf('Сортировать') !== -1) {
+                    // --- 1. ФИЛЬТР ИСТОЧНИКОВ (твой старый код) ---
+                    if (titleText.indexOf('Сортировать') !== -1 && !$selectbox.data('source-filtered')) {
                         $selectbox.data('source-filtered', true); // Помечаем, чтобы избежать цикличности
                         
                         var items = $selectbox.find('.selectbox-item');
@@ -291,59 +295,82 @@
                             var text = $title.text().toLowerCase();
                             var kept = false;
                             
-                            // Сравниваем текст (без учета регистра)
                             if (text.indexOf('rezka') !== -1) {
-                                $title.text('🪐  Phobos 2  •  Rezka');
+                                $title.text('🪐  Phobos 2  •  Rezka');
                                 kept = true;
                             } else if (text.indexOf('kinopub') !== -1) {
-                                $title.text('🪐  Phobos 3  •  KinoPub');
+                                $title.text('🪐  Phobos 3  •  KinoPub');
                                 kept = true;
                             } else if (text.indexOf('filmix') !== -1) {
-                                $title.text('🪐  Phobos 1  •  Filmix');
+                                $title.text('🪐  Phobos 1  •  Filmix');
                                 kept = true;
                             }
                             
                             if (kept) {
                                 if (!firstKept) firstKept = $item;
-                                // Если элемент уже был выбран системой, запоминаем его как цель для фокуса
                                 if ($item.hasClass('focus') || $item.hasClass('selected')) {
                                     targetFocus = $item;
                                 }
                             } else {
-                                // Если не совпало — удаляем классы и скрываем
                                 $item.removeClass('selector focus selected').hide();
                             }
                         });
                         
-                        // Если активный элемент был скрыт (например, Mirage), переводим фокус на первый доступный
-                        if (!targetFocus && firstKept) {
-                            targetFocus = firstKept;
-                        }
+                        if (!targetFocus && firstKept) targetFocus = firstKept;
                         
-                        // Визуально ставим фокус на правильный элемент
                         if (targetFocus) {
                             items.removeClass('focus');
                             targetFocus.addClass('focus');
                         }
                         
-                        // Сообщаем внутреннему контроллеру Lampa обновленный список и ЯВНО задаем фокус
                         setTimeout(function() {
                             if (window.Lampa && window.Lampa.Controller) {
                                 var containerNode = $selectbox.find('.scroll__body')[0] || $selectbox[0];
+                                Lampa.Controller.collectionSet(containerNode);
+                                if (targetFocus) Lampa.Controller.collectionFocus(targetFocus[0], containerNode);
+                            }
+                        }, 50);
+                    }
+
+                    // --- 2. НОВЫЙ ФИЛЬТР: ИЗБРАННОЕ ---
+                    if (titleText.indexOf('Избранное') !== -1 && !$selectbox.data('favorites-filtered')) {
+                        $selectbox.data('favorites-filtered', true);
+
+                        var $scrollBody = $selectbox.find('.scroll__body');
+
+                        // Перебираем всех детей внутри .scroll__body
+                        $scrollBody.children().each(function() {
+                            var $child = $(this);
+                            
+                            // Если у элемента НЕТ нужного класса — удаляем
+                            if (!$child.hasClass('selectbox-item--checkbox')) {
+                                // Важно снять классы навигации перед удалением из DOM, 
+                                // чтобы Lampa не попыталась навести фокус на "призрака"
+                                $child.removeClass('selector focus selected').remove();
+                            }
+                        });
+
+                        // Обновляем контроллер навигации Lampa
+                        setTimeout(function() {
+                            if (window.Lampa && window.Lampa.Controller) {
+                                var containerNode = $scrollBody[0] || $selectbox[0];
                                 
-                                // Шаг 1: Обновляем карту навигации (это действие сбрасывает текущий фокус внутри контроллера)
+                                // Перестраиваем карту доступных элементов
                                 Lampa.Controller.collectionSet(containerNode);
                                 
-                                // Шаг 2: Жестко возвращаем фокус нужному элементу, чтобы Enter сработал сразу
-                                if (targetFocus) {
-                                    Lampa.Controller.collectionFocus(targetFocus[0], containerNode);
+                                // Фокусируемся на первом оставшемся элементе (обычно это "Закладки")
+                                var firstRemaining = $scrollBody.find('.selectbox-item.selector').first();
+                                if (firstRemaining.length) {
+                                    Lampa.Controller.collectionFocus(firstRemaining[0], containerNode);
                                 }
                             }
                         }, 50);
                     }
+
                 } else if ($selectbox.length === 0) {
-                    // Сбрасываем флаг, если меню было закрыто
+                    // Сбрасываем флаги, если меню было закрыто
                     $('.selectbox').data('source-filtered', false);
+                    $('.selectbox').data('favorites-filtered', false);
                 }
             });
 
@@ -397,15 +424,15 @@
         // Запуск скриптов после готовности приложения
         if (window.appready) {
             appendSearchButton();
-            initSourceFilter(); // Инициализация нового фильтра
-            initCommentsFilter(); // Инициализация фильтра комментариев
+            initSelectboxFilters(); // <--- Изменено здесь
+            initCommentsFilter();
         } else {
             var domInterval = setInterval(function() {
                 if (window.appready) {
                     clearInterval(domInterval);
                     appendSearchButton();
-                    initSourceFilter(); // Инициализация нового фильтра
-                    initCommentsFilter(); // Инициализация фильтра комментариев
+                    initSelectboxFilters(); // <--- И здесь
+                    initCommentsFilter();
                 }
             }, 100);
         }
