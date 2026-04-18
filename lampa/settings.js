@@ -159,7 +159,7 @@
             safeSetConfig('bwaesgcmkey', 'NkL56zBHtwCjcOuE4RQmXMcVr2HhIh4cDEdLqknju7w=');
             
             // Настраиваем Z01
-            safeSetConfig('aesgcmkey', 'oWBi2fxPIt9if+y0IAuRhSmthXrqPUCNyRXP9BCITsA=');
+            //safeSetConfig('aesgcmkey', 'oWBi2fxPIt9if+y0IAuRhSmthXrqPUCNyRXP9BCITsA=');
 
             // Настраиваем плагин Applecation
             safeSetConfig('applecation_text_scale', '120');
@@ -339,53 +339,43 @@
         // ЧАСТЬ 5: УПРАВЛЕНИЕ КОММЕНТАРИЯМИ
         // ==========================================
         function initCommentsFilter() {
-            var rebuildTimeout;
-
             var observer = new MutationObserver(function(mutations) {
-                var commentsRemoved = false;
-
-                $('.items-line__title').each(function() {
-                    if ($(this).text().trim() === 'Комментарии') {
-                        var $itemsLine = $(this).closest('.items-line');
-                        
-                        // Проверяем, пуст ли блок (нет full-review) и находится ли он еще в DOM
-                        if ($itemsLine.length && $itemsLine.parent().length && $itemsLine.find('.full-review').length === 0) {
-                            
-                            // 1. Обязательно снимаем классы селектора ВНУТРИ до удаления узла, 
-                            // чтобы "осиротевшие" элементы не ломали кэш Lampa Controller
-                            $itemsLine.find('.selector').removeClass('selector');
-                            $itemsLine.removeClass('selector focus');
-                            
-                            // 2. Полностью удаляем из структуры
-                            $itemsLine.remove();
-                            commentsRemoved = true;
-                        }
+                // Оптимизация: реагируем только если были добавлены узлы
+                var hasChanges = false;
+                for (var i = 0; i < mutations.length; i++) {
+                    if (mutations[i].addedNodes.length > 0) {
+                        hasChanges = true;
+                        break;
                     }
-                });
+                }
 
-                // 3. Вызываем строгое обновление навигационной матрицы для ТЕКУЩЕГО АКТИВНОГО экрана
-                if (commentsRemoved && window.Lampa && window.Lampa.Activity && window.Lampa.Controller) {
-                    clearTimeout(rebuildTimeout);
-                    rebuildTimeout = setTimeout(function() {
-                        var active = Lampa.Activity.active();
-                        
-                        // Обращаемся именно к active.activity.render(), чтобы не захватить фоновые страницы истории
-                        if (active && active.activity && active.activity.render) {
-                            var $container = active.activity.render();
-                            var $currentFocus = $('.focus');
+                if (hasChanges) {
+                    // 1. Убираем класс selector, чтобы контроллер навигации Lampa перестал видеть этот элемент.
+                    //    Это исправит проблему с "залипанием" невидимого курсора.
+                    var $addReviewBtn = $('.full-review-add.selector');
+                    if ($addReviewBtn.length) {
+                        $addReviewBtn.removeClass('selector').hide();
+                    }
+
+                    // 2. Ищем заголовки, чтобы найти родительский блок с комментариями
+                    $('.items-line__title').each(function() {
+                        if ($(this).text().trim() === 'Комментарии') {
+                            var $itemsLine = $(this).closest('.items-line');
                             
-                            // Пересобираем элементы, доступные для стрелочек
-                            Lampa.Controller.collectionSet($container);
-                            
-                            // Если курсор потерялся в процессе, но элемент на странице — возвращаем ему видимый фокус
-                            if ($currentFocus.length && document.body.contains($currentFocus[0])) {
-                                $currentFocus.addClass('focus');
+                            // Проверяем, есть ли отзывы
+                            if ($itemsLine.find('.full-review').length === 0) {
+                                // Скрываем блок целиком
+                                $itemsLine.hide().removeClass('layer--visible selector');
+                            } else {
+                                // Если комментарии прогрузились - возвращаем видимость
+                                $itemsLine.show();
                             }
                         }
-                    }, 50); // Ждем завершения рефлоу страницы
+                    });
                 }
             });
 
+            // Наблюдаем только за DOM деревом, чтобы не грузить систему на каждое движение курсора
             observer.observe(document.body, { childList: true, subtree: true });
         }
 
