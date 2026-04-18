@@ -344,21 +344,25 @@
         // ==========================================
         function initCommentsFilter() {
             var observer = new MutationObserver(function(mutations) {
-                // Оптимизация: реагируем только если были добавлены узлы
+                // Оптимизация: реагируем только если добавлены узлы или изменены классы (чтобы поймать асинхронные селекторы Lampa)
                 var hasChanges = false;
                 for (var i = 0; i < mutations.length; i++) {
-                    if (mutations[i].addedNodes.length > 0) {
+                    if (mutations[i].addedNodes.length > 0 || mutations[i].attributeName === 'class') {
                         hasChanges = true;
                         break;
                     }
                 }
 
                 if (hasChanges) {
-                    // 1. Убираем класс selector, чтобы контроллер навигации Lampa перестал видеть этот элемент.
-                    //    Это исправит проблему с "залипанием" невидимого курсора.
+                    var needsNavUpdate = false;
+
+                    // 1. Убираем класс selector у кнопки добавления отзыва,
+                    // чтобы контроллер навигации Lampa перестал видеть этот элемент.
+                    // Это исправит проблему с "залипанием" невидимого курсора.
                     var $addReviewBtn = $('.full-review-add.selector');
                     if ($addReviewBtn.length) {
                         $addReviewBtn.removeClass('selector').hide();
+                        needsNavUpdate = true;
                     }
 
                     // 2. Ищем заголовки, чтобы найти родительский блок с комментариями
@@ -366,21 +370,41 @@
                         if ($(this).text().trim() === 'Комментарии') {
                             var $itemsLine = $(this).closest('.items-line');
                             
-                            // Проверяем, есть ли отзывы
+                            // Проверяем, есть ли сами отзывы (исключаем кнопку добавления)
                             if ($itemsLine.find('.full-review').length === 0) {
-                                // Скрываем блок целиком
-                                $itemsLine.hide().removeClass('layer--visible selector');
+                                // Если нет отзывов, но блок или его элементы все еще видны в навигации
+                                if ($itemsLine.is(':visible') || $itemsLine.hasClass('selector') || $itemsLine.find('.selector').length > 0) {
+                                    $itemsLine.hide().removeClass('layer--visible selector');
+                                    // Обязательно прячем все вложенные селекторы, чтобы избежать фантомного фокуса
+                                    $itemsLine.find('.selector').removeClass('selector').addClass('hidden-by-filter');
+                                    needsNavUpdate = true;
+                                }
                             } else {
                                 // Если комментарии прогрузились - возвращаем видимость
-                                $itemsLine.show();
+                                if (!$itemsLine.is(':visible')) {
+                                    $itemsLine.show().addClass('layer--visible');
+                                    // Восстанавливаем селекторы для нормальной навигации
+                                    $itemsLine.find('.hidden-by-filter').removeClass('hidden-by-filter').addClass('selector');
+                                    needsNavUpdate = true;
+                                }
                             }
                         }
                     });
+
+                    // 3. Обновляем контроллер навигации Lampa, если были изменения в DOM дереве селекторов
+                    if (needsNavUpdate && window.Lampa && window.Lampa.Controller) {
+                        setTimeout(function() {
+                            var active = window.Lampa.Activity.active();
+                            if (active && active.activity && active.activity.render) {
+                                window.Lampa.Controller.collectionSet(active.activity.render());
+                            }
+                        }, 50);
+                    }
                 }
             });
 
-            // Наблюдаем только за DOM деревом, чтобы не грузить систему на каждое движение курсора
-            observer.observe(document.body, { childList: true, subtree: true });
+            // Наблюдаем за DOM деревом (включая атрибуты для динамического отслеживания классов Lampa)
+            observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
         }
 
         // Запуск скриптов после готовности приложения
