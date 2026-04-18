@@ -88,8 +88,8 @@
             css += '.full-start-new__buttons .button--reaction, .full-start-new__buttons .button--subscribe { display: none; } ';
             
             // Интерфейс меню
-            css += '.settings__content, .selectbox__content { margin-top: 3vh; margin-bottom: 3vh; border-radius: 2em; height: 94vh !important; overflow: hidden; } ';
-			css += 'body.settings--open .settings__content, body.selectbox--open .selectbox__content { -webkit-transform: translate3d(-105%, 0, 0); transform: translate3d(-105%, 0, 0); } ';
+            css += 'body.orientation--landscape .settings__content, .selectbox__content { margin-top: 3vh; margin-bottom: 3vh; border-radius: 2em; height: 94vh !important; overflow: hidden; } ';
+			css += 'body.orientation--landscape.settings--open .settings__content, body.orientation--landscape.selectbox--open .selectbox__content { -webkit-transform: translate3d(-105%, 0, 0); transform: translate3d(-105%, 0, 0); } ';
 			css += '.settings__content .scroll__body::after, .selectbox__content .scroll__body::after { content: ""; display: block; height: 20em; width: 100%; pointer-events: none; } '; // фикс пустого пространства в меню
 			css += '.settings__title, .selectbox__title { text-align: center; } ';
             css += '.selectbox-item, .settings-folder, .settings-param { margin: 12px; } ';
