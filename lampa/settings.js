@@ -55,7 +55,7 @@
             css += '.full-review-add + * { margin: 0; } ';
             
             css += '.applecation__overlay { opacity: 1 !important; visibility: visible !important; transition: opacity 1s ease, visibility 1s ease !important; } ';
-            css += '.menu--open .applecation__overlay.full-start__background.loaded { opacity: 0 !important; visibility: hidden !important; transition: opacity 0s ease, visibility 0s ease !important; } ';
+            css += '.menu--open .applecation__overlay.full-start__background.loaded { opacity: 0 !important; visibility: hidden !important; transition: opacity 1s ease, visibility 1s ease !important; } ';
             css += '.applecation-animated { -webkit-mask-image: linear-gradient(to left, rgba(0, 0, 0, 0.792) 0%, rgba(0, 0, 0, 0.504) 25%, rgba(0, 0, 0, 0.264) 45%, rgba(0, 0, 0, 0.12) 55%, rgba(0, 0, 0, 0.043) 60%, rgba(0, 0, 0, 0) 65%) !important; mask-image: linear-gradient(to left, rgba(0, 0, 0, 0.792) 55%, rgba(0, 0, 0, 0.504) 65%, rgba(0, 0, 0, 0.264) 75%, rgba(0, 0, 0, 0.12) 85%, rgba(0, 0, 0, 0.043) 95%, rgba(0, 0, 0, 0) 100%) !important; } ';
             
             // Скрытие фонового изображения не на карточках
