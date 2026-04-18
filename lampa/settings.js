@@ -417,8 +417,8 @@
                 if (window.appready) {
                     clearInterval(domInterval);
                     appendSearchButton();
-                    initSourceFilter(); // Инициализация нового фильтра
-                    initCommentsFilter(); // Инициализация фильтра комментариев
+                    //initSourceFilter(); // Инициализация нового фильтра
+                    //initCommentsFilter(); // Инициализация фильтра комментариев
                 }
             }, 100);
         }
