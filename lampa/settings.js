@@ -411,7 +411,7 @@
         if (window.appready) {
             appendSearchButton();
             initSourceFilter(); // Инициализация нового фильтра
-            initCommentsFilter(); // Инициализация фильтра комментариев
+            //initCommentsFilter(); // Инициализация фильтра комментариев
         } else {
             var domInterval = setInterval(function() {
                 if (window.appready) {
