@@ -84,12 +84,16 @@
             // Разделитель секций
             css += '.menu__split { height: 1px; background: rgba(255, 255, 255, 0.1); margin: 10px 24px; width: calc(100% - 48px); } ';
             css += '.head__body { padding: 0 !important; } ';
+            // Скрытие кнопок на странице фильма
+            css += '.full-start-new__buttons .button--reaction, .full-start-new__buttons .button--subscribe { display: none;} ';
             
-            // Карточки
+            // Интерфейс меню
             css += '.settings__content, .selectbox__content { margin-top: 2%; margin-bottom: 2%; border-radius: 2em; } ';
 			css += 'body.settings--open .settings__content, body.selectbox--open .selectbox__content { -webkit-transform: translate3d(-105%, 0, 0); transform: translate3d(-105%, 0, 0); } ';
 			css += '.settings__title, .selectbox__title { text-align: center; } ';
             css += '.selectbox-item, .settings-folder, .settings-param { margin: 12px; } ';
+            
+            // Карточки
             css += '.selector:not(.menu__item, .card, .show, .card-episode, .full-episode, .full-person, .full-start-new__reactions, .card-more) { border-radius: 1em; overflow: hidden; } ';
             css += '.selector:not(.menu__item, .card, .show, .card-episode, .full-episode, .full-person, .full-start-new__reactions, .card-more) * { filter: none !important; } ';
             css += '.selector:not(.menu__item, .card, .show, .card-episode, .full-episode, .full-person, .full-start-new__reactions, .card-more, .online-prestige, .torrent-item, .explorer-card__head-img)::before { backdrop-filter: blur(12px) !important; -webkit-backdrop-filter: blur(12px) !important; } ';
