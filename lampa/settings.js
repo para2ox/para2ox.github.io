@@ -52,9 +52,6 @@
             css += '.items-line__head { margin-top: 3.5em; } ';
             css += '.scroll--horizontal .scroll__content { margin-top: 0.5em; } ';
             css += '.new-interface-info__body:not(:has(.visible)) { display: none; } ';
-            css += '.full-review-add + * { order: 999; } ';
-            css += '.mapping--line:has(.full-review-add) { gap: 1em; } ';
-            css += '.mapping--line:has(.full-review-add) > * { margin: 0; } ';
             
             // ДОБАВЛЕНО: Скрытие .background__fade при отсутствии .visible в .new-interface-info__body
             css += 'body:not(:has(.full-start__background.active)) .background__fade { opacity: 0 !important; pointer-events: none; } ';
