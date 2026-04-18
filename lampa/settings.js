@@ -85,11 +85,12 @@
             css += '.menu__split { height: 1px; background: rgba(255, 255, 255, 0.1); margin: 10px 24px; width: calc(100% - 48px); } ';
             css += '.head__body { padding: 0 !important; } ';
             // Скрытие кнопок на странице фильма
-            css += '.full-start-new__buttons .button--reaction, .full-start-new__buttons .button--subscribe { display: none;} ';
+            css += '.full-start-new__buttons .button--reaction, .full-start-new__buttons .button--subscribe { display: none; } ';
             
             // Интерфейс меню
-            css += '.settings__content, .selectbox__content { margin-top: 2%; margin-bottom: 2%; border-radius: 2em; } ';
+            css += '.settings__content, .selectbox__content { margin-top: 3vh; margin-bottom: 3vh; border-radius: 2em; height: 94vh !important; overflow: hidden; } ';
 			css += 'body.settings--open .settings__content, body.selectbox--open .selectbox__content { -webkit-transform: translate3d(-105%, 0, 0); transform: translate3d(-105%, 0, 0); } ';
+			css += '.settings__content .scroll__body::after, .selectbox__content .scroll__body::after { content: ""; display: block; height: 4em; width: 100%; pointer-events: none; } ';
 			css += '.settings__title, .selectbox__title { text-align: center; } ';
             css += '.selectbox-item, .settings-folder, .settings-param { margin: 12px; } ';
             
