@@ -52,7 +52,7 @@
             css += '.items-line__head { margin-top: 3.5em; } ';
             css += '.scroll--horizontal .scroll__content { margin-top: 0.5em; } ';
             css += '.new-interface-info__body:not(:has(.visible)) { display: none; } ';
-            css += '.full-review-add { order: 999; } ';
+            css += '.full-review-add + * { order: 999; } ';
             css += '.mapping--line:has(.full-review-add) { gap: 1em; } ';
             css += '.mapping--line:has(.full-review-add) > * { margin: 0; } ';
             
@@ -337,16 +337,62 @@
             observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
         }
 
+        // ==========================================
+        // ЧАСТЬ 5: УПРАВЛЕНИЕ КОММЕНТАРИЯМИ
+        // ==========================================
+        function initCommentsFilter() {
+            var observer = new MutationObserver(function(mutations) {
+                // Оптимизация: реагируем только если были добавлены узлы
+                var hasChanges = false;
+                for (var i = 0; i < mutations.length; i++) {
+                    if (mutations[i].addedNodes.length > 0) {
+                        hasChanges = true;
+                        break;
+                    }
+                }
+
+                if (hasChanges) {
+                    // 1. Убираем класс selector, чтобы контроллер навигации Lampa перестал видеть этот элемент.
+                    //    Это исправит проблему с "залипанием" невидимого курсора.
+                    var $addReviewBtn = $('.full-review-add.selector');
+                    if ($addReviewBtn.length) {
+                        $addReviewBtn.removeClass('selector').hide();
+                    }
+
+                    // 2. Ищем заголовки, чтобы найти родительский блок с комментариями
+                    $('.items-line__title').each(function() {
+                        if ($(this).text().trim() === 'Комментарии') {
+                            var $itemsLine = $(this).closest('.items-line');
+                            
+                            // Проверяем, есть ли отзывы
+                            if ($itemsLine.find('.full-review').length === 0) {
+                                // Скрываем блок целиком
+                                $itemsLine.hide().removeClass('layer--visible selector');
+                            } else {
+                                // Если комментарии прогрузились - возвращаем видимость
+                                $itemsLine.show();
+                            }
+                        }
+                    });
+                }
+            });
+
+            // Наблюдаем только за DOM деревом, чтобы не грузить систему на каждое движение курсора
+            observer.observe(document.body, { childList: true, subtree: true });
+        }
+
         // Запуск скриптов после готовности приложения
         if (window.appready) {
             appendSearchButton();
             initSourceFilter(); // Инициализация нового фильтра
+            initCommentsFilter(); // Инициализация фильтра комментариев
         } else {
             var domInterval = setInterval(function() {
                 if (window.appready) {
                     clearInterval(domInterval);
                     appendSearchButton();
                     initSourceFilter(); // Инициализация нового фильтра
+                    initCommentsFilter(); // Инициализация фильтра комментариев
                 }
             }, 100);
         }
