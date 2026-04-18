@@ -54,9 +54,9 @@
             css += '.new-interface-info__body:not(:has(.visible)) { display: none; } ';
             css += '.full-review-add + * { margin: 0; } ';
             
-            css += '.applecation__overlay { left: -200px !important; opacity: 1 !important; transition: opacity 1s ease !important; } ';
+            css += '.applecation__overlay.loaded { -webkit-mask-image: none !important; mask-image: none !important; left: -200px !important; opacity: 1 !important; transition: opacity 1s ease !important; } ';
             css += '.menu--open .applecation__overlay.full-start__background.loaded { opacity: 1 !important; transition: opacity 1s ease !important; } ';
-            css += '.applecation-animated { -webkit-mask-image: linear-gradient(to left, rgba(0, 0, 0, 0.792) 55%, rgba(0, 0, 0, 0.504) 65%, rgba(0, 0, 0, 0.264) 75%, rgba(0, 0, 0, 0.12) 85%, rgba(0, 0, 0, 0.043) 95%, rgba(0, 0, 0, 0) 100%) !important; mask-image: linear-gradient(to left, rgba(0, 0, 0, 0.792) 55%, rgba(0, 0, 0, 0.504) 65%, rgba(0, 0, 0, 0.264) 75%, rgba(0, 0, 0, 0.12) 85%, rgba(0, 0, 0, 0.043) 95%, rgba(0, 0, 0, 0) 100%) !important; } ';
+            css += '.applecation-animated.loaded { -webkit-mask-image: linear-gradient(to left, rgba(0, 0, 0, 0.792) 55%, rgba(0, 0, 0, 0.504) 65%, rgba(0, 0, 0, 0.264) 75%, rgba(0, 0, 0, 0.12) 85%, rgba(0, 0, 0, 0.043) 95%, rgba(0, 0, 0, 0) 100%) !important; mask-image: linear-gradient(to left, rgba(0, 0, 0, 0.792) 55%, rgba(0, 0, 0, 0.504) 65%, rgba(0, 0, 0, 0.264) 75%, rgba(0, 0, 0, 0.12) 85%, rgba(0, 0, 0, 0.043) 95%, rgba(0, 0, 0, 0) 100%) !important; } ';
             
             // Скрытие фонового изображения не на карточках
             //css += 'body:not(:has(.full-start__background.active)) .background__fade { opacity: 0 !important; pointer-events: none; } ';
