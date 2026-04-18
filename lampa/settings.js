@@ -44,12 +44,15 @@
             css += '.wrap__content .applecation .activity__body .full-start__background { margin-top: 4em !important; } ';
             css += '.wrap__content .applecation.full-start-new { margin-bottom: 8em; } ';
             css += '.wrap__content .applecation.full-start-new .full-start-new__right { margin-bottom: -4em; } ';
+			css += '.applecation__description-wrapper.focus { transition: padding 0.25s ease, margin 0.25s ease, transform 0.25s ease, opacity 0.4s ease-out; } ';
+			css += '.applecation__description-wrapper.focus { padding: .35em .7em 0.15em; margin: 0.5em 0; } ';
             css += 'body:not(.touch-device) .wrap__content .activity__body > div > div { padding: 1em 2em !important; } ';
             css += '.new-interface-info__body { padding: 0.2em 1.5em 0 !important; } ';
             css += '.full-start-new__buttons { padding-top: 1em; } ';
             css += '.items-line__head { margin-top: 3.5em; } ';
             css += '.scroll--horizontal .scroll__content { margin-top: 0.5em; } ';
             css += '.new-interface-info__body:not(:has(.visible)) { display: none; } ';
+            css += '.full-review-add { display: none; } ';
             
             // ДОБАВЛЕНО: Скрытие .background__fade при отсутствии .visible в .new-interface-info__body
             css += 'body:not(:has(.full-start__background.active)) .background__fade { opacity: 0 !important; pointer-events: none; } ';
