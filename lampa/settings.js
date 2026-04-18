@@ -339,53 +339,50 @@
         // ЧАСТЬ 5: УПРАВЛЕНИЕ КОММЕНТАРИЯМИ
         // ==========================================
         function initCommentsFilter() {
+            var rebuildTimeout;
+
             var observer = new MutationObserver(function(mutations) {
-                var hasChanges = false;
-                for (var i = 0; i < mutations.length; i++) {
-                    if (mutations[i].addedNodes.length > 0) {
-                        hasChanges = true;
-                        break;
-                    }
-                }
+                var commentsRemoved = false;
 
-                if (hasChanges) {
-                    var commentsRemoved = false;
-
-                    $('.items-line__title').each(function() {
-                        if ($(this).text().trim() === 'Комментарии') {
-                            var $itemsLine = $(this).closest('.items-line');
+                $('.items-line__title').each(function() {
+                    if ($(this).text().trim() === 'Комментарии') {
+                        var $itemsLine = $(this).closest('.items-line');
+                        
+                        // Проверяем, пуст ли блок (нет full-review) и находится ли он еще в DOM
+                        if ($itemsLine.length && $itemsLine.parent().length && $itemsLine.find('.full-review').length === 0) {
                             
-                            // Проверяем, есть ли реальные отзывы
-                            if ($itemsLine.find('.full-review').length === 0) {
-                                // Если блок еще висит в DOM
-                                if ($itemsLine.parent().length) {
-                                    // 1. Лишаем детей класса selector ДО удаления, чтобы вычистить из кэша Lampa
-                                    $itemsLine.find('.selector').removeClass('selector');
-                                    // 2. Полностью удаляем узел
-                                    $itemsLine.remove();
-                                    commentsRemoved = true;
-                                }
-                            } else {
-                                $itemsLine.show();
+                            // 1. Обязательно снимаем классы селектора ВНУТРИ до удаления узла, 
+                            // чтобы "осиротевшие" элементы не ломали кэш Lampa Controller
+                            $itemsLine.find('.selector').removeClass('selector');
+                            $itemsLine.removeClass('selector focus');
+                            
+                            // 2. Полностью удаляем из структуры
+                            $itemsLine.remove();
+                            commentsRemoved = true;
+                        }
+                    }
+                });
+
+                // 3. Вызываем строгое обновление навигационной матрицы для ТЕКУЩЕГО АКТИВНОГО экрана
+                if (commentsRemoved && window.Lampa && window.Lampa.Activity && window.Lampa.Controller) {
+                    clearTimeout(rebuildTimeout);
+                    rebuildTimeout = setTimeout(function() {
+                        var active = Lampa.Activity.active();
+                        
+                        // Обращаемся именно к active.activity.render(), чтобы не захватить фоновые страницы истории
+                        if (active && active.activity && active.activity.render) {
+                            var $container = active.activity.render();
+                            var $currentFocus = $('.focus');
+                            
+                            // Пересобираем элементы, доступные для стрелочек
+                            Lampa.Controller.collectionSet($container);
+                            
+                            // Если курсор потерялся в процессе, но элемент на странице — возвращаем ему видимый фокус
+                            if ($currentFocus.length && document.body.contains($currentFocus[0])) {
+                                $currentFocus.addClass('focus');
                             }
                         }
-                    });
-
-                    // Если блок удалили, заставляем Lampa перестроить карту навигации
-                    if (commentsRemoved && window.Lampa && window.Lampa.Controller) {
-                        setTimeout(function() {
-                            var $focused = $('.focus'); // Запоминаем, где курсор прямо сейчас
-                            var containerNode = $('.activity__body')[0] || $('.wrap__content')[0] || document.body;
-                            
-                            // Обновляем матрицу элементов (выбрасывает удаленные блоки из памяти)
-                            Lampa.Controller.collectionSet(containerNode);
-                            
-                            // Возвращаем фокус на место, чтобы экран не отбросило в самый верх
-                            if ($focused.length) {
-                                Lampa.Controller.collectionFocus($focused[0], containerNode);
-                            }
-                        }, 50);
-                    }
+                    }, 50); // Ждем завершения рефлоу страницы
                 }
             });
 
