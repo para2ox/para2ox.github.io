@@ -410,7 +410,7 @@
         // Запуск скриптов после готовности приложения
         if (window.appready) {
             appendSearchButton();
-            initSourceFilter(); // Инициализация нового фильтра
+            //initSourceFilter(); // Инициализация нового фильтра
             //initCommentsFilter(); // Инициализация фильтра комментариев
         } else {
             var domInterval = setInterval(function() {
