@@ -86,6 +86,9 @@
             css += '.head__body { padding: 0 !important; } ';
             
             // Карточки
+            css += '.settings__content, .selectbox__content { margin-top: 2%; margin-bottom: 2%; border-radius: 2em; } ';
+			css += 'body.settings--open .settings__content, body.selectbox--open .selectbox__content { -webkit-transform: translate3d(-105%, 0, 0); transform: translate3d(-105%, 0, 0); } ';
+			css += '.settings__title, .selectbox__title { text-align: center; } ';
             css += '.selectbox-item, .settings-folder, .settings-param { margin: 12px; } ';
             css += '.selector:not(.menu__item, .card, .show, .card-episode, .full-episode, .full-person, .full-start-new__reactions, .card-more) { border-radius: 1em; overflow: hidden; } ';
             css += '.selector:not(.menu__item, .card, .show, .card-episode, .full-episode, .full-person, .full-start-new__reactions, .card-more) * { filter: none !important; } ';
