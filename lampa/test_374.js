@@ -3,9 +3,13 @@
     console.log("Блокировка рекламы v2: Активирована");
 
     // 1. ПРЕВЕНТИВНЫЙ УДАР (CSS-инъекция)
-    // Скрываем рекламные контейнеры на уровне движка рендеринга до того, как они появятся
     var style = document.createElement('style');
     style.innerHTML = `
+        /* Новые классы из разметки CUB */
+        .ad-preroll,
+        .ad-video-block,
+        
+        /* Стандартные классы балансеров */
         .player-video__ad,
         .player-ad,
         .ad-server,
