@@ -230,7 +230,7 @@
 			// Если ключ "умрет", просто удали строку. Оставшиеся ID не изменятся.
 			var bwaKeys = [
 			    { id: 1, val: 'NkL56zBHtwCjcOuE4RQmXMcVr2HhIh4cDEdLqknju7w=' },
-			    { id: 2, val: 'test' },
+			    { id: 2, val: 'test2' },
 			    { id: 3, val: '0qbzgmc7uo7zjZgK89ecau5p8lV9+X2Qm66K8EHpJWU=' },
 			    { id: 4, val: 'ojGSTMxgCdZ6yAdv0Zlxz5AqhR8RLAPJWixR+lHd90o=' },
 			    { id: 5, val: 'qq7eHbk7XJ/dfWM0Lw6QzrO2drLlGUGqmTuAlmkegYQ=' }
