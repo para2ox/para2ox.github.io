@@ -129,7 +129,7 @@
         var plugins = [
             'https://ipavlin98.github.io/lmp-plugins/int.js', // Красивый интерфейс главной страницы
             'https://darkestclouds.github.io/plugins/applecation/applecation.js', // Красивый интерфейс страницы фильма
-            'http://cub.rip/plugin/tmdb-proxy', // TMDB прокси для беспробелмного отображения обложек
+            //'http://cub.rip/plugin/tmdb-proxy', // TMDB прокси для беспробелмного отображения обложек
             'http://bwa.ad/rc', // Фильмы и сериалы
             //'http://z01.online/live',
             //'https://lampame.github.io/main/lme.js', // Твики для интерфейса (использую только для удобного отображения кнопок на странице фильма)
