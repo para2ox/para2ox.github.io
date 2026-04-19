@@ -329,13 +329,16 @@
 		        if ($selectbox.length > 0) {
 		            var titleText = $selectbox.find('.selectbox__title').text().trim();
 		            
-		            // --- 1. ФИЛЬТР "СОРТИРОВАТЬ" (Для плагина TorrServer/BWA) ---
+		            // --- 1. ФИЛЬТР "СОРТИРОВАТЬ" ---
 		            if (titleText.indexOf('Сортировать') !== -1 && !$selectbox.data('source-filtered')) {
+		                var items = $selectbox.find('.selectbox-item');
+		                // Защита: ждём, пока Lampa реально отрисует элементы
+		                if (items.length === 0) return; 
+		                
 		                $selectbox.data('source-filtered', true); 
 		                $selectbox.find('.selectbox__title').text('Источник');
 		                
 		                var keyId = Lampa.Storage.get('phobos_bwa_key_id') || '?';
-		                var items = $selectbox.find('.selectbox-item');
 		                var firstKept = null;
 		                var targetFocus = null;
 		                
@@ -381,8 +384,12 @@
 		
 		            // --- 2. ФИЛЬТР: ИЗБРАННОЕ ---
 		            if (titleText.indexOf('Избранное') !== -1 && !$selectbox.data('favorites-filtered')) {
-		                $selectbox.data('favorites-filtered', true);
 		                var $scrollBodyFav = $selectbox.find('.scroll__body');
+		                // Защита от пустой отрисовки
+		                if ($scrollBodyFav.children().length === 0) return; 
+		                
+		                $selectbox.data('favorites-filtered', true);
+		                
 		                $scrollBodyFav.children().each(function() {
 		                    var $child = $(this);
 		                    if (!$child.hasClass('selectbox-item--checkbox')) {
@@ -399,6 +406,13 @@
 		
 		            // --- 3. СОРТИРОВКА И КАСТОМИЗАЦИЯ РОДНОГО МЕНЮ "ИСТОЧНИК" ---
 		            if (titleText === 'Источник' && !$selectbox.data('source-filtered') && !$selectbox.data('real-source-ordered')) {
+		                var $scrollBodyReal = $selectbox.find('.scroll__body');
+		                var $items = $scrollBodyReal.find('.selectbox-item'); 
+		                
+		                // КРИТИЧЕСКОЕ ИСПРАВЛЕНИЕ 1: Сначала ждём контент
+		                if ($items.length === 0) return; 
+		
+		                // Только убедившись, что контент есть, ставим флаг блокировки повторных срабатываний
 		                $selectbox.data('real-source-ordered', true); 
 		
 		                var currentKeyId = Lampa.Storage.get('phobos_bwa_key_id') || '?';
@@ -407,7 +421,7 @@
 		                    {
 		                        match: 'онлайн', 
 		                        title: 'Онлайн', 
-		                        subtitle: '🪐 Phobos ' + currentKeyId,
+		                        subtitle: 'Phobos ' + currentKeyId,
 		                        icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>'
 		                    },
 		                    {
@@ -424,21 +438,13 @@
 		                    }
 		                ];
 		
-		                var $scrollBodyReal = $selectbox.find('.scroll__body');
-		                
-		                // ВАЖНО: Мы сохраняем элементы в массив, пока они еще в DOM
-		                var $items = $scrollBodyReal.find('.selectbox-item'); 
-		                
-		                if ($items.length === 0) return;
-		
-		                // КЛЮЧЕВОЙ ФИКС: Используем detach() вместо empty(), чтобы сохранить родные события Lampa (коллбэки клика)
 		                $items.detach(); 
 		
 		                var sortedItems = [];
 		                var usedIndexes = new Set();
 		                var itemsArray = $items.toArray();
 		
-		                // 1. Сортировка и кастомизация элементов
+		                // 1. Применяем конфигурацию кастомизации
 		                customSourcesOrder.forEach(function(config) {
 		                    for (var i = 0; i < itemsArray.length; i++) {
 		                        if (usedIndexes.has(i)) continue;
@@ -447,8 +453,6 @@
 		                        var itemText = $item.find('.selectbox-item__title').text().toLowerCase();
 		
 		                        if (itemText.indexOf(config.match) !== -1) {
-		                            
-		                            // Кастомизация иконки
 		                            if (config.icon !== undefined) {
 		                                $item.addClass('selectbox-item--icon');
 		                                var $ico = $item.find('.selectbox-item__icon');
@@ -456,12 +460,10 @@
 		                                else $item.prepend('<div class="selectbox-item__icon">' + config.icon + '</div>');
 		                            }
 		                            
-		                            // Кастомизация заголовка
 		                            if (config.title !== undefined) {
 		                                $item.find('.selectbox-item__title').html(config.title);
 		                            }
 		                            
-		                            // Кастомизация подзаголовка
 		                            if (config.subtitle !== undefined) {
 		                                var $sub = $item.find('.selectbox-item__subtitle');
 		                                if (config.subtitle === "") {
@@ -479,19 +481,19 @@
 		                    }
 		                });
 		
-		                // 2. Добавляем элементы, которые не описаны в массиве (остаются в конце)
+		                // 2. Добавляем ненайденные элементы в конец списка
 		                for (var j = 0; j < itemsArray.length; j++) {
 		                    if (!usedIndexes.has(j)) {
 		                        sortedItems.push($(itemsArray[j]));
 		                    }
 		                }
 		
-		                // 3. Возвращаем отсортированные элементы обратно в контейнер (события сохранены!)
+		                // 3. Возвращаем всё в DOM
 		                sortedItems.forEach(function($el) {
 		                    $scrollBodyReal.append($el);
 		                });
 		
-		                // 4. Перезагрузка контроллера Lampa для управления с пульта
+		                // 4. Обновляем Lampa Controller
 		                setTimeout(function() {
 		                    if (window.Lampa && window.Lampa.Controller) {
 		                        var containerNode = $scrollBodyReal[0] || $selectbox[0];
@@ -510,9 +512,11 @@
 		            }
 		
 		        } else if ($selectbox.length === 0) {
+		            // КРИТИЧЕСКОЕ ИСПРАВЛЕНИЕ 2: Очищаем флаги с самого компонента `.selectbox`, 
+		            // а не с несуществующего на момент закрытия `.selectbox.animate`
 		            $('.selectbox').data('source-filtered', false);
 		            $('.selectbox').data('favorites-filtered', false);
-		            $('.selectbox.animate').data('real-source-ordered', false);
+		            $('.selectbox').data('real-source-ordered', false); 
 		        }
 		    });
 		
