@@ -124,13 +124,14 @@
         var plugins = [
             'https://ipavlin98.github.io/lmp-plugins/int.js', // Красивый интерфейс главной страницы
             'https://darkestclouds.github.io/plugins/applecation/applecation.js', // Красивый интерфейс страницы фильма
-            'http://cub.red/plugin/tmdb-proxy', // TMDB прокси для беспробелмного отображения обложек
+            'http://cub.rip/plugin/tmdb-proxy', // TMDB прокси для беспробелмного отображения обложек
             'http://bwa.ad/rc', // Фильмы и сериалы
             //'http://z01.online/live',
             //'https://lampame.github.io/main/lme.js', // Твики для интерфейса (использую только для удобного отображения кнопок на странице фильма)
             'https://ipavlin98.github.io/lmp-plugins/series-progress-fix.js',
             'https://nb557.github.io/plugins/free.js', // Обход блокировок контента от Lampa (полезно для стримингов вроде START)
             //'https://amikdn.github.io/anti-dmca.js', // Резерв плагина free.js
+			'http://cub.rip/plugin/lgbt',
             'https://ipavlin98.github.io/lmp-plugins/rt.js', // RuTube трейлеры
             'https://ipavlin98.github.io/lmp-plugins/search-focus-no-mic.js', // Фокус на поле ввода при открытии поиска
             //'http://94.103.86.206/plugins/nots', // Скрытие карточек с TS
