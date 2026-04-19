@@ -7,10 +7,16 @@
     window[plugin_id] = true;
 
     try {
-    	// --- ОТКЛЮЧЕНИЕ LGBT (С безопасной инициализацией) --- Ориг тут: http://cub.rip/plugin/lgbt
+        // --- ГЛОБАЛЬНЫЕ НАСТРОЙКИ (LGBT & DMCA) --- http://cub.rip/plugin/lgbt & https://nb557.github.io/plugins/free.js
         window.lampa_settings = window.lampa_settings || {};
+        window.lampa_settings.dcma = false; // Старый формат флага
+        
         window.lampa_settings.disable_features = window.lampa_settings.disable_features || {};
         window.lampa_settings.disable_features.lgbt = true;
+        window.lampa_settings.disable_features.dmca = true;
+        
+        window.lampa_settings.plugins_store = false;
+        window.lampa_settings.feed = false;
     	
         function loadPlugin(url) {
             var script = document.createElement('script');
@@ -129,12 +135,12 @@
         var plugins = [
             'https://ipavlin98.github.io/lmp-plugins/int.js', // Красивый интерфейс главной страницы
             'https://darkestclouds.github.io/plugins/applecation/applecation.js', // Красивый интерфейс страницы фильма
-            //'http://cub.rip/plugin/tmdb-proxy', // TMDB прокси для беспробелмного отображения обложек
+            'http://cub.rip/plugin/tmdb-proxy', // TMDB прокси для беспробелмного отображения обложек
             'http://bwa.ad/rc', // Фильмы и сериалы
             //'http://z01.online/live',
             //'https://lampame.github.io/main/lme.js', // Твики для интерфейса (использую только для удобного отображения кнопок на странице фильма)
             'https://ipavlin98.github.io/lmp-plugins/series-progress-fix.js',
-            'https://nb557.github.io/plugins/free.js', // Обход блокировок контента от Lampa (полезно для стримингов вроде START)
+            //'https://nb557.github.io/plugins/free.js', // Обход блокировок контента от Lampa (полезно для стримингов вроде START)
             //'https://amikdn.github.io/anti-dmca.js', // Резерв плагина free.js
             'https://ipavlin98.github.io/lmp-plugins/rt.js', // RuTube трейлеры
             'https://ipavlin98.github.io/lmp-plugins/search-focus-no-mic.js', // Фокус на поле ввода при открытии поиска
