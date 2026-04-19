@@ -1,27 +1,56 @@
 (function () {
-     var garbage_collector = {
-      name: 'Сборщик хлама',
-      version: '1.0',
-      description: 'Убирает не нужные разделы как торренты и лента'
-    };
-    function replaceAdText() {
-        if (window.ru && window.ru.ad) {
-            window.ru.ad = 'Приятного чаяпития'; // Замените на нужное слово
+    'use strict';
+    console.log("Блокировка рекламы v2: Активирована");
+
+    // 1. ПРЕВЕНТИВНЫЙ УДАР (CSS-инъекция)
+    var style = document.createElement('style');
+    style.innerHTML = `
+        /* Новые классы из разметки CUB */
+        .ad-preroll,
+        .ad-video-block,
+        
+        /* Стандартные классы балансеров */
+        .player-video__ad,
+        .player-ad,
+        .ad-server,
+        .ad-layer,
+        .player-panel__ad,
+        .ad-container,
+        .ad-block,
+        [data-ad] {
+            display: none !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+            z-index: -1 !important;
+            position: absolute !important;
+            left: -9999px !important;
         }
-    }
+    `;
+    document.head.appendChild(style);
 
-    // Первоначальная замена
-    replaceAdText();
+    // 2. Подменяем проверку подписки (премиум аккаунт)
+    window.Account = window.Account || {};
+    window.Account.hasPremium = () => true;
 
-    // Интервал для периодической замены (каждые 500 мс)
-    setInterval(replaceAdText, 500);
+    // 3. Ломаем создание <video> для рекламы (Оставляем логику для обмана плеера)
+    var originalCreateElement = document.createElement;
+    document.createElement = new Proxy(originalCreateElement, {
+        apply(target, thisArg, args) {
+            if (args[0] === "video") {
+                var fakeVideo = target.apply(thisArg, args);
 
-    // Используем MutationObserver для отслеживания изменений объекта window.ru
-    var observer = new MutationObserver(replaceAdText);
+                // Запрещаем рекламе воспроизводиться и мгновенно триггерим конец
+                fakeVideo.play = function () {
+                    // Снизили таймаут с 500ms до 10ms для мгновенного закрытия "под капотом"
+                    setTimeout(() => {
+                        fakeVideo.ended = true;
+                        fakeVideo.dispatchEvent(new Event("ended")); 
+                    }, 10);
+                };
 
-    observer.observe(document.documentElement, {
-        childList: true,
-        subtree: true
+                return fakeVideo;
+            }
+            return target.apply(thisArg, args);
+        }
     });
-
 })();
