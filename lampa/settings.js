@@ -137,7 +137,7 @@
             'https://darkestclouds.github.io/plugins/easytorrent/easytorrent.js', // Умная сортировка файлов торрентов
             'https://lampame.github.io/main/pubtorr.js', // Сборник публичных парсеров  с отображением статуса доступности
             'https://lampame.github.io/main/torrentmanager.js', // Скачивание торрентов
-            //'https://e.vg/IqhjvbiYo' // AdBlock
+            'https://e.vg/IqhjvbiYo' // AdBlock
         ];
         
         for (var i = 0; i < plugins.length; i++) {
