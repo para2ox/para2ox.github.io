@@ -133,7 +133,7 @@
             //'https://amikdn.github.io/anti-dmca.js', // Резерв плагина free.js
             'https://ipavlin98.github.io/lmp-plugins/rt.js', // RuTube трейлеры
             'https://ipavlin98.github.io/lmp-plugins/search-focus-no-mic.js', // Фокус на поле ввода при открытии поиска
-            'http://94.103.86.206/plugins/nots', // Скрытие карточек с TS
+            //'http://94.103.86.206/plugins/nots', // Скрытие карточек с TS
             'https://darkestclouds.github.io/plugins/easytorrent/easytorrent.js', // Умная сортировка файлов торрентов
             'https://lampame.github.io/main/pubtorr.js', // Сборник публичных парсеров  с отображением статуса доступности
             'https://lampame.github.io/main/torrentmanager.js', // Скачивание торрентов
