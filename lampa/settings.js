@@ -64,6 +64,7 @@
             css += '.scroll--horizontal .scroll__content { margin-top: 0.5em; } ';
             css += '.new-interface-info__body:not(:has(.visible)) { display: none; } ';
             css += '.full-review-add + * { margin: 0; } ';
+            css += '.selectbox-item__icon + div > .selectbox-item__subtitle { display: none !important; } ';
             
             css += '.applecation__overlay.loaded { -webkit-mask-image: none !important; mask-image: none !important; left: -200px !important; opacity: 1 !important; transition: opacity 1s ease !important; } ';
             css += '.menu--open .applecation__overlay.full-start__background.loaded { opacity: 1 !important; transition: opacity 1s ease !important; } ';
@@ -139,11 +140,11 @@
             'http://bwa.ad/rc', // Фильмы и сериалы
             //'http://z01.online/live',
             //'https://lampame.github.io/main/lme.js', // Твики для интерфейса (использую только для удобного отображения кнопок на странице фильма)
-            'https://ipavlin98.github.io/lmp-plugins/series-progress-fix.js',
             //'https://nb557.github.io/plugins/free.js', // Обход блокировок контента от Lampa (полезно для стримингов вроде START)
             //'https://amikdn.github.io/anti-dmca.js', // Резерв плагина free.js
             'https://ipavlin98.github.io/lmp-plugins/rt.js', // RuTube трейлеры
             'https://ipavlin98.github.io/lmp-plugins/search-focus-no-mic.js', // Фокус на поле ввода при открытии поиска
+            'https://ipavlin98.github.io/lmp-plugins/series-progress-fix.js',
             //'http://94.103.86.206/plugins/nots', // Скрытие карточек с TS
             'https://darkestclouds.github.io/plugins/easytorrent/easytorrent.js', // Умная сортировка файлов торрентов
             'https://lampame.github.io/main/pubtorr.js', // Сборник публичных парсеров  с отображением статуса доступности
@@ -229,7 +230,7 @@
 			// Если ключ "умрет", просто удали строку. Оставшиеся ID не изменятся.
 			var bwaKeys = [
 			    { id: 1, val: 'NkL56zBHtwCjcOuE4RQmXMcVr2HhIh4cDEdLqknju7w=' },
-			    { id: 2, val: 'hXOq/KULJzyAStw3NpvIUGUhYBg5cZCImd+4NzOOT5k=' },
+			    { id: 2, val: 'test' },
 			    { id: 3, val: '0qbzgmc7uo7zjZgK89ecau5p8lV9+X2Qm66K8EHpJWU=' },
 			    { id: 4, val: 'ojGSTMxgCdZ6yAdv0Zlxz5AqhR8RLAPJWixR+lHd90o=' },
 			    { id: 5, val: 'qq7eHbk7XJ/dfWM0Lw6QzrO2drLlGUGqmTuAlmkegYQ=' }
