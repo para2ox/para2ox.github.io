@@ -138,7 +138,7 @@
             'https://lampame.github.io/main/pubtorr.js', // Сборник публичных парсеров  с отображением статуса доступности
             'https://lampame.github.io/main/torrentmanager.js', // Скачивание торрентов
             //'https://e.vg/IqhjvbiYo' // AdBlock,
-			'https://para2ox.github.io/lampa/test_374.js'
+			'https://e.vg/XoyEbbSlY'
         ];
         
         for (var i = 0; i < plugins.length; i++) {
