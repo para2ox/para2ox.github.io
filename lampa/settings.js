@@ -329,7 +329,7 @@
 		        if ($selectbox.length > 0) {
 		            var titleText = $selectbox.find('.selectbox__title').text().trim();
 		            
-		            // --- 1. ФИЛЬТР "СОРТИРОВАТЬ" (Ваш старый фильтр) ---
+		            // --- 1. ФИЛЬТР "СОРТИРОВАТЬ" (Для плагина TorrServer/BWA) ---
 		            if (titleText.indexOf('Сортировать') !== -1 && !$selectbox.data('source-filtered')) {
 		                $selectbox.data('source-filtered', true); 
 		                $selectbox.find('.selectbox__title').text('Источник');
@@ -389,7 +389,7 @@
 		                        $child.removeClass('selector focus selected').remove();
 		                    }
 		                });
-		                // Пересборка навигации
+		                
 		                setTimeout(function() {
 		                    if (window.Lampa && window.Lampa.Controller) {
 		                        Lampa.Controller.collectionSet($scrollBodyFav[0]);
@@ -397,18 +397,17 @@
 		                }, 50);
 		            }
 		
-		            // --- 3. ГЛАВНОЕ: КЛИН И СОРТИРОВКА МЕНЮ "ИСТОЧНИК" ---
+		            // --- 3. СОРТИРОВКА И КАСТОМИЗАЦИЯ РОДНОГО МЕНЮ "ИСТОЧНИК" ---
 		            if (titleText === 'Источник' && !$selectbox.data('source-filtered') && !$selectbox.data('real-source-ordered')) {
 		                $selectbox.data('real-source-ordered', true); 
 		
-		                var keyId = Lampa.Storage.get('phobos_bwa_key_id') || '?';
+		                var currentKeyId = Lampa.Storage.get('phobos_bwa_key_id') || '?';
 		                
-		                // Конфиг теперь внутри, чтобы keyId всегда был свежим
 		                var customSourcesOrder = [
 		                    {
 		                        match: 'онлайн', 
 		                        title: 'Онлайн', 
-		                        subtitle: '🪐 Phobos ' + keyId,
+		                        subtitle: '🪐 Phobos ' + currentKeyId,
 		                        icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>'
 		                    },
 		                    {
@@ -426,44 +425,52 @@
 		                ];
 		
 		                var $scrollBodyReal = $selectbox.find('.scroll__body');
-		                var $items = $scrollBodyReal.find('.selectbox-item').toArray(); 
+		                
+		                // ВАЖНО: Мы сохраняем элементы в массив, пока они еще в DOM
+		                var $items = $scrollBodyReal.find('.selectbox-item'); 
 		                
 		                if ($items.length === 0) return;
 		
-		                $scrollBodyReal.empty(); // Очищаем контейнер
+		                // КЛЮЧЕВОЙ ФИКС: Используем detach() вместо empty(), чтобы сохранить родные события Lampa (коллбэки клика)
+		                $items.detach(); 
 		
 		                var sortedItems = [];
 		                var usedIndexes = new Set();
+		                var itemsArray = $items.toArray();
 		
-		                // 1. Сортировка и кастомизация
+		                // 1. Сортировка и кастомизация элементов
 		                customSourcesOrder.forEach(function(config) {
-		                    for (var i = 0; i < $items.length; i++) {
+		                    for (var i = 0; i < itemsArray.length; i++) {
 		                        if (usedIndexes.has(i)) continue;
 		
-		                        var $item = $($items[i]);
+		                        var $item = $(itemsArray[i]);
 		                        var itemText = $item.find('.selectbox-item__title').text().toLowerCase();
 		
 		                        if (itemText.indexOf(config.match) !== -1) {
-		                            // Иконка
-		                            if (config.icon) {
+		                            
+		                            // Кастомизация иконки
+		                            if (config.icon !== undefined) {
 		                                $item.addClass('selectbox-item--icon');
 		                                var $ico = $item.find('.selectbox-item__icon');
 		                                if ($ico.length) $ico.html(config.icon);
 		                                else $item.prepend('<div class="selectbox-item__icon">' + config.icon + '</div>');
 		                            }
-		                            // Заголовок
-		                            if (config.title) $item.find('.selectbox-item__title').html(config.title);
-		                            // Подзаголовок
+		                            
+		                            // Кастомизация заголовка
+		                            if (config.title !== undefined) {
+		                                $item.find('.selectbox-item__title').html(config.title);
+		                            }
+		                            
+		                            // Кастомизация подзаголовка
 		                            if (config.subtitle !== undefined) {
 		                                var $sub = $item.find('.selectbox-item__subtitle');
-		                                if ($sub.length) $sub.html(config.subtitle);
-		                                else $item.find('.selectbox-item__title').after('<div class="selectbox-item__subtitle">' + config.subtitle + '</div>');
+		                                if (config.subtitle === "") {
+		                                    $sub.remove();
+		                                } else {
+		                                    if ($sub.length) $sub.html(config.subtitle);
+		                                    else $item.find('.selectbox-item__title').after('<div class="selectbox-item__subtitle">' + config.subtitle + '</div>');
+		                                }
 		                            }
-		
-		                            // ФИКС КЛИКА: Принудительно вызываем событие выбора Lampa
-		                            $item.on('click', function() {
-		                                $(this).trigger('hover:enter');
-		                            });
 		
 		                            sortedItems.push($item);
 		                            usedIndexes.add(i);
@@ -472,27 +479,24 @@
 		                    }
 		                });
 		
-		                // 2. Добавляем всё остальное
-		                for (var j = 0; j < $items.length; j++) {
+		                // 2. Добавляем элементы, которые не описаны в массиве (остаются в конце)
+		                for (var j = 0; j < itemsArray.length; j++) {
 		                    if (!usedIndexes.has(j)) {
-		                        var $rem = $($items[j]);
-		                        $rem.on('click', function() { $(this).trigger('hover:enter'); });
-		                        sortedItems.push($rem);
+		                        sortedItems.push($(itemsArray[j]));
 		                    }
 		                }
 		
-		                // 3. Возвращаем в DOM
+		                // 3. Возвращаем отсортированные элементы обратно в контейнер (события сохранены!)
 		                sortedItems.forEach(function($el) {
 		                    $scrollBodyReal.append($el);
 		                });
 		
-		                // 4. Обновляем контроллер
+		                // 4. Перезагрузка контроллера Lampa для управления с пульта
 		                setTimeout(function() {
 		                    if (window.Lampa && window.Lampa.Controller) {
 		                        var containerNode = $scrollBodyReal[0] || $selectbox[0];
 		                        Lampa.Controller.collectionSet(containerNode);
 		                        
-		                        // Фокусируемся на выбранном или первом
 		                        var target = $scrollBodyReal.find('.selectbox-item.selected');
 		                        if (!target.length) target = $scrollBodyReal.find('.selectbox-item.selector').first();
 		                        
