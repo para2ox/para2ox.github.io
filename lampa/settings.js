@@ -5,7 +5,61 @@
     var plugin_id = 'my_super_config_v1';
     if (window[plugin_id]) return;
     window[plugin_id] = true;
+// ==========================================
+        // БЛОКИРОВЩИК РЕКЛАМНЫХ ДОМЕНОВ
+        // ==========================================
+        var blockedDomains = ['nakhui.com', 'kurwa-bober.ninja']; // Впишите сюда нужные домены
 
+        // 1. Перехват современных Fetch запросов
+        var originalFetch = window.fetch;
+        window.fetch = function() {
+            var url = arguments[0];
+            // Проверяем, является ли первый аргумент строкой (ссылкой)
+            if (typeof url === 'string') {
+                for (var i = 0; i < blockedDomains.length; i++) {
+                    if (url.indexOf(blockedDomains[i]) !== -1) {
+                        console.log('[Phobos AdBlock] Заблокирован fetch:', url);
+                        // Возвращаем фейковый успешный ответ, чтобы приложение не упало с ошибкой
+                        return Promise.resolve(new Response('{}', { status: 200, statusText: 'OK' }));
+                    }
+                }
+            }
+            // Если домен чистый — пропускаем оригинальный запрос
+            return originalFetch.apply(this, arguments);
+        };
+
+        // 2. Перехват старых XHR (XMLHttpRequest) запросов
+        var originalXhrOpen = XMLHttpRequest.prototype.open;
+        XMLHttpRequest.prototype.open = function(method, url) {
+            if (typeof url === 'string') {
+                for (var i = 0; i < blockedDomains.length; i++) {
+                    if (url.indexOf(blockedDomains[i]) !== -1) {
+                        this._isAdBlockCanceled = true; // Ставим метку "заблокировано"
+                        console.log('[Phobos AdBlock] Заблокирован XHR:', url);
+                        return; // Прерываем реальное открытие соединения
+                    }
+                }
+            }
+            return originalXhrOpen.apply(this, arguments);
+        };
+
+        var originalXhrSend = XMLHttpRequest.prototype.send;
+        XMLHttpRequest.prototype.send = function() {
+            if (this._isAdBlockCanceled) {
+                var self = this;
+                // Имитируем успешную загрузку (HTTP 200) с пустым ответом
+                setTimeout(function() {
+                    Object.defineProperty(self, 'status', { get: function() { return 200; } });
+                    Object.defineProperty(self, 'responseText', { get: function() { return '{}'; } });
+                    Object.defineProperty(self, 'readyState', { get: function() { return 4; } });
+                    if (self.onreadystatechange) self.onreadystatechange();
+                    if (self.onload) self.onload();
+                }, 10);
+                return;
+            }
+            return originalXhrSend.apply(this, arguments);
+        };
+        // ==========================================
     try {
         function loadPlugin(url) {
             var script = document.createElement('script');
