@@ -180,9 +180,6 @@
             safeSetConfig('advanced_animation', true);
             safeSetConfig('shots_in_card', 'false');
             safeSetConfig('shots_in_player', 'false');
-
-            // Настраиваем BWA (http://bwa.ad/rc)
-            safeSetConfig('bwaesgcmkey', 'NkL56zBHtwCjcOuE4RQmXMcVr2HhIh4cDEdLqknju7w=');
             
             // Настраиваем Z01
             //safeSetConfig('aesgcmkey', 'oWBi2fxPIt9if+y0IAuRhSmthXrqPUCNyRXP9BCITsA=');
@@ -224,6 +221,49 @@
             // Скрываем и сортируем пункты меню
             safeSetConfig('menu_hide', '["Подборки","Каталог","Лента","Фильмы","Мультфильмы","Сериалы","Персоны","Релизы","Аниме","Подписки","Расписание","Торренты","Спорт","Для детей","Shots","Torrent Manager"]');
             safeSetConfig('menu_sort', '["Поиск","Главная","Избранное","История","Фильтр"]');
+            
+            // --- РОТАЦИЯ КЛЮЧЕЙ BWA ---
+			var keysPoolVersion = 1; 
+			
+			// Используем объекты: жестко привязываем ID к ключу. 
+			// Если ключ "умрет", просто удали строку. Оставшиеся ID не изменятся.
+			var bwaKeys = [
+			    { id: 1, val: 'NkL56zBHtwCjcOuE4RQmXMcVr2HhIh4cDEdLqknju7w=' },
+			    { id: 2, val: 'hXOq/KULJzyAStw3NpvIUGUhYBg5cZCImd+4NzOOT5k=' },
+			    { id: 3, val: '0qbzgmc7uo7zjZgK89ecau5p8lV9+X2Qm66K8EHpJWU=' },
+			    { id: 4, val: 'ojGSTMxgCdZ6yAdv0Zlxz5AqhR8RLAPJWixR+lHd90o=' },
+			    { id: 5, val: 'qq7eHbk7XJ/dfWM0Lw6QzrO2drLlGUGqmTuAlmkegYQ=' }
+			];
+			
+			var savedKey = Lampa.Storage.get('phobos_bwa_key_value');
+			var savedVersion = Lampa.Storage.get('phobos_bwa_pool_version');
+			
+			// Проверяем, жив ли сохраненный ключ в текущем пуле
+			var isKeyAlive = false;
+			if (savedKey) {
+			    for (var i = 0; i < bwaKeys.length; i++) {
+			        if (bwaKeys[i].val === savedKey) {
+			            isKeyAlive = true;
+			            // Перестраховка: обновляем ID в памяти на случай несовпадений
+			            Lampa.Storage.set('phobos_bwa_key_id', bwaKeys[i].id);
+			            break;
+			        }
+			    }
+			}
+			
+			// Если ключа нет, он удален из пула, или изменилась версия пула — генерируем новый
+			if (!isKeyAlive || savedVersion !== keysPoolVersion) {
+			    var randomIndex = Math.floor(Math.random() * bwaKeys.length);
+			    var selected = bwaKeys[randomIndex];
+			    
+			    savedKey = selected.val;
+			    Lampa.Storage.set('phobos_bwa_key_value', savedKey);
+			    Lampa.Storage.set('phobos_bwa_key_id', selected.id); // <-- Сохраняем ID ключа
+			    Lampa.Storage.set('phobos_bwa_pool_version', keysPoolVersion);
+			}
+			
+			// Применяем ключ
+			safeSetConfig('bwaesgcmkey', savedKey);
         }
 
         function injectRouteGuard() {
@@ -292,56 +332,63 @@
                 if ($selectbox.length > 0) {
                     var titleText = $selectbox.find('.selectbox__title').text().trim();
                     
-                    // --- 1. ФИЛЬТР ИСТОЧНИКОВ (твой старый код) ---
-                    if (titleText.indexOf('Сортировать') !== -1 && !$selectbox.data('source-filtered')) {
-                        $selectbox.data('source-filtered', true); // Помечаем, чтобы избежать цикличности
-                        
-                        var items = $selectbox.find('.selectbox-item');
-                        var firstKept = null;
-                        var targetFocus = null;
-                        
-                        items.each(function() {
-                            var $item = $(this);
-                            var $title = $item.find('.selectbox-item__title');
-                            var text = $title.text().toLowerCase();
-                            var kept = false;
-                            
-                            if (text.indexOf('rezka') !== -1) {
-                                $title.text('🪐  Phobos 2  •  Rezka');
-                                kept = true;
-                            } else if (text.indexOf('kinopub') !== -1) {
-                                $title.text('🪐  Phobos 3  •  KinoPub');
-                                kept = true;
-                            } else if (text.indexOf('filmix') !== -1) {
-                                $title.text('🪐  Phobos 1  •  Filmix');
-                                kept = true;
-                            }
-                            
-                            if (kept) {
-                                if (!firstKept) firstKept = $item;
-                                if ($item.hasClass('focus') || $item.hasClass('selected')) {
-                                    targetFocus = $item;
-                                }
-                            } else {
-                                $item.removeClass('selector focus selected').hide();
-                            }
-                        });
-                        
-                        if (!targetFocus && firstKept) targetFocus = firstKept;
-                        
-                        if (targetFocus) {
-                            items.removeClass('focus');
-                            targetFocus.addClass('focus');
-                        }
-                        
-                        setTimeout(function() {
-                            if (window.Lampa && window.Lampa.Controller) {
-                                var containerNode = $selectbox.find('.scroll__body')[0] || $selectbox[0];
-                                Lampa.Controller.collectionSet(containerNode);
-                                if (targetFocus) Lampa.Controller.collectionFocus(targetFocus[0], containerNode);
-                            }
-                        }, 50);
-                    }
+                    // --- 1. ФИЛЬТР ИСТОЧНИКОВ ---
+					if (titleText.indexOf('Сортировать') !== -1 && !$selectbox.data('source-filtered')) {
+					    $selectbox.data('source-filtered', true); // Помечаем, чтобы избежать цикличности
+					    
+					    // МЕНЯЕМ ЗАГОЛОВОК ОКНА
+					    $selectbox.find('.selectbox__title').text('Источник');
+					    
+					    // ДОСТАЕМ НОМЕР КЛЮЧА (если почему-то не найден, покажет "?")
+					    var keyId = Lampa.Storage.get('phobos_bwa_key_id') || '?';
+					    
+					    var items = $selectbox.find('.selectbox-item');
+					    var firstKept = null;
+					    var targetFocus = null;
+					    
+					    items.each(function() {
+					        var $item = $(this);
+					        var $title = $item.find('.selectbox-item__title');
+					        var text = $title.text().toLowerCase();
+					        var kept = false;
+					        
+					        // ПОДСТАВЛЯЕМ НОМЕР КЛЮЧА В НАЗВАНИЕ
+					        if (text.indexOf('rezka') !== -1) {
+					            $title.text('🪐  Phobos ' + keyId + '  •  Rezka');
+					            kept = true;
+					        } else if (text.indexOf('kinopub') !== -1) {
+					            $title.text('🪐  Phobos ' + keyId + '  •  KinoPub');
+					            kept = true;
+					        } else if (text.indexOf('filmix') !== -1) {
+					            $title.text('🪐  Phobos ' + keyId + '  •  Filmix');
+					            kept = true;
+					        }
+					        
+					        if (kept) {
+					            if (!firstKept) firstKept = $item;
+					            if ($item.hasClass('focus') || $item.hasClass('selected')) {
+					                targetFocus = $item;
+					            }
+					        } else {
+					            $item.removeClass('selector focus selected').hide();
+					        }
+					    });
+					    
+					    if (!targetFocus && firstKept) targetFocus = firstKept;
+					    
+					    if (targetFocus) {
+					        items.removeClass('focus');
+					        targetFocus.addClass('focus');
+					    }
+					    
+					    setTimeout(function() {
+					        if (window.Lampa && window.Lampa.Controller) {
+					            var containerNode = $selectbox.find('.scroll__body')[0] || $selectbox[0];
+					            Lampa.Controller.collectionSet(containerNode);
+					            if (targetFocus) Lampa.Controller.collectionFocus(targetFocus[0], containerNode);
+					        }
+					    }, 50);
+					}
 
                     // --- 2. НОВЫЙ ФИЛЬТР: ИЗБРАННОЕ ---
                     if (titleText.indexOf('Избранное') !== -1 && !$selectbox.data('favorites-filtered')) {
