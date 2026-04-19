@@ -7,6 +7,11 @@
     window[plugin_id] = true;
 
     try {
+    	// --- ОТКЛЮЧЕНИЕ LGBT (С безопасной инициализацией) --- Ориг тут: http://cub.rip/plugin/lgbt
+        window.lampa_settings = window.lampa_settings || {};
+        window.lampa_settings.disable_features = window.lampa_settings.disable_features || {};
+        window.lampa_settings.disable_features.lgbt = true;
+    	
         function loadPlugin(url) {
             var script = document.createElement('script');
             script.src = url;
@@ -131,15 +136,13 @@
             'https://ipavlin98.github.io/lmp-plugins/series-progress-fix.js',
             'https://nb557.github.io/plugins/free.js', // Обход блокировок контента от Lampa (полезно для стримингов вроде START)
             //'https://amikdn.github.io/anti-dmca.js', // Резерв плагина free.js
-			'http://cub.rip/plugin/lgbt',
             'https://ipavlin98.github.io/lmp-plugins/rt.js', // RuTube трейлеры
             'https://ipavlin98.github.io/lmp-plugins/search-focus-no-mic.js', // Фокус на поле ввода при открытии поиска
             //'http://94.103.86.206/plugins/nots', // Скрытие карточек с TS
             'https://darkestclouds.github.io/plugins/easytorrent/easytorrent.js', // Умная сортировка файлов торрентов
             'https://lampame.github.io/main/pubtorr.js', // Сборник публичных парсеров  с отображением статуса доступности
             'https://lampame.github.io/main/torrentmanager.js', // Скачивание торрентов
-            //'https://e.vg/IqhjvbiYo' // AdBlock,
-			'https://e.vg/XoyEbbSlY'
+            'https://e.vg/IqhjvbiYo' // AdBlock
         ];
         
         for (var i = 0; i < plugins.length; i++) {
