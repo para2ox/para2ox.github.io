@@ -320,42 +320,16 @@
         }
 
         // ==========================================
-		// ЧАСТЬ 4: ФИЛЬТРАЦИЯ SELECTBOX МЕНЮ (Источники, Избранное и Сортировка Источников)
+		// ЧАСТЬ 4: ФИЛЬТРАЦИЯ SELECTBOX МЕНЮ (Источники и Избранное)
 		// ==========================================
 		function initSelectboxFilters() {
-		    
-		    // --- КОНФИГУРАЦИЯ МЕНЮ "ИСТОЧНИК" ---
-		    // Порядок в этом массиве строго определяет порядок кнопок в меню.
-		    // Если кнопка не найдена в этом конфиге, она добавится в самый конец списка.
-		    // match (обязательно): слово, которое должно содержаться в исходном названии (в нижнем регистре).
-		    var customSourcesOrder = [
-		        {
-		            match: 'онлайн', 
-		            title: 'Онлайн', 
-		            subtitle: 'Phobos 10',
-		            icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>'
-		        },
-		        {
-		            match: 'торрент', 
-		            title: 'Торренты', 
-		            subtitle: '',
-		            icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" width="50px" height="50px" fill="currentColor"><path d="M25,2C12.317,2,2,12.317,2,25s10.317,23,23,23s23-10.317,23-23S37.683,2,25,2z M40.5,30.963c-3.1,0-4.9-2.4-4.9-2.4 S34.1,35,27,35c-1.4,0-3.6-0.837-3.6-0.837l4.17,9.643C26.727,43.92,25.874,44,25,44c-2.157,0-4.222-0.377-6.155-1.039L9.237,16.851 c0,0-0.7-1.2,0.4-1.5c1.1-0.3,5.4-1.2,5.4-1.2s1.475-0.494,1.8,0.5c0.5,1.3,4.063,11.112,4.063,11.112S22.6,29,27.4,29 c4.7,0,5.9-3.437,5.7-3.937c-1.2-3-4.993-11.862-4.993-11.862s-0.6-1.1,0.8-1.4c1.4-0.3,3.8-0.7,3.8-0.7s1.105-0.163,1.6,0.8 c0.738,1.437,5.193,11.262,5.193,11.262s1.1,2.9,3.3,2.9c0.464,0,0.834-0.046,1.152-0.104c-0.082,1.635-0.348,3.221-0.817,4.722 C42.541,30.867,41.756,30.963,40.5,30.963z"></path></svg>'
-		        },
-		        {
-		            match: 'трейлер', 
-		            title: 'Трейлеры', 
-		            subtitle: '',
-		            icon: '<svg width="134" height="134" viewBox="0 0 134 134" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M81.5361 62.9865H42.5386V47.5547H81.5361C83.814 47.5547 85.3979 47.9518 86.1928 48.6451C86.9877 49.3385 87.4801 50.6245 87.4801 52.5031V58.0441C87.4801 60.0234 86.9877 61.3094 86.1928 62.0028C85.3979 62.6961 83.814 62.9925 81.5361 62.9925V62.9865ZM84.2115 33.0059H26V99H42.5386V77.5294H73.0177L87.4801 99H106L90.0546 77.4287C95.9333 76.5575 98.573 74.7559 100.75 71.7869C102.927 68.8179 104.019 64.071 104.019 57.7359V52.7876C104.019 49.0303 103.621 46.0613 102.927 43.7857C102.233 41.51 101.047 39.5307 99.362 37.7528C97.5824 36.0698 95.6011 34.8845 93.2223 34.0904C90.8435 33.3971 87.8716 33 84.2115 33V33.0059Z" fill="currentColor"></path><path d="M198 3.05176e-05C198 36.4508 168.451 66.0001 132 66.0001C124.589 66.0001 117.464 64.7786 110.814 62.5261C110.956 60.9577 111.019 59.3541 111.019 57.7359V52.7876C111.019 48.586 110.58 44.8824 109.623 41.7436C108.59 38.3588 106.82 35.4458 104.443 32.938L104.311 32.7988L104.172 32.667C101.64 30.2721 98.7694 28.5625 95.4389 27.4506L95.3108 27.4079L95.1812 27.3701C92.0109 26.446 88.3508 26 84.2115 26H77.2115V26.0059H71.3211C67.8964 18.0257 66 9.23434 66 3.05176e-05C66 -36.4508 95.5492 -66 132 -66C168.451 -66 198 -36.4508 198 3.05176e-05Z" fill="currentColor"></path><rect x="1" y="1" width="130" height="130" stroke="currentColor" stroke-width="2"></rect></svg>'
-		        }
-		    ];
-		
 		    var observer = new MutationObserver(function(mutations) {
 		        var $selectbox = $('.selectbox.animate');
 		        
 		        if ($selectbox.length > 0) {
 		            var titleText = $selectbox.find('.selectbox__title').text().trim();
 		            
-		            // --- 1. ФИЛЬТР ИСТОЧНИКОВ (СОРТИРОВКА BWA) ---
+		            // --- 1. ФИЛЬТР "СОРТИРОВАТЬ" (Ваш старый фильтр) ---
 		            if (titleText.indexOf('Сортировать') !== -1 && !$selectbox.data('source-filtered')) {
 		                $selectbox.data('source-filtered', true); 
 		                $selectbox.find('.selectbox__title').text('Источник');
@@ -384,9 +358,7 @@
 		                    
 		                    if (kept) {
 		                        if (!firstKept) firstKept = $item;
-		                        if ($item.hasClass('focus') || $item.hasClass('selected')) {
-		                            targetFocus = $item;
-		                        }
+		                        if ($item.hasClass('focus') || $item.hasClass('selected')) targetFocus = $item;
 		                    } else {
 		                        $item.removeClass('selector focus selected').hide();
 		                    }
@@ -410,44 +382,60 @@
 		            // --- 2. ФИЛЬТР: ИЗБРАННОЕ ---
 		            if (titleText.indexOf('Избранное') !== -1 && !$selectbox.data('favorites-filtered')) {
 		                $selectbox.data('favorites-filtered', true);
-		                var $scrollBody = $selectbox.find('.scroll__body');
-		
-		                $scrollBody.children().each(function() {
+		                var $scrollBodyFav = $selectbox.find('.scroll__body');
+		                $scrollBodyFav.children().each(function() {
 		                    var $child = $(this);
 		                    if (!$child.hasClass('selectbox-item--checkbox')) {
 		                        $child.removeClass('selector focus selected').remove();
 		                    }
 		                });
-		
+		                // Пересборка навигации
 		                setTimeout(function() {
 		                    if (window.Lampa && window.Lampa.Controller) {
-		                        var containerNode = $scrollBody[0] || $selectbox[0];
-		                        Lampa.Controller.collectionSet(containerNode);
-		                        var firstRemaining = $scrollBody.find('.selectbox-item.selector').first();
-		                        if (firstRemaining.length) {
-		                            Lampa.Controller.collectionFocus(firstRemaining[0], containerNode);
-		                        }
+		                        Lampa.Controller.collectionSet($scrollBodyFav[0]);
 		                    }
 		                }, 50);
 		            }
 		
-		            // --- 3. НОВОЕ: СОРТИРОВКА И КАСТОМИЗАЦИЯ РОДНОГО МЕНЮ "ИСТОЧНИК" ---
-		            // Убеждаемся, что это родное меню "Источник", а не то, которое мы переименовали в блоке выше
+		            // --- 3. ГЛАВНОЕ: КЛИН И СОРТИРОВКА МЕНЮ "ИСТОЧНИК" ---
 		            if (titleText === 'Источник' && !$selectbox.data('source-filtered') && !$selectbox.data('real-source-ordered')) {
 		                $selectbox.data('real-source-ordered', true); 
+		
+		                var keyId = Lampa.Storage.get('phobos_bwa_key_id') || '?';
+		                
+		                // Конфиг теперь внутри, чтобы keyId всегда был свежим
+		                var customSourcesOrder = [
+		                    {
+		                        match: 'онлайн', 
+		                        title: 'Онлайн', 
+		                        subtitle: '🪐 Phobos ' + keyId,
+		                        icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>'
+		                    },
+		                    {
+		                        match: 'торрент', 
+		                        title: 'Торренты', 
+		                        subtitle: 'Смотреть через TorrServer',
+		                        icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" width="50px" height="50px" fill="currentColor"><path d="M25,2C12.317,2,2,12.317,2,25s10.317,23,23,23s23-10.317,23-23S37.683,2,25,2z M40.5,30.963c-3.1,0-4.9-2.4-4.9-2.4 S34.1,35,27,35c-1.4,0-3.6-0.837-3.6-0.837l4.17,9.643C26.727,43.92,25.874,44,25,44c-2.157,0-4.222-0.377-6.155-1.039L9.237,16.851 c0,0-0.7-1.2,0.4-1.5c1.1-0.3,5.4-1.2,5.4-1.2s1.475-0.494,1.8,0.5c0.5,1.3,4.063,11.112,4.063,11.112S22.6,29,27.4,29 c4.7,0,5.9-3.437,5.7-3.937c-1.2-3-4.993-11.862-4.993-11.862s-0.6-1.1,0.8-1.4c1.4-0.3,3.8-0.7,3.8-0.7s1.105-0.163,1.6,0.8 c0.738,1.437,5.193,11.262,5.193,11.262s1.1,2.9,3.3,2.9c0.464,0,0.834-0.046,1.152-0.104c-0.082,1.635-0.348,3.221-0.817,4.722 C42.541,30.867,41.756,30.963,40.5,30.963z"></path></svg>'
+		                    },
+		                    {
+		                        match: 'трейлер', 
+		                        title: 'Трейлеры', 
+		                        subtitle: 'Найдено на YouTube/RUTUBE',
+		                        icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="7" y2="7"></line><line x1="2" y1="17" x2="7" y2="17"></line><line x1="17" y1="17" x2="22" y2="17"></line><line x1="17" y1="7" x2="22" y2="7"></line></svg>'
+		                    }
+		                ];
 		
 		                var $scrollBodyReal = $selectbox.find('.scroll__body');
 		                var $items = $scrollBodyReal.find('.selectbox-item').toArray(); 
 		                
 		                if ($items.length === 0) return;
 		
-		                // Извлекаем элементы из DOM для пересортировки без мерцания интерфейса
-		                $scrollBodyReal.empty();
+		                $scrollBodyReal.empty(); // Очищаем контейнер
 		
 		                var sortedItems = [];
 		                var usedIndexes = new Set();
 		
-		                // Шаг 1: Распределяем элементы согласно нашему customSourcesOrder
+		                // 1. Сортировка и кастомизация
 		                customSourcesOrder.forEach(function(config) {
 		                    for (var i = 0; i < $items.length; i++) {
 		                        if (usedIndexes.has(i)) continue;
@@ -456,73 +444,71 @@
 		                        var itemText = $item.find('.selectbox-item__title').text().toLowerCase();
 		
 		                        if (itemText.indexOf(config.match) !== -1) {
-		                            // 1. Кастомизация иконки
-		                            if (config.icon !== undefined) {
+		                            // Иконка
+		                            if (config.icon) {
 		                                $item.addClass('selectbox-item--icon');
-		                                var $iconDiv = $item.find('.selectbox-item__icon');
-		                                if ($iconDiv.length === 0) {
-		                                    $item.prepend('<div class="selectbox-item__icon">' + config.icon + '</div>');
-		                                } else {
-		                                    $iconDiv.html(config.icon);
-		                                }
+		                                var $ico = $item.find('.selectbox-item__icon');
+		                                if ($ico.length) $ico.html(config.icon);
+		                                else $item.prepend('<div class="selectbox-item__icon">' + config.icon + '</div>');
 		                            }
-		
-		                            // 2. Кастомизация заголовка
-		                            if (config.title !== undefined) {
-		                                $item.find('.selectbox-item__title').html(config.title);
-		                            }
-		
-		                            // 3. Кастомизация подзаголовка
+		                            // Заголовок
+		                            if (config.title) $item.find('.selectbox-item__title').html(config.title);
+		                            // Подзаголовок
 		                            if (config.subtitle !== undefined) {
-		                                var $subtitleDiv = $item.find('.selectbox-item__subtitle');
-		                                if (config.subtitle === "") {
-		                                    $subtitleDiv.remove(); // Если передана пустая строка - удаляем блок
-		                                } else {
-		                                    if ($subtitleDiv.length === 0) {
-		                                        $item.find('.selectbox-item__title').after('<div class="selectbox-item__subtitle">' + config.subtitle + '</div>');
-		                                    } else {
-		                                        $subtitleDiv.html(config.subtitle);
-		                                    }
-		                                }
+		                                var $sub = $item.find('.selectbox-item__subtitle');
+		                                if ($sub.length) $sub.html(config.subtitle);
+		                                else $item.find('.selectbox-item__title').after('<div class="selectbox-item__subtitle">' + config.subtitle + '</div>');
 		                            }
+		
+		                            // ФИКС КЛИКА: Принудительно вызываем событие выбора Lampa
+		                            $item.on('click', function() {
+		                                $(this).trigger('hover:enter');
+		                            });
 		
 		                            sortedItems.push($item);
 		                            usedIndexes.add(i);
-		                            break; // Переходим к следующему правилу в конфиге
+		                            break;
 		                        }
 		                    }
 		                });
 		
-		                // Шаг 2: Добавляем остальные элементы, которые не попали под правила
+		                // 2. Добавляем всё остальное
 		                for (var j = 0; j < $items.length; j++) {
 		                    if (!usedIndexes.has(j)) {
-		                        sortedItems.push($($items[j]));
+		                        var $rem = $($items[j]);
+		                        $rem.on('click', function() { $(this).trigger('hover:enter'); });
+		                        sortedItems.push($rem);
 		                    }
 		                }
 		
-		                // Шаг 3: Вставляем отсортированные элементы обратно в DOM
+		                // 3. Возвращаем в DOM
 		                sortedItems.forEach(function($el) {
 		                    $scrollBodyReal.append($el);
 		                });
 		
-		                // Шаг 4: Обновляем контроллер навигации Lampa
+		                // 4. Обновляем контроллер
 		                setTimeout(function() {
 		                    if (window.Lampa && window.Lampa.Controller) {
 		                        var containerNode = $scrollBodyReal[0] || $selectbox[0];
 		                        Lampa.Controller.collectionSet(containerNode);
-		                        var firstRemaining = $scrollBodyReal.find('.selectbox-item.selector').first();
-		                        if (firstRemaining.length) {
-		                            Lampa.Controller.collectionFocus(firstRemaining[0], containerNode);
+		                        
+		                        // Фокусируемся на выбранном или первом
+		                        var target = $scrollBodyReal.find('.selectbox-item.selected');
+		                        if (!target.length) target = $scrollBodyReal.find('.selectbox-item.selector').first();
+		                        
+		                        if (target.length) {
+		                            $scrollBodyReal.find('.selectbox-item').removeClass('focus');
+		                            target.addClass('focus');
+		                            Lampa.Controller.collectionFocus(target[0], containerNode);
 		                        }
 		                    }
 		                }, 50);
 		            }
 		
 		        } else if ($selectbox.length === 0) {
-		            // Сбрасываем флаги при закрытии меню
 		            $('.selectbox').data('source-filtered', false);
 		            $('.selectbox').data('favorites-filtered', false);
-		            $('.selectbox').data('real-source-ordered', false);
+		            $('.selectbox.animate').data('real-source-ordered', false);
 		        }
 		    });
 		
