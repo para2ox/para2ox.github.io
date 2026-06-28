@@ -73,16 +73,25 @@ ru.kinorium.com##.film-page__buttons-cinema_under_description
 ru.kinorium.com##.userNote + * + a
 
 ! === samsungfood.com ===
-! Общее
-!samsungfood.com##svg[data-testid="logoSamsungFood"]:upward(2)
+! == Общее
+! Скрываем шапку
+samsungfood.com###app:style(top: 0 !important;)
+samsungfood.com##button[data-testid="saved-recipe-mobile-go-back-button"]:upward(1):style(top: 0 !important;)
+samsungfood.com##a[href*="/feed"]:upward(1)
+samsungfood.com##a[href*="/feed"]:upward(2):style(background-color: transparent !important;)
+! Скрываем Bottom bar
 samsungfood.com##a#home-link:upward(2)
+! == Страница коллекций
 ! Скрываем лишние коллекции
 samsungfood.com##a[href*="/smart-collections/recently_viewed"]:upward(2)
 samsungfood.com##a[href*="/smart-collections/my_recipes"]:upward(2)
 samsungfood.com##a[href*="/smart-collections/planned"]:upward(2)
 samsungfood.com##a[href*="/smart-collections/made_it"]:upward(2)
-! Скрываем мусор на странице рецепта
-samsungfood.com##button[data-testid="add-to-button"]:upward(5)
+! == Страница рецепта
+! Кнопки Add to и Plan
+samsungfood.com##button[data-testid="add-to-button"]:upward(3)
+! Кнопки Add to и Plan (фикс для мобилок)
+samsungfood.com##button[data-testid="add-to-button"]:upward(4):style(padding: 0 !important;)
 
 ! === smartreading.ru ===
 smartreading.ru##.fixed-mobile-apps-info
@@ -171,3 +180,4 @@ ytscribe.com##body .w-full:style(width: 100% !important;)
 ytscribe.com##body .whitespace-pre-line:style(font-size: 19px !important;)
 ytscribe.com##h1:style(font-size: 2.5em !important; line-height: 1.1em !important; font-weight: 600 !important; margin: 10px 0 10px !important;)
 ytscribe.com##.video:style(margin-block-start: 1em; margin-block-end: 1em;)
+
