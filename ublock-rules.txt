@@ -73,11 +73,16 @@ ru.kinorium.com##.film-page__buttons-cinema_under_description
 ru.kinorium.com##.userNote + * + a
 
 ! === samsungfood.com ===
+! Общее
+!samsungfood.com##svg[data-testid="logoSamsungFood"]:upward(2)
 samsungfood.com##a#home-link:upward(2)
+! Скрываем лишние коллекции
 samsungfood.com##a[href*="/smart-collections/recently_viewed"]:upward(2)
 samsungfood.com##a[href*="/smart-collections/my_recipes"]:upward(2)
 samsungfood.com##a[href*="/smart-collections/planned"]:upward(2)
 samsungfood.com##a[href*="/smart-collections/made_it"]:upward(2)
+! Скрываем мусор на странице рецепта
+samsungfood.com##button[data-testid="add-to-button"]:upward(5)
 
 ! === smartreading.ru ===
 smartreading.ru##.fixed-mobile-apps-info
