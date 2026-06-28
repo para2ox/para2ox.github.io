@@ -1,0 +1,233 @@
+! 25/04/2020 https://fenglish.ru
+fenglish.ru##.ewQKQOfEZAoS
+fenglish.ru##div.ewQKQOfEZAoS
+
+! 2020-08-24 https://nestarenie.ru
+nestarenie.ru##.comment > .comment-notice
+
+! 2020-09-20 https://m.aliexpress.com
+m.aliexpress.com##.smartbanner-ui__dialog
+m.aliexpress.com##.smb-banner__main
+
+! 2021-01-02 https://ru.kinorium.com
+ru.kinorium.com##.film-page__buttons-cinema_under_description
+ru.kinorium.com##.userNote + * + a
+
+! 2021-01-29 https://emailfake.com
+!emailfake.com##.s10.center.cenrmx.col-lg-12.e7m
+!emailfake.com##.col-md-9.e7m
+!emailfake.com##.list-group-item-info.list-group-item.e7m
+!emailfake.com##.active.list-group-item.e7m
+!emailfake.com##.col-md-3.e7m
+!emailfake.com##.site-header.lrwu5.e7m > .container.e7m > .row.e7m > .col-lg-12.e7m
+
+! 2021-01-30 https://emailfake.com
+!emailfake.com##.center.to1.container.e7m
+!emailfake.com##div.to1.container.e7m:nth-of-type(3)
+
+! 2021-06-06 https://ticktick.com
+ticktick.com##a.upgrade-button:nth-of-type(2)
+ticktick.com##.icon-user-icon
+
+! 2021-07-13 https://habr.com
+habr.com##.tm-page__sidebar
+habr.com##.tm-page__main_has-sidebar:style(margin: auto !important)
+
+! 2021-07-21 https://www.youtube.com
+!www.youtube.com###columns #secondary
+
+!www.youtube.com##.ysm-collection-item-title > .spf-link
+!www.youtube.com##.ysm-collection-item-title:style(width: 100% !important; display: flex !important;)
+
+!www.youtube.com###columns #top-level-buttons-computed ytd-button-renderer #button + #text
+!www.youtube.com###columns #flexible-item-buttons
+!www.youtube.com###columns #flexible-item-buttons + #button
+
+!www.youtube.com###author-thumbnail
+!www.youtube.com###columns ytd-comment-replies-renderer:style(margin-left: 0 !important;)
+!www.youtube.com###columns #expander-contents:style(margin-left: 30px !important;)
+!www.youtube.com###columns .ytd-comment-action-buttons-renderer#like-button:style(margin-left: -6px !important;)
+!www.youtube.com##.ryd-tooltip
+
+www.youtube.com###alerts
+
+www.youtube.com###menu-container:style(max-width: 500px;)
+
+! 2021-10-28 https://puzzle-english.com
+puzzle-english.com##.enter-lesson.enter-lesson_violet
+puzzle-english.com##.dict__video__list-table__phrase__rus:style(filter: blur(6px); opacity: 0.7; transition: 0.1s;)
+puzzle-english.com##.dict__video__list-table__phrase__rus:hover:style(filter: blur(0); opacity: 1;)
+
+! 2021-10-29 https://puzzle-movies.com
+puzzle-movies.com##.dict__video__list-table__phrase__rus:style(filter: blur(6px); opacity: 1; transition: 0.1s;)
+puzzle-movies.com##.dict__video__list-table__phrase__rus:hover:style(filter: blur(0); opacity: 1;)
+
+! 2021-10-30 https://puzzle-english.com
+puzzle-english.com##.repetition__test__answers__element:not(.is-correct, .is-wrong) .repetition__test__answers__element__content:style(text-shadow: 0px 0px 7px #797979; color: transparent;)
+puzzle-english.com##.repetition__test__answers__element:not(.is-correct, .is-wrong) .repetition__test__answers__element__content:hover:style(text-shadow: none; color: black;)
+puzzle-english.com##.repetition__test__answers__element .repetition__test__answers__element__content::first-letter:style(color: white; font-size: 1.7em;)
+puzzle-english.com##.repetition__test__answers__element:not(.is-correct, .is-wrong) .repetition__test__answers__element__content::first-letter:style(color: black;)
+
+! 2022-04-04 https://vk.com
+vk.com##.feed_post_field_wrap
+vk.com##.stories_feed_wrap
+
+! 2022-05-06 https://smartreading.ru
+smartreading.ru##.fixed-mobile-apps-info
+smartreading.ru##.summary-details__sidebar .color-card
+smartreading.ru##.productSocial__title
+smartreading.ru##.social-share
+smartreading.ru##html:style(background: #fff !important;)
+smartreading.ru##.productSummaryInfo__body
+smartreading.ru##.btn--invite
+smartreading.ru##body.route-summary-epub-read .fixed-holder
+smartreading.ru##body.route-summary-epub-read .footerBox
+smartreading.ru##body.route-summary-epub-read .summary_epub_read:style(margin: 0 !important;)
+smartreading.ru##body.route-summary-epub-read .epub-reader__progress-arrow:style(display: none !important;)
+smartreading.ru##body.route-summary-epub-read .epub-reader__progress-body:style(margin: 0 !important;)
+smartreading.ru##body.route-summary-epub-read .epub-reader__progress-section:style(padding: 13px 0 !important;)
+smartreading.ru##body.route-summary-epub-read #current-percent:style(background: #fff;)
+
+! 2022-09-06 https://www.wikiwand.com
+www.wikiwand.com##.menu_line
+www.wikiwand.com##.upgrade_btn
+www.wikiwand.com##.edit_section
+www.wikiwand.com##.wikiwand_footer
+
+! 2022-12-22 https://ytscribe.com
+ytscribe.com##.container .w-full + .w-full
+ytscribe.com###__next > .MuiBox-root
+ytscribe.com##html:style(background-color: #f1f3f4 !important;)
+ytscribe.com##body:style(background-color: #fff !important; color: rgb(51, 51, 51) !important; font-family: Noto Sans, Open Sans, sans-serif !important; margin: 50px auto !important; padding: 54px 64px 64px 64px !important; border: 1px solid rgb(224 224 224) !important; box-sizing: content-box !important; width: 650px !important; font-size: 19px !important;)
+ytscribe.com##body .w-full:style(width: 100% !important;)
+ytscribe.com##body .whitespace-pre-line:style(font-size: 19px !important;)
+ytscribe.com##h1:style(font-size: 2.5em !important; line-height: 1.1em !important; font-weight: 600 !important; margin: 10px 0 10px !important;)
+ytscribe.com##.video:style(margin-block-start: 1em; margin-block-end: 1em;)
+
+! 2023-01-30 https://www.google.com
+!www.google.com##.gpt-promotion-link
+
+! 2023-05-23 https://rezka.ag
+rezka.ag##.glory
+
+! 2023-07-24 https://poe.com
+poe.com##html:style(-webkit-user-select: text !important; -moz-user-select: text !important; user-select: text !important;)
+!poe.com##div[data-floating-ui-portal]:style(display: none !important;)
+
+! 2023-11-10 https://gdeposylka.ru
+gdeposylka.ru##footer
+
+! 2024-01-05 https://yandex.ru
+yandex.ru###content_left>*:style(margin-right: 0!important;)
+
+! 2024-01-16 https://www.perplexity.ai
+www.perplexity.ai##.w-sideBarWidth .grow+.flex > .ring-borderMain:style(display: none;)
+
+! 2024-02-13 https://chat.openai.com
+chat.openai.com###kcg
+
+! 2024-02-15 https://www.youtube.com
+!www.youtube.com###contents.ytd-section-list-renderer>*.ytd-section-list-renderer[section-identifier="library-recent"] /* "История" в Библиотеке */
+!www.youtube.com###contents.ytd-section-list-renderer>*.ytd-section-list-renderer[section-identifier="library-recent"]+* /* "Смотреть позже" в Библиотеке */
+!www.youtube.com###primary:style(margin: 0 auto !important;)
+!www.youtube.com###columns:style(padding: 0 !important;)
+!www.youtube.com###chat-container
+!www.youtube.com###panels-full-bleed-container
+
+! 2024-02-29 https://megamarket.ru
+megamarket.ru##.page-catalog-details__banners
+
+! 2024-03-13 https://www.rockmods.net
+www.rockmods.net###ignielAdBlock
+www.rockmods.net##body:style(overflow: visible !important;)
+
+! 2024-03-20 https://www.youtube.com
+www.youtube.com###columns:style(padding: 0 !important;)
+www.youtube.com###primary:style(padding: 0 24px !important; margin: auto !important; max-width: 768px;)
+www.youtube.com###top-row:style(border-bottom: 0 !important;)
+www.youtube.com##ytd-comment-replies-renderer:style(margin-left: 50px !important;)
+www.youtube.com##.expander-header .yt-spec-button-shape-next__icon
+www.youtube.com###like-button:style(margin-left: 1.5px !important;)
+www.youtube.com###filter-menu:style(border-bottom: 0 !important;)
+www.youtube.com###secondary
+
+! 2024-03-24 https://forum.release-apk.com
+forum.release-apk.com##body > div:not(#wrap)
+
+! 2024-04-03 https://web.telegram.org
+web.telegram.org###folders-tabs .badge
+web.telegram.org###column-left:style(max-width: 348px !important;)
+web.telegram.org##.stories-list
+
+! 2024-06-06 https://vc.ru
+vc.ru##.header
+vc.ru##.layout > *:not(.view)
+vc.ru##.layout:style(display: block !important; box-sizing: content-box !important; width: 730px !important; padding-bottom: 64px !important; background-color: #fff !importantZ; font-size: 20px !important; margin: 50px auto !important; border: 1px solid rgb(224 224 224) !importantZ;)
+vc.ru##.layout .content:style(padding: 34px 44px 44px 44px !important;)
+vc.ru##.content-title:style(font-size: 2.5em !important; line-height: 1.1em !important; font-weight: 600 !important; margin: 10px 0 10px !important;)
+vc.ru##.block-text:style(font-size: 20px !important; line-height: 1.6em !important;)
+
+! Jun 16, 2024 https://5sim.biz
+5sim.biz###__next > div:last-child
+
+! Jun 25, 2024 https://www.inoreader.com
+www.inoreader.com###parent_teams
+
+! Jul 8, 2024 https://www.youtube.com
+www.youtube.com###paid-comment-background.ytd-comment-view-model:style(background-color: transparent !important;)
+
+! Nov 21, 2024 https://reminder.media
+reminder.media##._recommendation_section_af58a
+reminder.media##._footer_container_334f7
+
+! Feb 10, 2025 https://macked.app
+macked.app##.author-header
+
+! Apr 22, 2025 https://yandex.ru
+yandex.ru##.not-supported-screen
+yandex.ru##.iot-app-banner__wrapper
+
+! Jul 31, 2025 https://youtubetotranscript.com
+!youtubetotranscript.com##body > span, p[data-tip="Preview Segment"] + p
+!youtubetotranscript.com##.page:style(margin: 0 !important;)
+
+! Dec 12, 2025 https://www.perplexity.ai
+www.perplexity.ai##:has(+ .\@container\/main), .\@container\/main + *
+!www.perplexity.ai##.appearance-none, .appearance-none + *
+
+! Dec 14, 2025 https://www.perplexity.ai
+www.perplexity.ai##button:has-text(Download Comet)
+www.perplexity.ai##.group\/sidebar div div :has-text(Install)
+www.perplexity.ai##.group\/sidebar div div :has-text(Upgrade)
+
+! Google Calendar -- Remove elements from "My calendars" list
+calendar.google.com##div[aria-label="My calendars"]:style(height: auto !important)
+calendar.google.com##.XXcuqd:style(position: static !important; transform: none !important)
+calendar.google.com##.XXcuqd:has(div[data-text="Birthdays"]):remove()
+calendar.google.com##.XXcuqd:has(div[data-text="Tasks"]):remove()
+
+! Apr 13, 2026 https://eu.pwpush.com
+eu.pwpush.com##.hidden
+
+! Apr 30, 2026 https://www.ozon.ru
+www.ozon.ru##[data-widget="row"]:has([data-widget="bannerCarousel"])
+
+gemini.google.com##hallucination-disclaimer
+gemini.google.com##fieldset:style(margin-bottom: 1.5em !important)
+
+! May 26, 2026 https://gemini.google.com
+gemini.google.com##location-footer
+
+! May 27, 2026 https://cronometer.com
+cronometer.com##.app-links-container
+cronometer.com###launcher
+cronometer.com##.nav-item:has([href="#plans"], [href="#support"], [data-bs-target="#about-collapse"])
+
+! Jun 28, 2026 https://app.samsungfood.com
+app.samsungfood.com##svg[data-testid="logoSamsungFood"]:upward(2)
+app.samsungfood.com##a#home-link:upward(2)
+! Samsung Food - Скрытие умных коллекций
+samsungfood.com##a[href*="/smart-collections/recently_viewed"]:upward(2)
+samsungfood.com##a[href*="/smart-collections/my_recipes"]:upward(2)
+samsungfood.com##a[href*="/smart-collections/planned"]:upward(2)
+samsungfood.com##a[href*="/smart-collections/made_it"]:upward(2)
