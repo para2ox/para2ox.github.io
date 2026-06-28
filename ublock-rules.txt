@@ -10,7 +10,7 @@
 ! === samsungfood.com ===
 ! == Общее
 ! Скрываем шапку
-samsungfood.com###app,.s1:style(top: 0 !important; background-color: var(--theme-background-page);)
+samsungfood.com###app:style(top: 0 !important;)
 
 ! Было: button[data-testid="saved-recipe-mobile-go-back-button"]:upward(1)
 samsungfood.com##div:has(> button[data-testid="saved-recipe-mobile-go-back-button"]):style(top: 0 !important;)
