@@ -15,9 +15,6 @@ calendar.google.com##.XXcuqd:style(position: static !important; transform: none 
 calendar.google.com##.XXcuqd:has(div[data-text="Birthdays"]):remove()
 calendar.google.com##.XXcuqd:has(div[data-text="Tasks"]):remove()
 
-! === chat.openai.com ===
-chat.openai.com###kcg
-
 ! === cronometer.com ===
 cronometer.com##.app-links-container
 cronometer.com###launcher
@@ -25,9 +22,6 @@ cronometer.com##.nav-item:has([href="#plans"], [href="#support"], [data-bs-targe
 
 ! === eu.pwpush.com ===
 eu.pwpush.com##.hidden
-
-! === fenglish.ru ===
-fenglish.ru##.ewQKQOfEZAoS
 
 ! === forum.release-apk.com ===
 forum.release-apk.com##body > div:not(#wrap)
@@ -50,12 +44,6 @@ m.aliexpress.com##.smb-banner__main
 
 ! === macked.app ===
 macked.app##.author-header
-
-! === megamarket.ru ===
-megamarket.ru##.page-catalog-details__banners
-
-! === nestarenie.ru ===
-nestarenie.ru##.comment > .comment-notice
 
 ! === poe.com ===
 poe.com##html:style(-webkit-user-select: text !important; -moz-user-select: text !important; user-select: text !important;)
@@ -85,7 +73,6 @@ ru.kinorium.com##.film-page__buttons-cinema_under_description
 ru.kinorium.com##.userNote + * + a
 
 ! === samsungfood.com ===
-samsungfood.com##svg[data-testid="logoSamsungFood"]:upward(2)
 samsungfood.com##a#home-link:upward(2)
 samsungfood.com##a[href*="/smart-collections/recently_viewed"]:upward(2)
 samsungfood.com##a[href*="/smart-collections/my_recipes"]:upward(2)
