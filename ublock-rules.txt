@@ -1,5 +1,5 @@
 [Adblock Plus 2.0]
-! Title: Sanya's Custom Filters
+! Title: My Custom Filters
 ! Description: Личный манифест чистого веба и улучшенной верстки.
 ! Version: 2026062801
 ! Last modified: 28 Jun 2026
