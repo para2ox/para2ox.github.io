@@ -37,6 +37,9 @@ samsungfood.com##div:has(> * > a[href*="/smart-collections/planned"])
 samsungfood.com##div:has(> * > a[href*="/smart-collections/made_it"])
 
 ! == Страница рецепта
+! Фон
+samsungfood.com###app > *:style(background-color: #fff;)
+
 ! Кнопки Add to и Plan (Было: upward(3))
 samsungfood.com##div:has(> * > * > button[data-testid="add-to-button"])
 
