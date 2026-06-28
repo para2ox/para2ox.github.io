@@ -82,6 +82,8 @@ samsungfood.com##a[href*="/feed"]:upward(2):style(background-color: transparent 
 ! Скрываем Bottom bar
 samsungfood.com##a#home-link:upward(2)
 ! == Страница коллекций
+! Скрываем кнопку Plan
+samsungfood.com##button:has-text(Plan)
 ! Скрываем лишние коллекции
 samsungfood.com##a[href*="/smart-collections/recently_viewed"]:upward(2)
 samsungfood.com##a[href*="/smart-collections/my_recipes"]:upward(2)
