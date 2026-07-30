@@ -63,7 +63,7 @@ cronometer.com##.nav-item:has([href="#plans"], [href="#support"], [data-bs-targe
 
 ! === chat.qwen.ai ===
 chat.qwen.ai##.share-logo-content
-chat.qwen.ai##html.mobile, html.mobile body:style(font-size: 22px !important;)
+chat.qwen.ai##html.mobile, html.mobile body:style(font-size: 18px !important;)
 
 ! === eu.pwpush.com ===
 eu.pwpush.com##.hidden
