@@ -61,6 +61,10 @@ cronometer.com##.app-links-container
 cronometer.com###launcher
 cronometer.com##.nav-item:has([href="#plans"], [href="#support"], [data-bs-target="#about-collapse"])
 
+! === chat.qwen.ai ===
+chat.qwen.ai##.share-logo-content
+chat.qwen.ai##html, body:style(font-size: 22px !important;)
+
 ! === eu.pwpush.com ===
 eu.pwpush.com##.hidden
 
