@@ -7,6 +7,8 @@
 
 ! ==========================================
 
+gemini.google.com##button:has-text(/Get app/i)
+
 ! === samsungfood.com ===
 ! == Общее
 ! Скрываем шапку
