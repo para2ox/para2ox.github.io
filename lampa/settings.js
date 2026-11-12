@@ -162,7 +162,9 @@
         // ЧАСТЬ 1: НАСТРОЙКИ LAMPA (Storage) И ЗАЩИТА АНДРОИД ТВ
         // ==========================================
         function safeSetConfig(key, value) {
-            Lampa.Storage.set(key, value);
+            try {
+                Lampa.Storage.set(key, value);
+            } catch (e) {}
         }
 
         function applySettings() {
@@ -316,9 +318,9 @@
                 else if (Lampa.Search) Lampa.Search.open();
             });
 
-            // Добавляем кнопку в меню
+            // Добавляем кнопку в самое начало меню (чтобы совпадало с menu_sort)
             if ($('.menu .menu__list li[data-action="search_button"]').length === 0) {
-                $('.menu .menu__list').eq(0).append(searchItem);
+                $('.menu .menu__list').eq(0).prepend(searchItem);
             }
         }
 
@@ -326,10 +328,13 @@
 		// ЧАСТЬ 4: ФИЛЬТРАЦИЯ SELECTBOX МЕНЮ (Источники и Избранное)
 		// ==========================================
 		function initSelectboxFilters() {
+		    var wasSelectboxOpen = false;
+
 		    var observer = new MutationObserver(function(mutations) {
 		        var $selectbox = $('.selectbox.animate');
 		        
 		        if ($selectbox.length > 0) {
+		            wasSelectboxOpen = true;
 		            var titleText = $selectbox.find('.selectbox__title').text().trim();
 		            
 		            // --- 1. ФИЛЬТР "СОРТИРОВАТЬ" ---
@@ -514,9 +519,10 @@
 		                }, 50);
 		            }
 		
-		        } else if ($selectbox.length === 0) {
-		            // КРИТИЧЕСКОЕ ИСПРАВЛЕНИЕ 2: Очищаем флаги с самого компонента `.selectbox`, 
-		            // а не с несуществующего на момент закрытия `.selectbox.animate`
+		        } else if (wasSelectboxOpen) {
+		            // КРИТИЧЕСКОЕ ИСПРАВЛЕНИЕ 2: Очищаем флаги с самого компонента `.selectbox` только один раз при закрытии,
+		            // чтобы не дёргать DOM при каждом шаге курсора по карточкам
+		            wasSelectboxOpen = false;
 		            $('.selectbox').data('source-filtered', false);
 		            $('.selectbox').data('favorites-filtered', false);
 		            $('.selectbox').data('real-source-ordered', false); 
@@ -527,61 +533,98 @@
 		}
 
         // ==========================================
-        // ЧАСТЬ 5: УПРАВЛЕНИЕ КОММЕНТАРИЯМИ
+        // ЧАСТЬ 5: ЗАЧИСТКА DEMO И ПРИОРИТЕТ KINOPUB В .mo-grid
         // ==========================================
-        function initCommentsFilter() {
-            var observer = new MutationObserver(function(mutations) {
-                // Оптимизация: реагируем только если были добавлены узлы
-                var hasChanges = false;
+        function processMoGrid() {
+            $('.mo-grid').each(function () {
+                var $grid = $(this);
+                var $opts = $grid.children('.mo-opt');
+                if ($opts.length === 0) return;
+
+                var hasRemovedActive = false;
+
+                // 1. Удаляем все карточки со словом demo
+                $opts.each(function () {
+                    var $opt = $(this);
+                    var labelText = $opt.text().toLowerCase();
+                    var focusAttr = ($opt.attr('data-mo-focus') || '').toLowerCase();
+
+                    if (labelText.indexOf('demo') !== -1 || focusAttr.indexOf('demo') !== -1) {
+                        if ($opt.hasClass('focus') || $opt.hasClass('mo-opt--active')) {
+                            hasRemovedActive = true;
+                        }
+                        $opt.removeClass('selector focus mo-opt--active').remove();
+                    }
+                });
+
+                // 2. Ищем оставшийся KinoPub и ставим его на первое место
+                var $remaining = $grid.children('.mo-opt');
+                var $kinopub = $remaining.filter(function () {
+                    var $el = $(this);
+                    var focusAttr = ($el.attr('data-mo-focus') || '').toLowerCase();
+                    var text = $el.text().toLowerCase();
+                    return focusAttr === 'src:kinopub' || text.indexOf('kinopub') !== -1;
+                }).first();
+
+                if ($kinopub.length && $remaining.first()[0] !== $kinopub[0]) {
+                    $grid.prepend($kinopub);
+                }
+
+                // 3. Если случайно снесли карточку, на которой стоял фокус — перекидываем на первую живую
+                if (hasRemovedActive) {
+                    var $firstAvailable = $grid.children('.mo-opt.selector').first();
+                    if ($firstAvailable.length) {
+                        $firstAvailable.addClass('focus');
+                    }
+                }
+            });
+        }
+
+        function initMoGridFilter() {
+            // Ловим появление и перерисовку .mo-grid в DOM
+            var observer = new MutationObserver(function (mutations) {
+                var shouldCheck = false;
                 for (var i = 0; i < mutations.length; i++) {
                     if (mutations[i].addedNodes.length > 0) {
-                        hasChanges = true;
+                        shouldCheck = true;
                         break;
                     }
                 }
-
-                if (hasChanges) {
-                    // 1. Убираем класс selector, чтобы контроллер навигации Lampa перестал видеть этот элемент.
-                    //    Это исправит проблему с "залипанием" невидимого курсора.
-                    var $addReviewBtn = $('.full-review-add.selector');
-                    if ($addReviewBtn.length) {
-                        $addReviewBtn.removeClass('selector').hide();
-                    }
-
-                    // 2. Ищем заголовки, чтобы найти родительский блок с комментариями
-                    $('.items-line__title').each(function() {
-                        if ($(this).text().trim() === 'Комментарии') {
-                            var $itemsLine = $(this).closest('.items-line');
-                            
-                            // Проверяем, есть ли отзывы
-                            if ($itemsLine.find('.full-review').length === 0) {
-                                // Скрываем блок целиком
-                                $itemsLine.hide().removeClass('layer--visible selector');
-                            } else {
-                                // Если комментарии прогрузились - возвращаем видимость
-                                $itemsLine.show();
-                            }
-                        }
-                    });
+                if (shouldCheck) {
+                    processMoGrid();
                 }
             });
 
-            // Наблюдаем только за DOM деревом, чтобы не грузить систему на каждое движение курсора
             observer.observe(document.body, { childList: true, subtree: true });
+
+            // Подстраховка: срабатывание при нажатии на кнопку выбора источника
+            $(document).on('hover:enter click', '.mo-seg[data-mo-focus="source"]', function () {
+                setTimeout(processMoGrid, 15);
+            });
         }
 
         // Запуск скриптов после готовности приложения
-        if (window.appready) {
+        var isAppReadyInitialized = false;
+        function onAppReady() {
+            if (isAppReadyInitialized) return;
+            isAppReadyInitialized = true;
             appendSearchButton();
-            initSelectboxFilters(); // <--- Изменено здесь
-            initCommentsFilter();
+            initSelectboxFilters();
+            initMoGridFilter();
+        }
+
+        if (window.appready) {
+            onAppReady();
         } else {
+            if (window.Lampa && window.Lampa.Listener) {
+                Lampa.Listener.follow('app', function (e) {
+                    if (e.type === 'ready') onAppReady();
+                });
+            }
             var domInterval = setInterval(function() {
                 if (window.appready) {
                     clearInterval(domInterval);
-                    appendSearchButton();
-                    initSelectboxFilters(); // <--- И здесь
-                    initCommentsFilter();
+                    onAppReady();
                 }
             }, 100);
         }
