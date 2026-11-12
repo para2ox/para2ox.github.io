@@ -8,7 +8,10 @@
 ! ==========================================
 
 ! === gemini.google.com ===
-
+gemini.google.com##button:has-text(/Get app/i)
+gemini.google.com##.capabilities-disclaimer
+gemini.google.com##hallucination-disclaimer:style(margin-bottom: 1.5em !important)
+gemini.google.com##location-footer
 
 ! === samsungfood.com ===
 ! == Общее
