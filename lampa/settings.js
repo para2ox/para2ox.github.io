@@ -152,25 +152,33 @@
                     margin-top: 0 !important;
                 }
 
-                /* Фикс тени на боковое меню БЕЗ мигания при открытии карточки:
-                   геометрия (left: -200px) и маски задаются сразу до загрузки картинки */
-                .applecation__overlay {
+                /* Заглушка при отсутствии комментариев */
+                .full-review-empty {
+                    padding: 1.1em 1.8em;
+                    border-radius: 1em;
+                    background: rgba(255, 255, 255, 0.05);
+                    color: rgba(255, 255, 255, 0.5);
+                    font-size: 1.1em;
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+                /* Тень на боковое меню (исходный рабочий вариант) */
+                .applecation__overlay.loaded {
                     -webkit-mask-image: none !important;
                     mask-image: none !important;
                     left: -200px !important;
-                    transition: opacity 0.6s ease !important;
-                    will-change: opacity;
-                    transform: translateZ(0);
+                    opacity: 1 !important;
+                    transition: opacity 1s ease !important;
                 }
-                .applecation__overlay.loaded,
                 .menu--open .applecation__overlay.full-start__background.loaded {
                     opacity: 1 !important;
+                    transition: opacity 1s ease !important;
                 }
-                .applecation-animated {
+                .applecation-animated.loaded {
                     -webkit-mask-image: linear-gradient(to left, rgba(0, 0, 0, 0.792) 55%, rgba(0, 0, 0, 0.504) 65%, rgba(0, 0, 0, 0.264) 75%, rgba(0, 0, 0, 0.12) 85%, rgba(0, 0, 0, 0.043) 95%, rgba(0, 0, 0, 0) 100%) !important;
                     mask-image: linear-gradient(to left, rgba(0, 0, 0, 0.792) 55%, rgba(0, 0, 0, 0.504) 65%, rgba(0, 0, 0, 0.264) 75%, rgba(0, 0, 0, 0.12) 85%, rgba(0, 0, 0, 0.043) 95%, rgba(0, 0, 0, 0) 100%) !important;
-                    will-change: opacity;
-                    transform: translateZ(0);
                 }
 
                 /* Скрытие фонового изображения не на карточках */
@@ -467,16 +475,6 @@
             } catch (e) {}
         }
 
-        // Мягкая установка настройки: задаёт значение только если пользователь ещё ничего не выбирал сам
-        function safeSetDefault(key, value) {
-            try {
-                var current = Lampa.Storage.get(key);
-                if (current === undefined || current === null || current === '') {
-                    Lampa.Storage.set(key, value);
-                }
-            } catch (e) {}
-        }
-
         function applySettings() {
             // Преднастройки Lampa
             safeSetConfig('start_page', 'main');
@@ -496,9 +494,8 @@
 
             // Настраиваем Z01
             safeSetConfig('aesgcmkey', 'oWBi2fxPIt9if+y0IAuRhSmthXrqPUCNyRXP9BCITsA=');
-            // Мягкий приоритет KinoPub по умолчанию (не сбрасывает ручной выбор при просмотре)
-            safeSetDefault('online_balanser', 'kinopub');
-            safeSetDefault('z01_balanser', 'kinopub');
+            // Дефолтный балансер для новых фильмов — kinopub (уже начатые сериалы берутся из online_last_balanser и не сбрасываются)
+            safeSetConfig('online_balanser', 'kinopub');
 
             // Настраиваем плагин Applecation
             safeSetConfig('applecation_text_scale', '120');
@@ -846,12 +843,8 @@
         }
 
         // ==========================================
-        // ЧАСТЬ 5: ЗАЧИСТКА DEMO И УМНАЯ СОРТИРОВКА ИСТОЧНИКОВ В .mo-grid
+        // ЧАСТЬ 5: ИСТОЧНИКИ В .mo-grid И БЛОК КОММЕНТАРИЕВ
         // ==========================================
-        // Приоритет источников:
-        // 1-3: Топовый битрейт и зарубежное кино (KinoPub, Filmix, Rezka)
-        // 4-8: Лучшие базы российских сериалов и ТВ-шоу в FHD (VeoVeo, Alloha, HDVB, VideoHUB)
-        // 9+:  Надёжный резерв, где есть даже редкие сериалы (Zagonka, LordFilm и остальные)
         var MO_SOURCE_PRIORITY = [
             'kinopub',
             'filmix',
@@ -912,7 +905,7 @@
                     }
                 });
 
-                // 2. Сортируем оставшиеся карточки по таблице приоритетов (только если порядок отличается)
+                // 2. Сортируем оставшиеся карточки по приоритету
                 var remainingArray = $grid.children('.mo-opt').toArray();
                 var sortedArray = remainingArray.slice().sort(function (a, b) {
                     return getMoSourceRank($(a)) - getMoSourceRank($(b));
@@ -932,7 +925,7 @@
                     });
                 }
 
-                // 3. Если снесли активную демо-карточку — возвращаем фокус на первую живую (KinoPub)
+                // 3. Если снесли активную демо-карточку — возвращаем фокус на первую живую
                 if (hasRemovedActive) {
                     var $firstAvailable = $grid.children('.mo-opt.selector').first();
                     if ($firstAvailable.length) {
@@ -942,11 +935,47 @@
             });
         }
 
-        function initMoGridFilter() {
+        function processComments() {
+            $('.items-line__title').each(function () {
+                var $title = $(this);
+                if ($title.text().trim() !== 'Комментарии') return;
+
+                var $itemsLine = $title.closest('.items-line');
+                var $scrollBody = $itemsLine.find('.scroll__body');
+                if ($scrollBody.length === 0) return;
+
+                // 1. Скрываем кнопку "Оставить комментарий" и убираем её из навигации курсора
+                var $addBtn = $scrollBody.find('.full-review-add');
+                if ($addBtn.length) {
+                    $addBtn.removeClass('selector focus').off('hover:enter').hide();
+                }
+
+                // 2. Проверяем наличие реальных комментариев
+                var hasReviews = $scrollBody.find('.full-review').length > 0;
+                var $emptyMsg = $scrollBody.find('.full-review-empty');
+
+                if (hasReviews) {
+                    // Если комментарии есть — убираем заглушку
+                    if ($emptyMsg.length) {
+                        $emptyMsg.removeClass('selector focus').remove();
+                    }
+                } else {
+                    // Если комментариев нет — выводим плашку-заглушку с классом selector,
+                    // чтобы контроллер Lampa не терял курсор при прокрутке в самый низ
+                    if ($emptyMsg.length === 0) {
+                        $emptyMsg = $('<div class="full-review-empty selector">Комментариев пока нет</div>');
+                        $scrollBody.append($emptyMsg);
+                    }
+                }
+            });
+        }
+
+        function initContentFilters() {
             var observer = new MutationObserver(function (mutations) {
                 for (var i = 0; i < mutations.length; i++) {
                     if (mutations[i].addedNodes.length > 0) {
                         processMoGrid();
+                        processComments();
                         break;
                     }
                 }
@@ -966,7 +995,7 @@
             isAppReadyInitialized = true;
             appendSearchButton();
             initSelectboxFilters();
-            initMoGridFilter();
+            initContentFilters();
         }
 
         if (window.appready) {
