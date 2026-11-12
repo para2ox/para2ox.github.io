@@ -138,7 +138,7 @@
             'https://darkestclouds.github.io/plugins/applecation/applecation.js', // Красивый интерфейс страницы фильма
             'http://cub.rip/plugin/tmdb-proxy', // TMDB прокси для беспробелмного отображения обложек
             'http://bwa.ad/rc', // Фильмы и сериалы
-            //'http://z01.online/live',
+            'http://z01.online/live',
             //'https://lampame.github.io/main/lme.js', // Твики для интерфейса (использую только для удобного отображения кнопок на странице фильма)
             //'https://nb557.github.io/plugins/free.js', // Обход блокировок контента от Lampa (полезно для стримингов вроде START)
             //'https://amikdn.github.io/anti-dmca.js', // Резерв плагина free.js
@@ -183,7 +183,7 @@
             safeSetConfig('shots_in_player', 'false');
             
             // Настраиваем Z01
-            //safeSetConfig('aesgcmkey', 'oWBi2fxPIt9if+y0IAuRhSmthXrqPUCNyRXP9BCITsA=');
+            safeSetConfig('aesgcmkey', 'oWBi2fxPIt9if+y0IAuRhSmthXrqPUCNyRXP9BCITsA=');
 
             // Настраиваем плагин Applecation
             safeSetConfig('applecation_text_scale', '120');
@@ -220,9 +220,12 @@
             safeSetConfig('lmetorrentSelect', 'universalClient');
 
             // Скрываем и сортируем пункты меню
-            safeSetConfig('menu_hide', '["Подборки","Каталог","Лента","Фильмы","Мультфильмы","Сериалы","Персоны","Релизы","Аниме","Подписки","Расписание","Торренты","Спорт","Для детей","Shots","Torrent Manager"]');
+            safeSetConfig('menu_hide', '["Подборки","Каталог","Лента","Фильмы","Мультфильмы","Сериалы","Персоны","Релизы","Аниме","Подписки","Расписание","Торренты","Спорт","Для детей","Shots","Torrent Manager","Fovea"]');
             safeSetConfig('menu_sort', '["Поиск","Главная","Избранное","История","Фильтр"]');
-            
+
+			safeSetConfig('bwa_style', 'hero');
+			safeSetConfig('bwa_sources_hidden', '["uakino"]');
+            /*
             // --- РОТАЦИЯ КЛЮЧЕЙ BWA ---
 			var keysPoolVersion = 1; 
 			
@@ -264,7 +267,7 @@
 			}
 			
 			// Применяем ключ
-			safeSetConfig('bwaesgcmkey', savedKey);
+			safeSetConfig('bwaesgcmkey', savedKey);*/
         }
 
         function injectRouteGuard() {
