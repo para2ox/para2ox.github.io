@@ -7,7 +7,8 @@
 
 ! ==========================================
 
-gemini.google.com##button:has-text(/Get app/i)
+! === gemini.google.com ===
+
 
 ! === samsungfood.com ===
 ! == Общее
@@ -75,11 +76,6 @@ forum.release-apk.com##body > div:not(#wrap)
 
 ! === gdeposylka.ru ===
 gdeposylka.ru##footer
-
-! === gemini.google.com ===
-gemini.google.com##hallucination-disclaimer
-gemini.google.com##fieldset:style(margin-bottom: 1.5em !important)
-gemini.google.com##location-footer
 
 ! === habr.com ===
 habr.com##.tm-page__sidebar
