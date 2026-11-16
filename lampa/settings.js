@@ -493,8 +493,6 @@
             safeSetConfig('shots_in_card', 'false');
             safeSetConfig('shots_in_player', 'false');
 
-            // Настраиваем Z01
-            //safeSetConfig('aesgcmkey', 'oWBi2fxPIt9if+y0IAuRhSmthXrqPUCNyRXP9BCITsA=');
             // Дефолтный балансер для новых фильмов — kinopub (уже начатые сериалы берутся из online_last_balanser и не сбрасываются)
             safeSetConfig('online_balanser', 'kinopub');
 
@@ -589,11 +587,11 @@
             // Используем объекты: жестко привязываем ID к ключу. 
             // Если ключ "умрет", просто удали строку. Оставшиеся ID не изменятся.
             var bwaKeys = [
-                { id: 1, val: 'OBO4e54xYUViVt77E6T6tH+gEbR+6FkIguidRZe3Jc0=' },
+                { id: 1, val: '9Enwih3bcFSO1vxLfSlBgBaMuZPM9OaTR85pBrnhRDA=' },
                 { id: 2, val: 'OBO4e54xYUViVt77E6T6tH+gEbR+6FkIguidRZe3Jc0=' },
-                { id: 3, val: 'OBO4e54xYUViVt77E6T6tH+gEbR+6FkIguidRZe3Jc0=' },
-                { id: 4, val: 'OBO4e54xYUViVt77E6T6tH+gEbR+6FkIguidRZe3Jc0=' },
-                { id: 5, val: 'OBO4e54xYUViVt77E6T6tH+gEbR+6FkIguidRZe3Jc0=' }
+                { id: 3, val: 'wHdtmye19EfS/POTa1L51GC+Ok2BNCjNs4buBEfpaAY=' },
+                { id: 4, val: '6ED87/pKSmRmdIutsxxR7izGMoS/wtZ9uUqvwM5HlkM=' },
+                { id: 5, val: 'TsAxR/CBKUxUwIJfKnGgxCIeGYrirpDclCfr9Omsw+c=' }
             ];
             
             var savedKey = Lampa.Storage.get('phobos_bwa_key_value');
