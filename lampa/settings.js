@@ -200,6 +200,7 @@
                 /* Сам контейнер меню */
                 .menu {
                     pointer-events: auto;
+                    border-radius: 24px;
                     border-radius: 0 24px 24px 0;
                     transition: width var(--transition-speed), background var(--transition-speed);
                     display: flex;
@@ -423,124 +424,9 @@
                     animation: none !important;
                     margin-bottom: 1em;
                 }
-
-                /* =========================================================
-                   РЕДИЗАЙН БЕЙДЖЕЙ interfaceBadge.js (Apple TV Dark Glass)
-                   ========================================================= */
-                .card .card__view .card__type,
-                .card .card__view .card__quality,
-                .card .card__view .card__vote,
-                .card .card__view .card__year,
-                .card .card__view .card__time,
-                .card .card__view .card__episode,
-                .card .card__view .ib-badge,
-                .card .card__view [class*="interfaceBadge"],
-                .card .card__view [class*="card-badge"] {
-                    z-index: 3 !important;
-                    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif !important;
-                    font-size: 0.72em !important;
-                    font-weight: 600 !important;
-                    letter-spacing: 0.03em !important;
-                    line-height: 1.1 !important;
-                    padding: 0.32em 0.62em !important;
-                    border-radius: 0.55em !important;
-                    background: rgba(18, 18, 22, 0.74) !important;
-                    color: rgba(255, 255, 255, 0.92) !important;
-                    border: 1px solid rgba(255, 255, 255, 0.14) !important;
-                    backdrop-filter: blur(10px) saturate(140%) !important;
-                    -webkit-backdrop-filter: blur(10px) saturate(140%) !important;
-                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.38) !important;
-                    text-shadow: none !important;
-                    text-transform: none !important;
-                    margin: 0 !important;
-                }
-
-                /* Верхний левый угол: Тип (Фильм / Сериал) */
-                .card .card__view .card__type {
-                    top: 0.55em !important;
-                    left: 0.55em !important;
-                    right: auto !important;
-                    bottom: auto !important;
-                    background: rgba(20, 20, 25, 0.76) !important;
-                    color: rgba(255, 255, 255, 0.88) !important;
-                }
-                /* Тонкий цветовой маркер для Сериала без кислотного фона */
-                .card.card--tv .card__view .card__type,
-                .card .card__view .card__type.tv {
-                    color: #7cc4ff !important;
-                    border-color: rgba(124, 196, 255, 0.28) !important;
-                }
-                /* Тонкий цветовой маркер для Фильма */
-                .card.card--movie .card__view .card__type,
-                .card .card__view .card__type.movie {
-                    color: #8ce99a !important;
-                    border-color: rgba(140, 233, 154, 0.26) !important;
-                }
-
-                /* Верхний правый угол: Длительность или Сезон/Серия (01:50 / S1:E23) */
-                .card .card__view .card__time,
-                .card .card__view .card__episode,
-                .card .card__view .ib-badge--top-right {
-                    top: 0.55em !important;
-                    right: 0.55em !important;
-                    left: auto !important;
-                    bottom: auto !important;
-                    color: rgba(255, 255, 255, 0.9) !important;
-                    font-variant-numeric: tabular-nums !important;
-                }
-
-                /* Нижний левый угол: Год выхода */
-                .card .card__view .card__year,
-                .card .card__view .ib-badge--bottom-left {
-                    bottom: 0.55em !important;
-                    left: 0.55em !important;
-                    top: auto !important;
-                    right: auto !important;
-                    color: rgba(255, 255, 255, 0.82) !important;
-                    font-variant-numeric: tabular-nums !important;
-                }
-
-                /* Нижний правый угол: Рейтинг */
-                .card .card__view .card__vote {
-                    bottom: 0.55em !important;
-                    right: 0.55em !important;
-                    top: auto !important;
-                    left: auto !important;
-                    font-weight: 700 !important;
-                    font-variant-numeric: tabular-nums !important;
-                    color: #ffffff !important;
-                }
-
-                /* Бейдж качества (4K / FHD / SD) — аккуратно над рейтингом справа */
-                .card .card__view .card__quality {
-                    bottom: 2.65em !important;
-                    right: 0.55em !important;
-                    top: auto !important;
-                    left: auto !important;
-                    font-size: 0.65em !important;
-                    font-weight: 700 !important;
-                    letter-spacing: 0.06em !important;
-                    text-transform: uppercase !important;
-                    padding: 0.25em 0.52em !important;
-                    color: #f5c518 !important;
-                    border-color: rgba(245, 197, 24, 0.32) !important;
-                    background: rgba(18, 18, 22, 0.82) !important;
-                }
-
-                /* Иконки статуса справа по центру (закладки / просмотрено) */
-                .card .card__view .card__icons,
-                .card .card__view .card__markers {
-                    right: 0.55em !important;
-                    z-index: 3 !important;
-                    background: rgba(18, 18, 22, 0.68) !important;
-                    border: 1px solid rgba(255, 255, 255, 0.12) !important;
-                    border-radius: 999px !important;
-                    padding: 0.28em 0.24em !important;
-                    backdrop-filter: blur(8px) !important;
-                    -webkit-backdrop-filter: blur(8px) !important;
-                }
-                .card .card__view .card__icons-inner {
-                    gap: 0.3em !important;
+                .card__type,
+                .card__quality {
+                    z-index: 2;
                 }
             `;
 
@@ -608,7 +494,7 @@
             safeSetConfig('shots_in_player', 'false');
 
             // Настраиваем Z01
-            safeSetConfig('aesgcmkey', 'oWBi2fxPIt9if+y0IAuRhSmthXrqPUCNyRXP9BCITsA=');
+            //safeSetConfig('aesgcmkey', 'oWBi2fxPIt9if+y0IAuRhSmthXrqPUCNyRXP9BCITsA=');
             // Дефолтный балансер для новых фильмов — kinopub (уже начатые сериалы берутся из online_last_balanser и не сбрасываются)
             safeSetConfig('online_balanser', 'kinopub');
 
@@ -650,8 +536,9 @@
             safeSetConfig('menu_hide', '["Подборки","Каталог","Лента","Фильмы","Мультфильмы","Сериалы","Персоны","Релизы","Аниме","Подписки","Расписание","Торренты","Спорт","Для детей","Shots","Torrent Manager","Fovea"]');
             safeSetConfig('menu_sort', '["Поиск","Главная","Избранное","История","Фильтр"]');
 
-            safeSetConfig('bwa_style', 'hero');
-            safeSetConfig('bwa_sources_hidden', '["uakino"]');
+            /*safeSetConfig('bwa_style', 'hero');
+            safeSetConfig('bwa_sources_hidden', '["uakino"]');*/
+            
             /*
             // --- РОТАЦИЯ КЛЮЧЕЙ BWA ---
             var keysPoolVersion = 1; 
@@ -695,6 +582,49 @@
             
             // Применяем ключ
             safeSetConfig('bwaesgcmkey', savedKey);*/
+            
+            // --- РОТАЦИЯ КЛЮЧЕЙ BWA ---
+            var keysPoolVersion = 1; 
+            
+            // Используем объекты: жестко привязываем ID к ключу. 
+            // Если ключ "умрет", просто удали строку. Оставшиеся ID не изменятся.
+            var bwaKeys = [
+                { id: 1, val: '9Enwih3bcFSO1vxLfSlBgBaMuZPM9OaTR85pBrnhRDA=' },
+                { id: 2, val: '9Enwih3bcFSO1vxLfSlBgBaMuZPM9OaTR85pBrnhRDA=' },
+                { id: 3, val: '9Enwih3bcFSO1vxLfSlBgBaMuZPM9OaTR85pBrnhRDA=' },
+                { id: 4, val: '9Enwih3bcFSO1vxLfSlBgBaMuZPM9OaTR85pBrnhRDA=' },
+                { id: 5, val: '9Enwih3bcFSO1vxLfSlBgBaMuZPM9OaTR85pBrnhRDA=' }
+            ];
+            
+            var savedKey = Lampa.Storage.get('phobos_bwa_key_value');
+            var savedVersion = Lampa.Storage.get('phobos_bwa_pool_version');
+            
+            // Проверяем, жив ли сохраненный ключ в текущем пуле
+            var isKeyAlive = false;
+            if (savedKey) {
+                for (var i = 0; i < bwaKeys.length; i++) {
+                    if (bwaKeys[i].val === savedKey) {
+                        isKeyAlive = true;
+                        // Перестраховка: обновляем ID в памяти на случай несовпадений
+                        Lampa.Storage.set('phobos_bwa_key_id', bwaKeys[i].id);
+                        break;
+                    }
+                }
+            }
+            
+            // Если ключа нет, он удален из пула, или изменилась версия пула — генерируем новый
+            if (!isKeyAlive || savedVersion !== keysPoolVersion) {
+                var randomIndex = Math.floor(Math.random() * bwaKeys.length);
+                var selected = bwaKeys[randomIndex];
+                
+                savedKey = selected.val;
+                Lampa.Storage.set('phobos_bwa_key_value', savedKey);
+                Lampa.Storage.set('phobos_bwa_key_id', selected.id); // <-- Сохраняем ID ключа
+                Lampa.Storage.set('phobos_bwa_pool_version', keysPoolVersion);
+            }
+            
+            // Применяем ключ
+            safeSetConfig('aesgcmkey', savedKey);
         }
 
         function injectRouteGuard() {
