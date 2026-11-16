@@ -589,11 +589,11 @@
             // Используем объекты: жестко привязываем ID к ключу. 
             // Если ключ "умрет", просто удали строку. Оставшиеся ID не изменятся.
             var bwaKeys = [
-                { id: 1, val: '9Enwih3bcFSO1vxLfSlBgBaMuZPM9OaTR85pBrnhRDA=' },
-                { id: 2, val: '9Enwih3bcFSO1vxLfSlBgBaMuZPM9OaTR85pBrnhRDA=' },
-                { id: 3, val: '9Enwih3bcFSO1vxLfSlBgBaMuZPM9OaTR85pBrnhRDA=' },
-                { id: 4, val: '9Enwih3bcFSO1vxLfSlBgBaMuZPM9OaTR85pBrnhRDA=' },
-                { id: 5, val: '9Enwih3bcFSO1vxLfSlBgBaMuZPM9OaTR85pBrnhRDA=' }
+                { id: 1, val: 'OBO4e54xYUViVt77E6T6tH+gEbR+6FkIguidRZe3Jc0=' },
+                { id: 2, val: 'OBO4e54xYUViVt77E6T6tH+gEbR+6FkIguidRZe3Jc0=' },
+                { id: 3, val: 'OBO4e54xYUViVt77E6T6tH+gEbR+6FkIguidRZe3Jc0=' },
+                { id: 4, val: 'OBO4e54xYUViVt77E6T6tH+gEbR+6FkIguidRZe3Jc0=' },
+                { id: 5, val: 'OBO4e54xYUViVt77E6T6tH+gEbR+6FkIguidRZe3Jc0=' }
             ];
             
             var savedKey = Lampa.Storage.get('phobos_bwa_key_value');
