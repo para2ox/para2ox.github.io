@@ -448,6 +448,7 @@
             'http://cub.rip/plugin/tmdb-proxy', // TMDB прокси для беспроблемного отображения обложек
             //'http://bwa.ad/rc', // Фильмы и сериалы
             'http://z01.online/live',
+            'http://ru.z01.online/live', // Резерв
             //'https://lampame.github.io/main/lme.js', // Твики для интерфейса (использую только для удобного отображения кнопок на странице фильма)
             //'https://nb557.github.io/plugins/free.js', // Обход блокировок контента от Lampa (полезно для стримингов вроде START)
             //'https://amikdn.github.io/anti-dmca.js', // Резерв плагина free.js
