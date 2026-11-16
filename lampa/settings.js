@@ -589,11 +589,11 @@
             // Используем объекты: жестко привязываем ID к ключу. 
             // Если ключ "умрет", просто удали строку. Оставшиеся ID не изменятся.
             var bwaKeys = [
-                { id: 1, val: 'wHdtmye19EfS/POTa1L51GC+Ok2BNCjNs4buBEfpaAY=' },
-                { id: 2, val: 'wHdtmye19EfS/POTa1L51GC+Ok2BNCjNs4buBEfpaAY=' },
-                { id: 3, val: 'wHdtmye19EfS/POTa1L51GC+Ok2BNCjNs4buBEfpaAY=' },
-                { id: 4, val: 'wHdtmye19EfS/POTa1L51GC+Ok2BNCjNs4buBEfpaAY=' },
-                { id: 5, val: 'wHdtmye19EfS/POTa1L51GC+Ok2BNCjNs4buBEfpaAY=' }
+                { id: 1, val: '6ED87/pKSmRmdIutsxxR7izGMoS/wtZ9uUqvwM5HlkM=' },
+                { id: 2, val: '6ED87/pKSmRmdIutsxxR7izGMoS/wtZ9uUqvwM5HlkM=' },
+                { id: 3, val: '6ED87/pKSmRmdIutsxxR7izGMoS/wtZ9uUqvwM5HlkM=' },
+                { id: 4, val: '6ED87/pKSmRmdIutsxxR7izGMoS/wtZ9uUqvwM5HlkM=' },
+                { id: 5, val: '6ED87/pKSmRmdIutsxxR7izGMoS/wtZ9uUqvwM5HlkM=' }
             ];
             
             var savedKey = Lampa.Storage.get('phobos_bwa_key_value');
