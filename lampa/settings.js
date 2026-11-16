@@ -27,6 +27,74 @@
             target.appendChild(script);
         }
 
+        // Отказоустойчивая загрузка плагина с автоматическим переключением на резервное зеркало
+        function loadPluginWithFallback(urls, timeoutMs) {
+            timeoutMs = timeoutMs || 3500;
+            var queue = urls.slice();
+
+            // Если в текущей сессии одно из зеркал уже успешно отвечало — ставим его первым в очередь
+            var lastWorking = null;
+            try {
+                lastWorking = sessionStorage.getItem('phobos_z01_active_mirror');
+            } catch (e) {}
+
+            if (lastWorking && queue.indexOf(lastWorking) > 0) {
+                queue = [lastWorking].concat(queue.filter(function (u) {
+                    return u !== lastWorking;
+                }));
+            }
+
+            var index = 0;
+
+            function tryNext() {
+                if (index >= queue.length) return;
+                var currentUrl = queue[index++];
+                var settled = false;
+
+                var script = document.createElement('script');
+                script.type = 'text/javascript';
+                script.async = true;
+
+                var timer = setTimeout(function () {
+                    if (settled) return;
+                    settled = true;
+                    script.onload = script.onerror = null;
+                    try {
+                        script.removeAttribute('src');
+                        if (script.parentNode) script.parentNode.removeChild(script);
+                    } catch (e) {}
+                    console.warn('[Phobos] Таймаут зеркала ' + currentUrl + ', переключаюсь на резерв...');
+                    tryNext();
+                }, timeoutMs);
+
+                script.onload = function () {
+                    if (settled) return;
+                    settled = true;
+                    clearTimeout(timer);
+                    try {
+                        sessionStorage.setItem('phobos_z01_active_mirror', currentUrl);
+                    } catch (e) {}
+                };
+
+                script.onerror = function () {
+                    if (settled) return;
+                    settled = true;
+                    clearTimeout(timer);
+                    try {
+                        if (script.parentNode) script.parentNode.removeChild(script);
+                    } catch (e) {}
+                    console.warn('[Phobos] Ошибка зеркала ' + currentUrl + ', переключаюсь на резерв...');
+                    tryNext();
+                };
+
+                script.src = currentUrl;
+                var target = document.head || document.getElementsByTagName('head')[0] || document.documentElement;
+                target.appendChild(script);
+            }
+
+            tryNext();
+        }
+
         // --- НОВОЕ: ЗАГРУЗКА ВНЕШНИХ ПЛАГИНОВ ---
 
         // 1. Грузим главную страницу СРАЗУ
@@ -430,7 +498,7 @@
                 }
 
                 /* =========================================================
-                   БЛОК 3: КАСТОМИЗАЦИЯ БЕЙДЖЕЙ (interfaceBadge.js -> Liquid Glass)
+                   БЛОК 3: SOTA КАСТОМИЗАЦИЯ БЕЙДЖЕЙ (GPU-OPTIMIZED LIQUID GLASS)
                    ========================================================= */
 
                 /* 1. Сносим скошенные углы (clip-path) у всех элементов карточки */
@@ -440,7 +508,7 @@
                     -webkit-clip-path: none !important;
                 }
 
-                /* 2. Делаем технические обёртки бейджей прозрачными (без двойных фонов) */
+                /* 2. Делаем технические обёртки бейджей прозрачными */
                 body #app .card .card__view [data-ib-container="true"],
                 body #app .card .card__view .card__quality:has(> div) {
                     background: transparent !important;
@@ -451,7 +519,7 @@
                     padding: 0 !important;
                 }
 
-                /* 3. Базовый стиль стеклянной капсулы для всех бейджей */
+                /* 3. Базовый стиль капсулы (без тяжелого backdrop-filter на неактивных карточках ради 120 FPS) */
                 body #app .card .card__view [data-ib-badge="true"],
                 body #app .card .card__view .card__type,
                 body #app .card .card__view .card__vote,
@@ -467,19 +535,26 @@
                     line-height: 1.05 !important;
                     letter-spacing: 0.02em !important;
                     font-variant-numeric: tabular-nums !important;
-                    color: rgba(255, 255, 255, 0.94) !important;
-                    background: rgba(18, 18, 24, 0.74) !important;
-                    backdrop-filter: blur(14px) saturate(160%) !important;
-                    -webkit-backdrop-filter: blur(14px) saturate(160%) !important;
-                    border: 1px solid rgba(255, 255, 255, 0.14) !important;
-                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
-                    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45) !important;
+                    color: rgba(255, 255, 255, 0.95) !important;
+                    background: linear-gradient(145deg, rgba(28, 28, 36, 0.90), rgba(16, 16, 22, 0.92)) !important;
+                    border: 1px solid rgba(255, 255, 255, 0.16) !important;
+                    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.14) !important;
+                    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) !important;
                     width: auto !important;
                     height: auto !important;
                     min-width: 0 !important;
                     transform: none !important;
+                    backdrop-filter: none !important;
+                    -webkit-backdrop-filter: none !important;
                     z-index: 3 !important;
                     pointer-events: none !important;
+                }
+
+                /* Включаем реальный blur ТОЛЬКО на карточке в фокусе (1 карточка = 0 лагов) */
+                body #app .card.focus .card__view [data-ib-badge="true"],
+                body #app .card.hover .card__view [data-ib-badge="true"] {
+                    backdrop-filter: blur(10px) saturate(150%) !important;
+                    -webkit-backdrop-filter: blur(10px) saturate(150%) !important;
                 }
 
                 body #app .card .card__view [data-ib-badge="true"]:empty {
@@ -491,30 +566,30 @@
                     margin: 0.55em 0 0 0.55em !important;
                 }
                 body #app .card .card__view [data-ib-type="type"][data-ib-kind="series"] {
-                    background: linear-gradient(135deg, rgba(37, 99, 235, 0.52), rgba(15, 23, 42, 0.80)) !important;
-                    border-color: rgba(96, 165, 250, 0.38) !important;
+                    background: linear-gradient(135deg, rgba(37, 99, 235, 0.72), rgba(15, 23, 42, 0.92)) !important;
+                    border-color: rgba(96, 165, 250, 0.42) !important;
                     color: #e0f2fe !important;
                 }
                 body #app .card .card__view [data-ib-type="type"][data-ib-kind="movie"] {
-                    background: linear-gradient(135deg, rgba(16, 185, 129, 0.42), rgba(15, 23, 42, 0.80)) !important;
-                    border-color: rgba(52, 211, 153, 0.34) !important;
+                    background: linear-gradient(135deg, rgba(16, 185, 129, 0.62), rgba(15, 23, 42, 0.92)) !important;
+                    border-color: rgba(52, 211, 153, 0.38) !important;
                     color: #ecfdf5 !important;
                 }
 
                 /* 5. Верхний правый угол: Хронометраж / Эпизод (02:40 / S1:E23) */
                 body #app .card .card__view [data-ib-type="meta"] {
                     margin: 0.55em 0.55em 0 0 !important;
-                    background: rgba(18, 18, 24, 0.78) !important;
-                    border-color: rgba(255, 255, 255, 0.16) !important;
-                    color: rgba(255, 255, 255, 0.92) !important;
+                    background: linear-gradient(145deg, rgba(26, 26, 34, 0.90), rgba(14, 14, 20, 0.94)) !important;
+                    border-color: rgba(255, 255, 255, 0.18) !important;
+                    color: rgba(255, 255, 255, 0.94) !important;
                 }
 
                 /* 6. Нижний левый угол: Год выхода (2006) */
                 body #app .card .card__view [data-ib-type="year"] {
                     margin: 0 0 0.55em 0.55em !important;
-                    background: rgba(18, 18, 24, 0.68) !important;
-                    border-color: rgba(255, 255, 255, 0.10) !important;
-                    color: rgba(255, 255, 255, 0.80) !important;
+                    background: linear-gradient(145deg, rgba(22, 22, 29, 0.86), rgba(14, 14, 19, 0.90)) !important;
+                    border-color: rgba(255, 255, 255, 0.12) !important;
+                    color: rgba(255, 255, 255, 0.82) !important;
                 }
 
                 /* 7. Нижний правый угол (верхний этаж): Качество (4K / FHD / SD) */
@@ -523,18 +598,18 @@
                     font-weight: 700 !important;
                 }
                 body #app .card .card__view [data-ib-type="quality"][data-ib-q="4k"] {
-                    background: linear-gradient(135deg, rgba(245, 158, 11, 0.50), rgba(24, 24, 29, 0.84)) !important;
-                    border-color: rgba(251, 191, 36, 0.46) !important;
+                    background: linear-gradient(135deg, rgba(217, 119, 6, 0.72), rgba(24, 24, 29, 0.92)) !important;
+                    border-color: rgba(251, 191, 36, 0.50) !important;
                     color: #fef3c7 !important;
                 }
                 body #app .card .card__view [data-ib-type="quality"][data-ib-q="fhd"] {
-                    background: linear-gradient(135deg, rgba(56, 189, 248, 0.38), rgba(15, 23, 42, 0.82)) !important;
-                    border-color: rgba(125, 211, 252, 0.36) !important;
+                    background: linear-gradient(135deg, rgba(2, 132, 199, 0.64), rgba(15, 23, 42, 0.92)) !important;
+                    border-color: rgba(125, 211, 252, 0.40) !important;
                     color: #e0f2fe !important;
                 }
                 body #app .card .card__view [data-ib-type="quality"][data-ib-q="sd"] {
-                    background: linear-gradient(135deg, rgba(249, 115, 22, 0.40), rgba(24, 24, 29, 0.84)) !important;
-                    border-color: rgba(251, 146, 60, 0.36) !important;
+                    background: linear-gradient(135deg, rgba(234, 88, 12, 0.62), rgba(24, 24, 29, 0.92)) !important;
+                    border-color: rgba(251, 146, 60, 0.40) !important;
                     color: #ffedd5 !important;
                 }
 
@@ -544,18 +619,18 @@
                     font-weight: 700 !important;
                 }
                 body #app .card .card__view [data-ib-type="rating"][data-ib-tier="high"] {
-                    background: linear-gradient(135deg, rgba(16, 185, 129, 0.56), rgba(6, 78, 59, 0.86)) !important;
-                    border-color: rgba(52, 211, 153, 0.50) !important;
+                    background: linear-gradient(135deg, rgba(16, 185, 129, 0.74), rgba(6, 78, 59, 0.94)) !important;
+                    border-color: rgba(52, 211, 153, 0.52) !important;
                     color: #ecfdf5 !important;
                 }
                 body #app .card .card__view [data-ib-type="rating"][data-ib-tier="mid"] {
-                    background: linear-gradient(135deg, rgba(34, 197, 94, 0.42), rgba(20, 83, 45, 0.84)) !important;
-                    border-color: rgba(74, 222, 128, 0.38) !important;
+                    background: linear-gradient(135deg, rgba(34, 197, 94, 0.62), rgba(20, 83, 45, 0.92)) !important;
+                    border-color: rgba(74, 222, 128, 0.42) !important;
                     color: #dcfce7 !important;
                 }
                 body #app .card .card__view [data-ib-type="rating"][data-ib-tier="low"] {
-                    background: linear-gradient(135deg, rgba(234, 179, 8, 0.40), rgba(66, 32, 6, 0.84)) !important;
-                    border-color: rgba(250, 204, 21, 0.38) !important;
+                    background: linear-gradient(135deg, rgba(202, 138, 4, 0.64), rgba(66, 32, 6, 0.92)) !important;
+                    border-color: rgba(250, 204, 21, 0.42) !important;
                     color: #fef9c3 !important;
                 }
 
@@ -564,10 +639,8 @@
                     right: 0.45em !important;
                 }
                 body #app .card .card__view .card__icons-inner {
-                    background: rgba(18, 18, 24, 0.68) !important;
-                    backdrop-filter: blur(12px) !important;
-                    -webkit-backdrop-filter: blur(12px) !important;
-                    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+                    background: rgba(18, 18, 24, 0.86) !important;
+                    border: 1px solid rgba(255, 255, 255, 0.14) !important;
                     border-radius: 0.6em !important;
                     padding: 0.2em !important;
                 }
@@ -589,24 +662,35 @@
             if (target) target.appendChild(style);
         }
 
-        function keepStylesLast() {
+        // Перемещает наш <style> в конец <head> ТОЛЬКО если после него появился другой <style> (не реагируя на <script>)
+        function ensureStylePriority() {
             var style = document.getElementById('my-super-config-styles');
-            var target = document.head || document.getElementsByTagName('head')[0];
-            if (style && target && target.lastElementChild !== style) {
-                target.appendChild(style);
+            if (!style || !style.parentNode) return;
+            var next = style.nextElementSibling;
+            while (next) {
+                if (next.tagName === 'STYLE' || (next.tagName === 'LINK' && next.rel === 'stylesheet')) {
+                    style.parentNode.appendChild(style);
+                    break;
+                }
+                next = next.nextElementSibling;
             }
         }
 
         injectCSS();
 
-        // 3. Грузим остальные плагины
+        // 3. Грузим z01 с автоматическим резервированием зеркал
+        loadPluginWithFallback([
+            'http://z01.online/live',
+            'http://ru.z01.online/live'
+        ], 3500);
+
+        // 4. Грузим остальные плагины
         var plugins = [
             'https://ipavlin98.github.io/lmp-plugins/int.js', // Красивый интерфейс главной страницы
             'https://darkestclouds.github.io/plugins/applecation/applecation.js', // Красивый интерфейс страницы фильма
             'https://anclaver.github.io/Lampa/plugins/interfaceBadge.js', // Информативные бейджи на карточках
             'http://cub.rip/plugin/tmdb-proxy', // TMDB прокси для беспроблемного отображения обложек
             //'http://bwa.ad/rc', // Фильмы и сериалы
-            'http://z01.online/live',
             //'https://lampame.github.io/main/lme.js', // Твики для интерфейса (использую только для удобного отображения кнопок на странице фильма)
             //'https://nb557.github.io/plugins/free.js', // Обход блокировок контента от Lampa (полезно для стримингов вроде START)
             //'https://amikdn.github.io/anti-dmca.js', // Резерв плагина free.js
@@ -798,9 +882,16 @@
         // ==========================================
         function initSelectboxFilters() {
             var wasSelectboxOpen = false;
+            var selectboxRaf = false;
 
-            var observer = new MutationObserver(function () {
-                var $selectbox = $('.selectbox.animate');
+            function checkSelectbox() {
+                selectboxRaf = false;
+
+                // Быстрая нативная проверка без создания объектов jQuery на каждый чих курсора
+                var nativeSelectbox = document.querySelector('.selectbox.animate');
+                if (!nativeSelectbox && !wasSelectboxOpen) return;
+
+                var $selectbox = nativeSelectbox ? $(nativeSelectbox) : $();
 
                 if ($selectbox.length > 0) {
                     wasSelectboxOpen = true;
@@ -996,6 +1087,12 @@
                     $('.selectbox').data('favorites-filtered', false);
                     $('.selectbox').data('real-source-ordered', false);
                 }
+            }
+
+            var observer = new MutationObserver(function () {
+                if (selectboxRaf) return;
+                selectboxRaf = true;
+                window.requestAnimationFrame(checkSelectbox);
             });
 
             observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
@@ -1018,6 +1115,11 @@
             'lordfilm'
         ];
 
+        var moGridsLive = document.getElementsByClassName('mo-grid');
+        var fullReviewAddLive = document.getElementsByClassName('full-review-add');
+        var fullReviewLive = document.getElementsByClassName('full-review');
+        var cardViewsLive = document.getElementsByClassName('card__view');
+
         function getMoSourceRank($el) {
             var focusAttr = ($el.attr('data-mo-focus') || '').toLowerCase();
             var labelText = $el.text().toLowerCase();
@@ -1032,6 +1134,8 @@
         }
 
         function processMoGrid() {
+            if (moGridsLive.length === 0) return;
+
             $('.mo-grid').each(function () {
                 var $grid = $(this);
                 var $opts = $grid.children('.mo-opt');
@@ -1095,6 +1199,8 @@
         }
 
         function processComments() {
+            if (fullReviewAddLive.length === 0 && fullReviewLive.length === 0) return;
+
             $('.items-line__title').each(function () {
                 var $title = $(this);
                 if ($title.text().trim() !== 'Комментарии') return;
@@ -1105,7 +1211,7 @@
 
                 // 1. Скрываем кнопку "Оставить комментарий" и убираем её из навигации курсора
                 var $addBtn = $scrollBody.find('.full-review-add');
-                if ($addBtn.length) {
+                if ($addBtn.length && $addBtn[0].style.display !== 'none') {
                     $addBtn.removeClass('selector focus').off('hover:enter').hide();
                 }
 
@@ -1114,13 +1220,10 @@
                 var $emptyMsg = $scrollBody.find('.full-review-empty');
 
                 if (hasReviews) {
-                    // Если комментарии есть — убираем заглушку
                     if ($emptyMsg.length) {
                         $emptyMsg.removeClass('selector focus').remove();
                     }
                 } else {
-                    // Если комментариев нет — выводим плашку-заглушку с классом selector,
-                    // чтобы контроллер Lampa не терял курсор при прокрутке в самый низ
                     if ($emptyMsg.length === 0) {
                         $emptyMsg = $('<div class="full-review-empty selector">Комментариев пока нет</div>');
                         $scrollBody.append($emptyMsg);
@@ -1129,11 +1232,11 @@
             });
         }
 
-        // --- НОРМАЛИЗАТОР И СТИЛИЗАТОР БЕЙДЖЕЙ (interfaceBadge.js) ---
+        // --- ВЫСОКОПРОИЗВОДИТЕЛЬНЫЙ КЛАССИФИКАТОР БЕЙДЖЕЙ ---
         var SKIP_BADGE_TAGS = { IMG: 1, SVG: 1, PATH: 1, CIRCLE: 1, LINE: 1, POLYLINE: 1, POLYGON: 1, RECT: 1 };
 
         function cleanInlineBadgeStyles(el) {
-            if (!el || !el.style) return;
+            if (!el || !el.style || el.style.length === 0) return;
             el.style.removeProperty('background');
             el.style.removeProperty('background-color');
             el.style.removeProperty('background-image');
@@ -1205,49 +1308,57 @@
             return 'other';
         }
 
+        function inspectBadgeBranch(el, state) {
+            if (!el || SKIP_BADGE_TAGS[el.tagName]) return;
+            var cl = el.classList;
+            if (cl.contains('card__img') || cl.contains('card__icons') || cl.contains('card__markers')) return;
+            if (typeof el.className === 'string' && el.className.indexOf('progress') !== -1) return;
+
+            var children = el.children;
+            var len = children.length;
+
+            if (len === 0) {
+                var text = (el.textContent || '').trim();
+                if (!text) return;
+
+                var kind = el.getAttribute('data-ib-type');
+                if (el.getAttribute('data-ib-text') !== text) {
+                    kind = classifySingleBadge(el, text);
+                }
+                if (kind === 'quality') state.qualityEl = el;
+                else if (kind === 'rating') state.ratingEl = el;
+            } else {
+                if (!el.hasAttribute('data-ib-container')) {
+                    el.setAttribute('data-ib-container', 'true');
+                    cleanInlineBadgeStyles(el);
+                }
+                for (var k = 0; k < len; k++) {
+                    inspectBadgeBranch(children[k], state);
+                }
+            }
+        }
+
         function processCardBadges() {
-            var cardViews = document.querySelectorAll('.card .card__view');
-            for (var i = 0; i < cardViews.length; i++) {
-                var cardView = cardViews[i];
-                var nodes = cardView.querySelectorAll('*');
-                var qualityEl = null;
-                var ratingEl = null;
+            var count = cardViewsLive.length;
+            if (count === 0) return;
 
-                for (var j = 0; j < nodes.length; j++) {
-                    var el = nodes[j];
-                    if (SKIP_BADGE_TAGS[el.tagName]) continue;
-                    if (
-                        el.classList.contains('card__img') ||
-                        el.classList.contains('card__icons') ||
-                        el.classList.contains('card__markers') ||
-                        el.closest('.card__icons') ||
-                        el.closest('.card__markers') ||
-                        (el.className && typeof el.className === 'string' && el.className.indexOf('progress') !== -1)
-                    ) {
-                        continue;
-                    }
+            var state = { qualityEl: null, ratingEl: null };
 
-                    // Если у элемента нет дочерних блочных элементов — это сам бейдж
-                    if (el.children.length === 0) {
-                        var text = (el.textContent || '').trim();
-                        if (!text) continue;
+            for (var i = 0; i < count; i++) {
+                var cardView = cardViewsLive[i];
+                var topChildren = cardView.children;
+                var topLen = topChildren.length;
 
-                        var kind = el.getAttribute('data-ib-type');
-                        if (el.getAttribute('data-ib-text') !== text) {
-                            kind = classifySingleBadge(el, text);
-                        }
-                        if (kind === 'quality') qualityEl = el;
-                        else if (kind === 'rating') ratingEl = el;
-                    } else {
-                        // Контейнер-обёртка вокруг бейджей
-                        if (!el.hasAttribute('data-ib-container')) {
-                            el.setAttribute('data-ib-container', 'true');
-                            cleanInlineBadgeStyles(el);
-                        }
-                    }
+                state.qualityEl = null;
+                state.ratingEl = null;
+
+                for (var j = 0; j < topLen; j++) {
+                    inspectBadgeBranch(topChildren[j], state);
                 }
 
-                // Выравнивание этажей в правом нижнем углу (Качество над Рейтингом)
+                var qualityEl = state.qualityEl;
+                var ratingEl = state.ratingEl;
+
                 if (qualityEl) {
                     var qPosNode = (qualityEl.parentElement && qualityEl.parentElement !== cardView && qualityEl.parentElement.children.length === 1)
                         ? qualityEl.parentElement
@@ -1256,12 +1367,16 @@
                     var sharedFlexParent = ratingEl && qualityEl.parentElement === ratingEl.parentElement && qualityEl.parentElement !== cardView;
 
                     if (!sharedFlexParent && qPosNode && qPosNode.style) {
-                        if (ratingEl) {
-                            qPosNode.style.setProperty('bottom', '2.15em', 'important');
-                            qualityEl.style.setProperty('margin-bottom', '0', 'important');
-                        } else {
-                            qPosNode.style.setProperty('bottom', '0', 'important');
-                            qualityEl.style.setProperty('margin-bottom', '0.55em', 'important');
+                        var targetStackState = ratingEl ? 'stacked' : 'single';
+                        if (qPosNode.getAttribute('data-ib-stack') !== targetStackState) {
+                            qPosNode.setAttribute('data-ib-stack', targetStackState);
+                            if (ratingEl) {
+                                qPosNode.style.setProperty('bottom', '2.15em', 'important');
+                                qualityEl.style.setProperty('margin-bottom', '0', 'important');
+                            } else {
+                                qPosNode.style.setProperty('bottom', '0', 'important');
+                                qualityEl.style.setProperty('margin-bottom', '0.55em', 'important');
+                            }
                         }
                     }
                 }
@@ -1273,7 +1388,7 @@
 
             function runAllContentPasses() {
                 rafScheduled = false;
-                keepStylesLast();
+                ensureStylePriority();
                 processMoGrid();
                 processComments();
                 processCardBadges();
@@ -1296,7 +1411,6 @@
                 setTimeout(processMoGrid, 15);
             });
 
-            // Первичный прогон для уже отрисованных карточек
             runAllContentPasses();
         }
 
@@ -1305,7 +1419,7 @@
         function onAppReady() {
             if (isAppReadyInitialized) return;
             isAppReadyInitialized = true;
-            keepStylesLast();
+            ensureStylePriority();
             appendSearchButton();
             initSelectboxFilters();
             initContentFilters();
