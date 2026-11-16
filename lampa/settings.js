@@ -428,16 +428,175 @@
                 .card__quality {
                     z-index: 2;
                 }
+
+                /* =========================================================
+                   БЛОК 3: КАСТОМИЗАЦИЯ БЕЙДЖЕЙ (interfaceBadge.js -> Liquid Glass)
+                   ========================================================= */
+
+                /* 1. Сносим скошенные углы (clip-path) у всех элементов карточки */
+                body #app .card .card__view,
+                body #app .card .card__view * {
+                    clip-path: none !important;
+                    -webkit-clip-path: none !important;
+                }
+
+                /* 2. Делаем технические обёртки бейджей прозрачными (без двойных фонов) */
+                body #app .card .card__view [data-ib-container="true"],
+                body #app .card .card__view .card__quality:has(> div) {
+                    background: transparent !important;
+                    border: 0 !important;
+                    box-shadow: none !important;
+                    backdrop-filter: none !important;
+                    -webkit-backdrop-filter: none !important;
+                    padding: 0 !important;
+                }
+
+                /* 3. Базовый стиль стеклянной капсулы для всех бейджей */
+                body #app .card .card__view [data-ib-badge="true"],
+                body #app .card .card__view .card__type,
+                body #app .card .card__view .card__vote,
+                body #app .card .card__view .card__quality > div {
+                    display: inline-flex !important;
+                    align-items: center !important;
+                    justify-content: center !important;
+                    padding: 0.34em 0.62em !important;
+                    border-radius: 0.55em !important;
+                    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif !important;
+                    font-size: 0.74em !important;
+                    font-weight: 600 !important;
+                    line-height: 1.05 !important;
+                    letter-spacing: 0.02em !important;
+                    font-variant-numeric: tabular-nums !important;
+                    color: rgba(255, 255, 255, 0.94) !important;
+                    background: rgba(18, 18, 24, 0.74) !important;
+                    backdrop-filter: blur(14px) saturate(160%) !important;
+                    -webkit-backdrop-filter: blur(14px) saturate(160%) !important;
+                    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
+                    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45) !important;
+                    width: auto !important;
+                    height: auto !important;
+                    min-width: 0 !important;
+                    transform: none !important;
+                    z-index: 3 !important;
+                    pointer-events: none !important;
+                }
+
+                body #app .card .card__view [data-ib-badge="true"]:empty {
+                    display: none !important;
+                }
+
+                /* 4. Верхний левый угол: Тип контента (Фильм / Сериал) */
+                body #app .card .card__view [data-ib-type="type"] {
+                    margin: 0.55em 0 0 0.55em !important;
+                }
+                body #app .card .card__view [data-ib-type="type"][data-ib-kind="series"] {
+                    background: linear-gradient(135deg, rgba(37, 99, 235, 0.52), rgba(15, 23, 42, 0.80)) !important;
+                    border-color: rgba(96, 165, 250, 0.38) !important;
+                    color: #e0f2fe !important;
+                }
+                body #app .card .card__view [data-ib-type="type"][data-ib-kind="movie"] {
+                    background: linear-gradient(135deg, rgba(16, 185, 129, 0.42), rgba(15, 23, 42, 0.80)) !important;
+                    border-color: rgba(52, 211, 153, 0.34) !important;
+                    color: #ecfdf5 !important;
+                }
+
+                /* 5. Верхний правый угол: Хронометраж / Эпизод (02:40 / S1:E23) */
+                body #app .card .card__view [data-ib-type="meta"] {
+                    margin: 0.55em 0.55em 0 0 !important;
+                    background: rgba(18, 18, 24, 0.78) !important;
+                    border-color: rgba(255, 255, 255, 0.16) !important;
+                    color: rgba(255, 255, 255, 0.92) !important;
+                }
+
+                /* 6. Нижний левый угол: Год выхода (2006) */
+                body #app .card .card__view [data-ib-type="year"] {
+                    margin: 0 0 0.55em 0.55em !important;
+                    background: rgba(18, 18, 24, 0.68) !important;
+                    border-color: rgba(255, 255, 255, 0.10) !important;
+                    color: rgba(255, 255, 255, 0.80) !important;
+                }
+
+                /* 7. Нижний правый угол (верхний этаж): Качество (4K / FHD / SD) */
+                body #app .card .card__view [data-ib-type="quality"] {
+                    margin: 0 0.55em 0.35em 0 !important;
+                    font-weight: 700 !important;
+                }
+                body #app .card .card__view [data-ib-type="quality"][data-ib-q="4k"] {
+                    background: linear-gradient(135deg, rgba(245, 158, 11, 0.50), rgba(24, 24, 29, 0.84)) !important;
+                    border-color: rgba(251, 191, 36, 0.46) !important;
+                    color: #fef3c7 !important;
+                }
+                body #app .card .card__view [data-ib-type="quality"][data-ib-q="fhd"] {
+                    background: linear-gradient(135deg, rgba(56, 189, 248, 0.38), rgba(15, 23, 42, 0.82)) !important;
+                    border-color: rgba(125, 211, 252, 0.36) !important;
+                    color: #e0f2fe !important;
+                }
+                body #app .card .card__view [data-ib-type="quality"][data-ib-q="sd"] {
+                    background: linear-gradient(135deg, rgba(249, 115, 22, 0.40), rgba(24, 24, 29, 0.84)) !important;
+                    border-color: rgba(251, 146, 60, 0.36) !important;
+                    color: #ffedd5 !important;
+                }
+
+                /* 8. Нижний правый угол (нижний этаж): Рейтинг (8.3 / 7.7 / 6.8) */
+                body #app .card .card__view [data-ib-type="rating"] {
+                    margin: 0 0.55em 0.55em 0 !important;
+                    font-weight: 700 !important;
+                }
+                body #app .card .card__view [data-ib-type="rating"][data-ib-tier="high"] {
+                    background: linear-gradient(135deg, rgba(16, 185, 129, 0.56), rgba(6, 78, 59, 0.86)) !important;
+                    border-color: rgba(52, 211, 153, 0.50) !important;
+                    color: #ecfdf5 !important;
+                }
+                body #app .card .card__view [data-ib-type="rating"][data-ib-tier="mid"] {
+                    background: linear-gradient(135deg, rgba(34, 197, 94, 0.42), rgba(20, 83, 45, 0.84)) !important;
+                    border-color: rgba(74, 222, 128, 0.38) !important;
+                    color: #dcfce7 !important;
+                }
+                body #app .card .card__view [data-ib-type="rating"][data-ib-tier="low"] {
+                    background: linear-gradient(135deg, rgba(234, 179, 8, 0.40), rgba(66, 32, 6, 0.84)) !important;
+                    border-color: rgba(250, 204, 21, 0.38) !important;
+                    color: #fef9c3 !important;
+                }
+
+                /* 9. Боковая панель иконок (просмотрено / закладки) в едином стиле */
+                body #app .card .card__view .card__icons {
+                    right: 0.45em !important;
+                }
+                body #app .card .card__view .card__icons-inner {
+                    background: rgba(18, 18, 24, 0.68) !important;
+                    backdrop-filter: blur(12px) !important;
+                    -webkit-backdrop-filter: blur(12px) !important;
+                    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+                    border-radius: 0.6em !important;
+                    padding: 0.2em !important;
+                }
             `;
 
-            var style = document.createElement('style');
-            style.type = 'text/css';
+            var style = document.getElementById('my-super-config-styles');
+            if (!style) {
+                style = document.createElement('style');
+                style.id = 'my-super-config-styles';
+                style.type = 'text/css';
+            }
             if (style.styleSheet) style.styleSheet.cssText = css;
-            else style.appendChild(document.createTextNode(css));
+            else {
+                style.textContent = '';
+                style.appendChild(document.createTextNode(css));
+            }
 
             var target = document.head || document.getElementsByTagName('head')[0] || document.documentElement;
             if (target) target.appendChild(style);
         }
+
+        function keepStylesLast() {
+            var style = document.getElementById('my-super-config-styles');
+            var target = document.head || document.getElementsByTagName('head')[0];
+            if (style && target && target.lastElementChild !== style) {
+                target.appendChild(style);
+            }
+        }
+
         injectCSS();
 
         // 3. Грузим остальные плагины
@@ -448,7 +607,6 @@
             'http://cub.rip/plugin/tmdb-proxy', // TMDB прокси для беспроблемного отображения обложек
             //'http://bwa.ad/rc', // Фильмы и сериалы
             'http://z01.online/live',
-            'http://ru.z01.online/live', // Резерв
             //'https://lampame.github.io/main/lme.js', // Твики для интерфейса (использую только для удобного отображения кнопок на странице фильма)
             //'https://nb557.github.io/plugins/free.js', // Обход блокировок контента от Lampa (полезно для стримингов вроде START)
             //'https://amikdn.github.io/anti-dmca.js', // Резерв плагина free.js
@@ -538,50 +696,6 @@
             /*safeSetConfig('bwa_style', 'hero');
             safeSetConfig('bwa_sources_hidden', '["uakino"]');*/
             
-            /*
-            // --- РОТАЦИЯ КЛЮЧЕЙ BWA ---
-            var keysPoolVersion = 1; 
-            
-            // Используем объекты: жестко привязываем ID к ключу. 
-            // Если ключ "умрет", просто удали строку. Оставшиеся ID не изменятся.
-            var bwaKeys = [
-                { id: 1, val: 'NkL56zBHtwCjcOuE4RQmXMcVr2HhIh4cDEdLqknju7w=' },
-                { id: 2, val: 'hXOq/KULJzyAStw3NpvIUGUhYBg5cZCImd+4NzOOT5k=' },
-                { id: 3, val: '0qbzgmc7uo7zjZgK89ecau5p8lV9+X2Qm66K8EHpJWU=' },
-                { id: 4, val: 'ojGSTMxgCdZ6yAdv0Zlxz5AqhR8RLAPJWixR+lHd90o=' },
-                { id: 5, val: 'qq7eHbk7XJ/dfWM0Lw6QzrO2drLlGUGqmTuAlmkegYQ=' }
-            ];
-            
-            var savedKey = Lampa.Storage.get('phobos_bwa_key_value');
-            var savedVersion = Lampa.Storage.get('phobos_bwa_pool_version');
-            
-            // Проверяем, жив ли сохраненный ключ в текущем пуле
-            var isKeyAlive = false;
-            if (savedKey) {
-                for (var i = 0; i < bwaKeys.length; i++) {
-                    if (bwaKeys[i].val === savedKey) {
-                        isKeyAlive = true;
-                        // Перестраховка: обновляем ID в памяти на случай несовпадений
-                        Lampa.Storage.set('phobos_bwa_key_id', bwaKeys[i].id);
-                        break;
-                    }
-                }
-            }
-            
-            // Если ключа нет, он удален из пула, или изменилась версия пула — генерируем новый
-            if (!isKeyAlive || savedVersion !== keysPoolVersion) {
-                var randomIndex = Math.floor(Math.random() * bwaKeys.length);
-                var selected = bwaKeys[randomIndex];
-                
-                savedKey = selected.val;
-                Lampa.Storage.set('phobos_bwa_key_value', savedKey);
-                Lampa.Storage.set('phobos_bwa_key_id', selected.id); // <-- Сохраняем ID ключа
-                Lampa.Storage.set('phobos_bwa_pool_version', keysPoolVersion);
-            }
-            
-            // Применяем ключ
-            safeSetConfig('bwaesgcmkey', savedKey);*/
-            
             // --- РОТАЦИЯ КЛЮЧЕЙ BWA ---
             var keysPoolVersion = 1; 
             
@@ -605,24 +719,25 @@
                     if (bwaKeys[i].val === savedKey) {
                         isKeyAlive = true;
                         // Перестраховка: обновляем ID в памяти на случай несовпадений
-                        Lampa.Storage.set('phobos_bwa_key_id', bwaKeys[i].id);
+                        safeSetConfig('phobos_bwa_key_id', bwaKeys[i].id);
                         break;
                     }
                 }
             }
             
             // Если ключа нет, он удален из пула, или изменилась версия пула — генерируем новый
-            if (!isKeyAlive || savedVersion !== keysPoolVersion) {
+            if (!isKeyAlive || Number(savedVersion) !== keysPoolVersion) {
                 var randomIndex = Math.floor(Math.random() * bwaKeys.length);
                 var selected = bwaKeys[randomIndex];
                 
                 savedKey = selected.val;
-                Lampa.Storage.set('phobos_bwa_key_value', savedKey);
-                Lampa.Storage.set('phobos_bwa_key_id', selected.id); // <-- Сохраняем ID ключа
-                Lampa.Storage.set('phobos_bwa_pool_version', keysPoolVersion);
+                safeSetConfig('phobos_bwa_key_value', savedKey);
+                safeSetConfig('phobos_bwa_key_id', selected.id);
+                safeSetConfig('phobos_bwa_pool_version', keysPoolVersion);
             }
             
             // Применяем ключ
+            // safeSetConfig('bwaesgcmkey', savedKey);
             safeSetConfig('aesgcmkey', savedKey);
         }
 
@@ -887,7 +1002,7 @@
         }
 
         // ==========================================
-        // ЧАСТЬ 5: ИСТОЧНИКИ В .mo-grid И БЛОК КОММЕНТАРИЕВ
+        // ЧАСТЬ 5: ИСТОЧНИКИ В .mo-grid, КОММЕНТАРИИ И БЕЙДЖИ КАРТОЧЕК
         // ==========================================
         var MO_SOURCE_PRIORITY = [
             'kinopub',
@@ -1014,22 +1129,175 @@
             });
         }
 
+        // --- НОРМАЛИЗАТОР И СТИЛИЗАТОР БЕЙДЖЕЙ (interfaceBadge.js) ---
+        var SKIP_BADGE_TAGS = { IMG: 1, SVG: 1, PATH: 1, CIRCLE: 1, LINE: 1, POLYLINE: 1, POLYGON: 1, RECT: 1 };
+
+        function cleanInlineBadgeStyles(el) {
+            if (!el || !el.style) return;
+            el.style.removeProperty('background');
+            el.style.removeProperty('background-color');
+            el.style.removeProperty('background-image');
+            el.style.removeProperty('color');
+            el.style.removeProperty('clip-path');
+            el.style.removeProperty('-webkit-clip-path');
+            el.style.removeProperty('border-radius');
+            el.style.removeProperty('border');
+            el.style.removeProperty('box-shadow');
+        }
+
+        function classifySingleBadge(el, text) {
+            el.setAttribute('data-ib-badge', 'true');
+            el.setAttribute('data-ib-text', text);
+            cleanInlineBadgeStyles(el);
+
+            var lower = text.toLowerCase();
+
+            // 1. Тип контента: Фильм / Сериал / Мультфильм / Аниме (верхний левый угол)
+            if (/^(фильм|сериал|мульт|аниме|шоу|тв|movie|series|tv|cartoon|anime)/i.test(lower)) {
+                el.setAttribute('data-ib-type', 'type');
+                if (/^(сериал|аниме|шоу|тв|series|tv|anime)/i.test(lower)) {
+                    el.setAttribute('data-ib-kind', 'series');
+                } else {
+                    el.setAttribute('data-ib-kind', 'movie');
+                }
+                return 'type';
+            }
+
+            // 2. Длительность или Сезон:Серия: 02:40 / S1:E23 (верхний правый угол)
+            if (/^(s\d+|сезон|\d{1,2}:\d{2}|\d+\s*(ч|м|мин|h|m|эп|ep|сез))/i.test(lower)) {
+                el.setAttribute('data-ib-type', 'meta');
+                return 'meta';
+            }
+
+            // 3. Год выхода: 1920..2039 (нижний левый угол)
+            if (/^(19\d{2}|20[0-3]\d)$/.test(text)) {
+                el.setAttribute('data-ib-type', 'year');
+                return 'year';
+            }
+
+            // 4. Качество видео: 4K / FHD / HD / SD / TS (нижний правый угол, верхний этаж)
+            if (/^(4k|2k|uhd|fhd|fullhd|hd|sd|ts|cam|web|bd|1080p?|720p?|2160p?)$/i.test(lower)) {
+                el.setAttribute('data-ib-type', 'quality');
+                if (/^(4k|2k|uhd|2160p?)$/i.test(lower)) {
+                    el.setAttribute('data-ib-q', '4k');
+                } else if (/^(fhd|fullhd|hd|1080p?|720p?|bd|web)$/i.test(lower)) {
+                    el.setAttribute('data-ib-q', 'fhd');
+                } else {
+                    el.setAttribute('data-ib-q', 'sd');
+                }
+                return 'quality';
+            }
+
+            // 5. Рейтинг: 7.7 / 8.3 / 6.8 (нижний правый угол, нижний этаж)
+            if (/^\d([.,]\d)?$/.test(text)) {
+                var ratingVal = parseFloat(text.replace(',', '.'));
+                el.setAttribute('data-ib-type', 'rating');
+                if (ratingVal >= 8.0) {
+                    el.setAttribute('data-ib-tier', 'high');
+                } else if (ratingVal >= 7.0) {
+                    el.setAttribute('data-ib-tier', 'mid');
+                } else {
+                    el.setAttribute('data-ib-tier', 'low');
+                }
+                return 'rating';
+            }
+
+            return 'other';
+        }
+
+        function processCardBadges() {
+            var cardViews = document.querySelectorAll('.card .card__view');
+            for (var i = 0; i < cardViews.length; i++) {
+                var cardView = cardViews[i];
+                var nodes = cardView.querySelectorAll('*');
+                var qualityEl = null;
+                var ratingEl = null;
+
+                for (var j = 0; j < nodes.length; j++) {
+                    var el = nodes[j];
+                    if (SKIP_BADGE_TAGS[el.tagName]) continue;
+                    if (
+                        el.classList.contains('card__img') ||
+                        el.classList.contains('card__icons') ||
+                        el.classList.contains('card__markers') ||
+                        el.closest('.card__icons') ||
+                        el.closest('.card__markers') ||
+                        (el.className && typeof el.className === 'string' && el.className.indexOf('progress') !== -1)
+                    ) {
+                        continue;
+                    }
+
+                    // Если у элемента нет дочерних блочных элементов — это сам бейдж
+                    if (el.children.length === 0) {
+                        var text = (el.textContent || '').trim();
+                        if (!text) continue;
+
+                        var kind = el.getAttribute('data-ib-type');
+                        if (el.getAttribute('data-ib-text') !== text) {
+                            kind = classifySingleBadge(el, text);
+                        }
+                        if (kind === 'quality') qualityEl = el;
+                        else if (kind === 'rating') ratingEl = el;
+                    } else {
+                        // Контейнер-обёртка вокруг бейджей
+                        if (!el.hasAttribute('data-ib-container')) {
+                            el.setAttribute('data-ib-container', 'true');
+                            cleanInlineBadgeStyles(el);
+                        }
+                    }
+                }
+
+                // Выравнивание этажей в правом нижнем углу (Качество над Рейтингом)
+                if (qualityEl) {
+                    var qPosNode = (qualityEl.parentElement && qualityEl.parentElement !== cardView && qualityEl.parentElement.children.length === 1)
+                        ? qualityEl.parentElement
+                        : qualityEl;
+
+                    var sharedFlexParent = ratingEl && qualityEl.parentElement === ratingEl.parentElement && qualityEl.parentElement !== cardView;
+
+                    if (!sharedFlexParent && qPosNode && qPosNode.style) {
+                        if (ratingEl) {
+                            qPosNode.style.setProperty('bottom', '2.15em', 'important');
+                            qualityEl.style.setProperty('margin-bottom', '0', 'important');
+                        } else {
+                            qPosNode.style.setProperty('bottom', '0', 'important');
+                            qualityEl.style.setProperty('margin-bottom', '0.55em', 'important');
+                        }
+                    }
+                }
+            }
+        }
+
         function initContentFilters() {
+            var rafScheduled = false;
+
+            function runAllContentPasses() {
+                rafScheduled = false;
+                keepStylesLast();
+                processMoGrid();
+                processComments();
+                processCardBadges();
+            }
+
             var observer = new MutationObserver(function (mutations) {
+                if (rafScheduled) return;
                 for (var i = 0; i < mutations.length; i++) {
-                    if (mutations[i].addedNodes.length > 0) {
-                        processMoGrid();
-                        processComments();
+                    if (mutations[i].addedNodes.length > 0 || mutations[i].type === 'characterData') {
+                        rafScheduled = true;
+                        window.requestAnimationFrame(runAllContentPasses);
                         break;
                     }
                 }
             });
 
-            observer.observe(document.body, { childList: true, subtree: true });
+            observer.observe(document.body, { childList: true, subtree: true, characterData: true });
 
             $(document).on('hover:enter click', '.mo-seg[data-mo-focus="source"]', function () {
                 setTimeout(processMoGrid, 15);
             });
+
+            // Первичный прогон для уже отрисованных карточек
+            runAllContentPasses();
         }
 
         // Запуск скриптов после готовности приложения
@@ -1037,6 +1305,7 @@
         function onAppReady() {
             if (isAppReadyInitialized) return;
             isAppReadyInitialized = true;
+            keepStylesLast();
             appendSearchButton();
             initSelectboxFilters();
             initContentFilters();
