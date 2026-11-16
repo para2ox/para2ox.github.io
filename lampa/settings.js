@@ -200,7 +200,6 @@
                 /* Сам контейнер меню */
                 .menu {
                     pointer-events: auto;
-                    border-radius: 24px;
                     border-radius: 0 24px 24px 0;
                     transition: width var(--transition-speed), background var(--transition-speed);
                     display: flex;
@@ -424,9 +423,124 @@
                     animation: none !important;
                     margin-bottom: 1em;
                 }
-                .card__type,
-                .card__quality {
-                    z-index: 2;
+
+                /* =========================================================
+                   РЕДИЗАЙН БЕЙДЖЕЙ interfaceBadge.js (Apple TV Dark Glass)
+                   ========================================================= */
+                .card .card__view .card__type,
+                .card .card__view .card__quality,
+                .card .card__view .card__vote,
+                .card .card__view .card__year,
+                .card .card__view .card__time,
+                .card .card__view .card__episode,
+                .card .card__view .ib-badge,
+                .card .card__view [class*="interfaceBadge"],
+                .card .card__view [class*="card-badge"] {
+                    z-index: 3 !important;
+                    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif !important;
+                    font-size: 0.72em !important;
+                    font-weight: 600 !important;
+                    letter-spacing: 0.03em !important;
+                    line-height: 1.1 !important;
+                    padding: 0.32em 0.62em !important;
+                    border-radius: 0.55em !important;
+                    background: rgba(18, 18, 22, 0.74) !important;
+                    color: rgba(255, 255, 255, 0.92) !important;
+                    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+                    backdrop-filter: blur(10px) saturate(140%) !important;
+                    -webkit-backdrop-filter: blur(10px) saturate(140%) !important;
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.38) !important;
+                    text-shadow: none !important;
+                    text-transform: none !important;
+                    margin: 0 !important;
+                }
+
+                /* Верхний левый угол: Тип (Фильм / Сериал) */
+                .card .card__view .card__type {
+                    top: 0.55em !important;
+                    left: 0.55em !important;
+                    right: auto !important;
+                    bottom: auto !important;
+                    background: rgba(20, 20, 25, 0.76) !important;
+                    color: rgba(255, 255, 255, 0.88) !important;
+                }
+                /* Тонкий цветовой маркер для Сериала без кислотного фона */
+                .card.card--tv .card__view .card__type,
+                .card .card__view .card__type.tv {
+                    color: #7cc4ff !important;
+                    border-color: rgba(124, 196, 255, 0.28) !important;
+                }
+                /* Тонкий цветовой маркер для Фильма */
+                .card.card--movie .card__view .card__type,
+                .card .card__view .card__type.movie {
+                    color: #8ce99a !important;
+                    border-color: rgba(140, 233, 154, 0.26) !important;
+                }
+
+                /* Верхний правый угол: Длительность или Сезон/Серия (01:50 / S1:E23) */
+                .card .card__view .card__time,
+                .card .card__view .card__episode,
+                .card .card__view .ib-badge--top-right {
+                    top: 0.55em !important;
+                    right: 0.55em !important;
+                    left: auto !important;
+                    bottom: auto !important;
+                    color: rgba(255, 255, 255, 0.9) !important;
+                    font-variant-numeric: tabular-nums !important;
+                }
+
+                /* Нижний левый угол: Год выхода */
+                .card .card__view .card__year,
+                .card .card__view .ib-badge--bottom-left {
+                    bottom: 0.55em !important;
+                    left: 0.55em !important;
+                    top: auto !important;
+                    right: auto !important;
+                    color: rgba(255, 255, 255, 0.82) !important;
+                    font-variant-numeric: tabular-nums !important;
+                }
+
+                /* Нижний правый угол: Рейтинг */
+                .card .card__view .card__vote {
+                    bottom: 0.55em !important;
+                    right: 0.55em !important;
+                    top: auto !important;
+                    left: auto !important;
+                    font-weight: 700 !important;
+                    font-variant-numeric: tabular-nums !important;
+                    color: #ffffff !important;
+                }
+
+                /* Бейдж качества (4K / FHD / SD) — аккуратно над рейтингом справа */
+                .card .card__view .card__quality {
+                    bottom: 2.65em !important;
+                    right: 0.55em !important;
+                    top: auto !important;
+                    left: auto !important;
+                    font-size: 0.65em !important;
+                    font-weight: 700 !important;
+                    letter-spacing: 0.06em !important;
+                    text-transform: uppercase !important;
+                    padding: 0.25em 0.52em !important;
+                    color: #f5c518 !important;
+                    border-color: rgba(245, 197, 24, 0.32) !important;
+                    background: rgba(18, 18, 22, 0.82) !important;
+                }
+
+                /* Иконки статуса справа по центру (закладки / просмотрено) */
+                .card .card__view .card__icons,
+                .card .card__view .card__markers {
+                    right: 0.55em !important;
+                    z-index: 3 !important;
+                    background: rgba(18, 18, 22, 0.68) !important;
+                    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+                    border-radius: 999px !important;
+                    padding: 0.28em 0.24em !important;
+                    backdrop-filter: blur(8px) !important;
+                    -webkit-backdrop-filter: blur(8px) !important;
+                }
+                .card .card__view .card__icons-inner {
+                    gap: 0.3em !important;
                 }
             `;
 
