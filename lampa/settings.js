@@ -18,6 +18,55 @@
         window.lampa_settings.plugins_store = false;
         window.lampa_settings.feed = false;
 
+        // ==========================================
+        // ЧАСТЬ 0: СИНХРОННАЯ ИНИЦИАЛИЗАЦИЯ КЛЮЧА (ДО ЗАГРУЗКИ ПЛАГИНОВ!)
+        // ==========================================
+        // Версия пула увеличена до 2, чтобы все ТВ (включая родительский) принудительно обновили ключ
+        var keysPoolVersion = 2;
+
+        // Чтобы на всех ТВ гарантированно подтянулся проверенный конфиг,
+        // оставляем только те ключи, на которые в /kit реально залит JSON!
+        var bwaKeys = [
+            // { id: 1, val: '9Enwih3bcFSO1vxLfSlBgBaMuZPM9OaTR85pBrnhRDA=' },
+            { id: 2, val: 'OBO4e54xYUViVt77E6T6tH+gEbR+6FkIguidRZe3Jc0=' }
+            // { id: 3, val: 'wHdtmye19EfS/POTa1L51GC+Ok2BNCjNs4buBEfpaAY=' },
+            // { id: 4, val: '6ED87/pKSmRmdIutsxxR7izGMoS/wtZ9uUqvwM5HlkM=' },
+            // { id: 5, val: 'TsAxR/CBKUxUwIJfKnGgxCIeGYrirpDclCfr9Omsw+c=' }
+        ];
+
+        var activeBwaKey = bwaKeys[0];
+
+        function initKeyEarly() {
+            try {
+                var savedKey = window.localStorage.getItem('phobos_bwa_key_value');
+                var savedVersion = parseInt(window.localStorage.getItem('phobos_bwa_pool_version'), 10);
+                var found = null;
+
+                if (savedKey && savedVersion === keysPoolVersion) {
+                    for (var i = 0; i < bwaKeys.length; i++) {
+                        if (bwaKeys[i].val === savedKey) {
+                            found = bwaKeys[i];
+                            break;
+                        }
+                    }
+                }
+
+                if (!found) {
+                    found = bwaKeys[Math.floor(Math.random() * bwaKeys.length)];
+                    window.localStorage.setItem('phobos_bwa_key_value', found.val);
+                    window.localStorage.setItem('phobos_bwa_key_id', String(found.id));
+                    window.localStorage.setItem('phobos_bwa_pool_version', String(keysPoolVersion));
+                }
+
+                activeBwaKey = found;
+                // Записываем напрямую в localStorage до загрузки z01/bwa, чтобы исключить гонку (Race Condition)
+                window.localStorage.setItem('aesgcmkey', found.val);
+                window.localStorage.setItem('bwaesgcmkey', found.val);
+            } catch (e) {}
+        }
+
+        initKeyEarly();
+
         function loadPlugin(url) {
             var script = document.createElement('script');
             script.src = url;
@@ -27,15 +76,14 @@
             target.appendChild(script);
         }
 
-        // Отказоустойчивая загрузка плагина с автоматическим переключением на резервное зеркало
+        // Отказоустойчивая загрузка онлайн-балансера с автопереключением зеркал
         function loadPluginWithFallback(urls, timeoutMs) {
             timeoutMs = timeoutMs || 3500;
             var queue = urls.slice();
 
-            // Если в текущей сессии одно из зеркал уже успешно отвечало — ставим его первым в очередь
             var lastWorking = null;
             try {
-                lastWorking = sessionStorage.getItem('phobos_z01_active_mirror');
+                lastWorking = sessionStorage.getItem('phobos_online_active_mirror');
             } catch (e) {}
 
             if (lastWorking && queue.indexOf(lastWorking) > 0) {
@@ -72,7 +120,7 @@
                     settled = true;
                     clearTimeout(timer);
                     try {
-                        sessionStorage.setItem('phobos_z01_active_mirror', currentUrl);
+                        sessionStorage.setItem('phobos_online_active_mirror', currentUrl);
                     } catch (e) {}
                 };
 
@@ -662,7 +710,6 @@
             if (target) target.appendChild(style);
         }
 
-        // Перемещает наш <style> в конец <head> ТОЛЬКО если после него появился другой <style> (не реагируя на <script>)
         function ensureStylePriority() {
             var style = document.getElementById('my-super-config-styles');
             if (!style || !style.parentNode) return;
@@ -678,10 +725,12 @@
 
         injectCSS();
 
-        // 3. Грузим z01 с автоматическим резервированием зеркал
+        // 3. Грузим онлайн-балансер по HTTPS (z01 -> ru.z01 -> резервный BWA)
+        // Если решишь сделать основным BWA — просто поменяй строчки местами!
         loadPluginWithFallback([
-            'http://z01.online/live',
-            'http://ru.z01.online/live'
+            'https://z01.online/online.js',
+            'https://ru.z01.online/online.js',
+            'https://app.bwa.ad/online.js'
         ], 3500);
 
         // 4. Грузим остальные плагины
@@ -736,7 +785,7 @@
             safeSetConfig('shots_in_card', 'false');
             safeSetConfig('shots_in_player', 'false');
 
-            // Дефолтный балансер для новых фильмов — kinopub (уже начатые сериалы берутся из online_last_balanser и не сбрасываются)
+            // Дефолтный балансер для новых фильмов — kinopub
             safeSetConfig('online_balanser', 'kinopub');
 
             // Настраиваем плагин Applecation
@@ -777,52 +826,12 @@
             safeSetConfig('menu_hide', '["Подборки","Каталог","Лента","Фильмы","Мультфильмы","Сериалы","Персоны","Релизы","Аниме","Подписки","Расписание","Торренты","Спорт","Для детей","Shots","Torrent Manager","Fovea"]');
             safeSetConfig('menu_sort', '["Поиск","Главная","Избранное","История","Фильтр"]');
 
-            /*safeSetConfig('bwa_style', 'hero');
-            safeSetConfig('bwa_sources_hidden', '["uakino"]');*/
-            
-            // --- РОТАЦИЯ КЛЮЧЕЙ BWA ---
-            var keysPoolVersion = 1; 
-            
-            // Используем объекты: жестко привязываем ID к ключу. 
-            // Если ключ "умрет", просто удали строку. Оставшиеся ID не изменятся.
-            var bwaKeys = [
-                { id: 1, val: '9Enwih3bcFSO1vxLfSlBgBaMuZPM9OaTR85pBrnhRDA=' },
-                { id: 2, val: 'OBO4e54xYUViVt77E6T6tH+gEbR+6FkIguidRZe3Jc0=' },
-                { id: 3, val: 'wHdtmye19EfS/POTa1L51GC+Ok2BNCjNs4buBEfpaAY=' },
-                { id: 4, val: '6ED87/pKSmRmdIutsxxR7izGMoS/wtZ9uUqvwM5HlkM=' },
-                { id: 5, val: 'TsAxR/CBKUxUwIJfKnGgxCIeGYrirpDclCfr9Omsw+c=' }
-            ];
-            
-            var savedKey = Lampa.Storage.get('phobos_bwa_key_value');
-            var savedVersion = Lampa.Storage.get('phobos_bwa_pool_version');
-            
-            // Проверяем, жив ли сохраненный ключ в текущем пуле
-            var isKeyAlive = false;
-            if (savedKey) {
-                for (var i = 0; i < bwaKeys.length; i++) {
-                    if (bwaKeys[i].val === savedKey) {
-                        isKeyAlive = true;
-                        // Перестраховка: обновляем ID в памяти на случай несовпадений
-                        safeSetConfig('phobos_bwa_key_id', bwaKeys[i].id);
-                        break;
-                    }
-                }
-            }
-            
-            // Если ключа нет, он удален из пула, или изменилась версия пула — генерируем новый
-            if (!isKeyAlive || Number(savedVersion) !== keysPoolVersion) {
-                var randomIndex = Math.floor(Math.random() * bwaKeys.length);
-                var selected = bwaKeys[randomIndex];
-                
-                savedKey = selected.val;
-                safeSetConfig('phobos_bwa_key_value', savedKey);
-                safeSetConfig('phobos_bwa_key_id', selected.id);
-                safeSetConfig('phobos_bwa_pool_version', keysPoolVersion);
-            }
-            
-            // Применяем ключ
-            // safeSetConfig('bwaesgcmkey', savedKey);
-            safeSetConfig('aesgcmkey', savedKey);
+            // Дублируем выбранный ключ через штатный Lampa.Storage
+            safeSetConfig('phobos_bwa_key_value', activeBwaKey.val);
+            safeSetConfig('phobos_bwa_key_id', activeBwaKey.id);
+            safeSetConfig('phobos_bwa_pool_version', keysPoolVersion);
+            safeSetConfig('aesgcmkey', activeBwaKey.val);
+            safeSetConfig('bwaesgcmkey', activeBwaKey.val);
         }
 
         function injectRouteGuard() {
@@ -859,26 +868,22 @@
         // ЧАСТЬ 3: КНОПКА ПОИСКА В МЕНЮ
         // ==========================================
         function appendSearchButton() {
-            // SVG иконка лупы
             var icon = '<svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>';
-            // Создаем элемент меню
             var searchItem = $('<li class="menu__item selector" data-action="search_button"><div class="menu__ico">' + icon + '</div><div class="menu__text">Поиск</div></li>');
 
-            // Навешиваем событие
             searchItem.on('hover:enter', function () {
                 var originalSearch = $('.head .open--search');
                 if (originalSearch.length) originalSearch.trigger('hover:enter');
                 else if (Lampa.Search) Lampa.Search.open();
             });
 
-            // Добавляем кнопку в самое начало меню
             if ($('.menu .menu__list li[data-action="search_button"]').length === 0) {
                 $('.menu .menu__list').eq(0).prepend(searchItem);
             }
         }
 
         // ==========================================
-        // ЧАСТЬ 4: ФИЛЬТРАЦИЯ SELECTBOX МЕНЮ (Источники и Избранное)
+        // ЧАСТЬ 4: ФИЛЬТРАЦИЯ SELECTBOX МЕНЮ (С ПОДДЕРЖКОЙ АСИНХРОННОЙ ДОГРУЗКИ KINOPUB)
         // ==========================================
         function initSelectboxFilters() {
             var wasSelectboxOpen = false;
@@ -887,7 +892,6 @@
             function checkSelectbox() {
                 selectboxRaf = false;
 
-                // Быстрая нативная проверка без создания объектов jQuery на каждый чих курсора
                 var nativeSelectbox = document.querySelector('.selectbox.animate');
                 if (!nativeSelectbox && !wasSelectboxOpen) return;
 
@@ -897,37 +901,68 @@
                     wasSelectboxOpen = true;
                     var titleText = $selectbox.find('.selectbox__title').text().trim();
 
-                    // --- 1. ФИЛЬТР "СОРТИРОВАТЬ" ---
-                    if (titleText.indexOf('Сортировать') !== -1 && !$selectbox.data('source-filtered')) {
+                    // --- 1. ФИЛЬТР "СОРТИРОВАТЬ" (Окно выбора балансера внутри онлайн-плагина) ---
+                    var isBalancerMenu = (titleText.indexOf('Сортировать') !== -1 || $selectbox.data('is-balancer-menu') === true);
+
+                    if (isBalancerMenu) {
                         var items = $selectbox.find('.selectbox-item');
-                        // Защита: ждём, пока Lampa реально отрисует элементы
                         if (items.length === 0) return;
 
+                        // Перезапускаем фильтр, если асинхронно догрузились новые балансеры (например, KinoPub)
+                        var lastCount = $selectbox.data('balancer-items-count') || 0;
+                        if (items.length === lastCount) return;
+
+                        $selectbox.data('is-balancer-menu', true);
                         $selectbox.data('source-filtered', true);
+                        $selectbox.data('balancer-items-count', items.length);
                         $selectbox.find('.selectbox__title').text('Источник');
 
-                        var keyId = Lampa.Storage.get('phobos_bwa_key_id') || '?';
+                        var keyId = (window.Lampa && Lampa.Storage && Lampa.Storage.get('phobos_bwa_key_id')) || activeBwaKey.id || '?';
                         var firstKept = null;
                         var targetFocus = null;
 
                         items.each(function () {
                             var $item = $(this);
                             var $title = $item.find('.selectbox-item__title');
-                            var text = $title.text().toLowerCase();
+                            // Сохраняем оригинальное имя при первом проходе, чтобы не терять его при догрузке
+                            var rawText = ($item.attr('data-orig-title') || $title.text()).toLowerCase();
+                            if (!$item.attr('data-orig-title')) {
+                                $item.attr('data-orig-title', $title.text());
+                            }
+
                             var kept = false;
 
-                            if (text.indexOf('rezka') !== -1) {
-                                $title.text('🪐  Phobos ' + keyId + '  •  Rezka');
-                                kept = true;
-                            } else if (text.indexOf('kinopub') !== -1) {
+                            if (rawText.indexOf('kinopub') !== -1) {
                                 $title.text('🪐  Phobos ' + keyId + '  •  KinoPub');
                                 kept = true;
-                            } else if (text.indexOf('filmix') !== -1) {
+                            } else if (rawText.indexOf('filmixtv') !== -1) {
+                                $title.text('🪐  Phobos ' + keyId + '  •  Filmix TV');
+                                kept = true;
+                            } else if (rawText.indexOf('fxapi') !== -1 || rawText.indexOf('partner') !== -1) {
+                                $title.text('🪐  Phobos ' + keyId + '  •  Filmix 4K');
+                                kept = true;
+                            } else if (rawText.indexOf('filmix') !== -1) {
                                 $title.text('🪐  Phobos ' + keyId + '  •  Filmix');
+                                kept = true;
+                            } else if (rawText.indexOf('rezka') !== -1 || rawText.indexOf('rhs') !== -1) {
+                                $title.text('🪐  Phobos ' + keyId + '  •  Rezka');
+                                kept = true;
+                            } else if (rawText.indexOf('veoveo') !== -1) {
+                                $title.text('🪐  Phobos ' + keyId + '  •  VeoVeo');
+                                kept = true;
+                            } else if (rawText.indexOf('hdvb') !== -1) {
+                                $title.text('🪐  Phobos ' + keyId + '  •  HDVB');
+                                kept = true;
+                            } else if (rawText.indexOf('videohub') !== -1) {
+                                $title.text('🪐  Phobos ' + keyId + '  •  VideoHub');
+                                kept = true;
+                            } else if (rawText.indexOf('collaps') !== -1) {
+                                $title.text('🪐  Phobos ' + keyId + '  •  Collaps');
                                 kept = true;
                             }
 
                             if (kept) {
+                                $item.addClass('selector').show();
                                 if (!firstKept) firstKept = $item;
                                 if ($item.hasClass('focus') || $item.hasClass('selected')) targetFocus = $item;
                             } else {
@@ -953,7 +988,6 @@
                     // --- 2. ФИЛЬТР: ИЗБРАННОЕ ---
                     if (titleText.indexOf('Избранное') !== -1 && !$selectbox.data('favorites-filtered')) {
                         var $scrollBodyFav = $selectbox.find('.scroll__body');
-                        // Защита от пустой отрисовки
                         if ($scrollBodyFav.children().length === 0) return;
 
                         $selectbox.data('favorites-filtered', true);
@@ -973,17 +1007,15 @@
                     }
 
                     // --- 3. СОРТИРОВКА И КАСТОМИЗАЦИЯ РОДНОГО МЕНЮ "ИСТОЧНИК" ---
-                    if (titleText === 'Источник' && !$selectbox.data('source-filtered') && !$selectbox.data('real-source-ordered')) {
+                    if (titleText === 'Источник' && !$selectbox.data('is-balancer-menu') && !$selectbox.data('source-filtered') && !$selectbox.data('real-source-ordered')) {
                         var $scrollBodyReal = $selectbox.find('.scroll__body');
                         var $items = $scrollBodyReal.find('.selectbox-item');
 
-                        // КРИТИЧЕСКОЕ ИСПРАВЛЕНИЕ 1: Сначала ждём контент
                         if ($items.length === 0) return;
 
-                        // Только убедившись, что контент есть, ставим флаг блокировки повторных срабатываний
                         $selectbox.data('real-source-ordered', true);
 
-                        var currentKeyId = Lampa.Storage.get('phobos_bwa_key_id') || '?';
+                        var currentKeyId = (window.Lampa && Lampa.Storage && Lampa.Storage.get('phobos_bwa_key_id')) || activeBwaKey.id || '?';
 
                         var customSourcesOrder = [
                             {
@@ -1012,7 +1044,6 @@
                         var usedIndexes = new Set();
                         var itemsArray = $items.toArray();
 
-                        // 1. Применяем конфигурацию кастомизации
                         customSourcesOrder.forEach(function (config) {
                             for (var i = 0; i < itemsArray.length; i++) {
                                 if (usedIndexes.has(i)) continue;
@@ -1049,19 +1080,16 @@
                             }
                         });
 
-                        // 2. Добавляем ненайденные элементы в конец списка
                         for (var j = 0; j < itemsArray.length; j++) {
                             if (!usedIndexes.has(j)) {
                                 sortedItems.push($(itemsArray[j]));
                             }
                         }
 
-                        // 3. Возвращаем всё в DOM
                         sortedItems.forEach(function ($el) {
                             $scrollBodyReal.append($el);
                         });
 
-                        // 4. Обновляем Lampa Controller
                         setTimeout(function () {
                             if (window.Lampa && window.Lampa.Controller) {
                                 var containerNode = $scrollBodyReal[0] || $selectbox[0];
@@ -1080,10 +1108,10 @@
                     }
 
                 } else if (wasSelectboxOpen) {
-                    // КРИТИЧЕСКОЕ ИСПРАВЛЕНИЕ 2: Очищаем флаги с самого компонента `.selectbox`, 
-                    // а не с несуществующего на момент закрытия `.selectbox.animate`
                     wasSelectboxOpen = false;
                     $('.selectbox').data('source-filtered', false);
+                    $('.selectbox').data('is-balancer-menu', false);
+                    $('.selectbox').data('balancer-items-count', 0);
                     $('.selectbox').data('favorites-filtered', false);
                     $('.selectbox').data('real-source-ordered', false);
                 }
@@ -1104,12 +1132,14 @@
         var MO_SOURCE_PRIORITY = [
             'kinopub',
             'filmix',
+            'fxapi',
             'rezka',
             'veoveo',
             'alloha',
             'hdvb',
             'cdnvideohub',
             'videohub',
+            'collaps',
             'kodik',
             'zagonka',
             'lordfilm'
@@ -1141,7 +1171,6 @@
                 var $opts = $grid.children('.mo-opt');
                 if ($opts.length === 0) return;
 
-                // Проверяем, что это именно сетка источников (имеет префикс src: в data-mo-focus)
                 var isSourceGrid = false;
                 $opts.each(function () {
                     var attr = $(this).attr('data-mo-focus') || '';
@@ -1154,7 +1183,6 @@
 
                 var hasRemovedActive = false;
 
-                // 1. Удаляем все карточки со словом demo
                 $opts.each(function () {
                     var $opt = $(this);
                     var labelText = $opt.text().toLowerCase();
@@ -1168,7 +1196,6 @@
                     }
                 });
 
-                // 2. Сортируем оставшиеся карточки по приоритету
                 var remainingArray = $grid.children('.mo-opt').toArray();
                 var sortedArray = remainingArray.slice().sort(function (a, b) {
                     return getMoSourceRank($(a)) - getMoSourceRank($(b));
@@ -1188,7 +1215,6 @@
                     });
                 }
 
-                // 3. Если снесли активную демо-карточку — возвращаем фокус на первую живую
                 if (hasRemovedActive) {
                     var $firstAvailable = $grid.children('.mo-opt.selector').first();
                     if ($firstAvailable.length) {
@@ -1209,13 +1235,11 @@
                 var $scrollBody = $itemsLine.find('.scroll__body');
                 if ($scrollBody.length === 0) return;
 
-                // 1. Скрываем кнопку "Оставить комментарий" и убираем её из навигации курсора
                 var $addBtn = $scrollBody.find('.full-review-add');
                 if ($addBtn.length && $addBtn[0].style.display !== 'none') {
                     $addBtn.removeClass('selector focus').off('hover:enter').hide();
                 }
 
-                // 2. Проверяем наличие реальных комментариев
                 var hasReviews = $scrollBody.find('.full-review').length > 0;
                 var $emptyMsg = $scrollBody.find('.full-review-empty');
 
@@ -1255,7 +1279,6 @@
 
             var lower = text.toLowerCase();
 
-            // 1. Тип контента: Фильм / Сериал / Мультфильм / Аниме (верхний левый угол)
             if (/^(фильм|сериал|мульт|аниме|шоу|тв|movie|series|tv|cartoon|anime)/i.test(lower)) {
                 el.setAttribute('data-ib-type', 'type');
                 if (/^(сериал|аниме|шоу|тв|series|tv|anime)/i.test(lower)) {
@@ -1266,19 +1289,16 @@
                 return 'type';
             }
 
-            // 2. Длительность или Сезон:Серия: 02:40 / S1:E23 (верхний правый угол)
             if (/^(s\d+|сезон|\d{1,2}:\d{2}|\d+\s*(ч|м|мин|h|m|эп|ep|сез))/i.test(lower)) {
                 el.setAttribute('data-ib-type', 'meta');
                 return 'meta';
             }
 
-            // 3. Год выхода: 1920..2039 (нижний левый угол)
             if (/^(19\d{2}|20[0-3]\d)$/.test(text)) {
                 el.setAttribute('data-ib-type', 'year');
                 return 'year';
             }
 
-            // 4. Качество видео: 4K / FHD / HD / SD / TS (нижний правый угол, верхний этаж)
             if (/^(4k|2k|uhd|fhd|fullhd|hd|sd|ts|cam|web|bd|1080p?|720p?|2160p?)$/i.test(lower)) {
                 el.setAttribute('data-ib-type', 'quality');
                 if (/^(4k|2k|uhd|2160p?)$/i.test(lower)) {
@@ -1291,7 +1311,6 @@
                 return 'quality';
             }
 
-            // 5. Рейтинг: 7.7 / 8.3 / 6.8 (нижний правый угол, нижний этаж)
             if (/^\d([.,]\d)?$/.test(text)) {
                 var ratingVal = parseFloat(text.replace(',', '.'));
                 el.setAttribute('data-ib-type', 'rating');
