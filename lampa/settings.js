@@ -788,7 +788,7 @@
             var bwaKeys = [
                 { id: 1, val: '9Enwih3bcFSO1vxLfSlBgBaMuZPM9OaTR85pBrnhRDA=' },
                 { id: 2, val: 'OBO4e54xYUViVt77E6T6tH+gEbR+6FkIguidRZe3Jc0=' },
-                { id: 3, val: '9Enwih3bcFSO1vxLfSlBgBaMuZPM9OaTR85pBrnhRDA=' },
+                { id: 3, val: 'wHdtmye19EfS/POTa1L51GC+Ok2BNCjNs4buBEfpaAY=' },
                 { id: 4, val: '6ED87/pKSmRmdIutsxxR7izGMoS/wtZ9uUqvwM5HlkM=' },
                 { id: 5, val: 'TsAxR/CBKUxUwIJfKnGgxCIeGYrirpDclCfr9Omsw+c=' }
             ];
